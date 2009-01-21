@@ -3,7 +3,7 @@ class UserProfilesController extends AppController {
 
 	var $name = 'UserProfiles';
 	var $uses = array('UserProfile', 'User');
-	var $components = array('Security', 'JqImgcrop');
+	var $components = array('Security');
 	var $helpers = array('Cropimage', 'Gravatar');
 	
 	function beforeFilter() {

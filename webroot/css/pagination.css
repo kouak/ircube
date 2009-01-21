@@ -1,0 +1,44 @@
+/* Pagination */
+
+div.paging {
+	padding: 0;
+	margin: 10px 0 10px 0;
+	text-align:left;
+}
+
+div.paging a {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #AAAADD;
+	text-decoration: none; /* no underline */
+	color: #0066CC;
+}
+div.paging a:hover, div.paging a:active {
+	border: 1px solid #0066CC;
+	background-color: #DEEDF5;
+}
+div.paging span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #0066CC;
+	font-weight: bold;
+	background-color: #0066CC;
+	color: #FFF;
+}
+div.paging div.disabled {
+	display: inline;
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #CCC;
+	color: #CCC;
+}
+/* Filtering selectbox */
+
+div.paging .pages {
+	float: left;
+}
+
+div.paging .selectfilter {
+	float: right;
+}
+

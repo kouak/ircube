@@ -1,0 +1,27 @@
+#search,#lastsearchs ul {
+	list-style-type: none;
+}
+#search li {
+	padding-bottom: 10px;
+}
+
+#form {
+	float: left;
+	width: 200px;
+	padding-left: 200px;
+}
+#radios {
+	float: left;
+	width: 200px;
+}
+#lastsearchs ul li {
+	display: inline ;
+	margin: 0 3px 0 3px;
+}
+div.url {
+	color: #0000FF;
+}
+
+a.search {
+	color: #009900;
+}

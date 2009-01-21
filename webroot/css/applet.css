@@ -1,0 +1,140 @@
+/*** Zones ***/
+#bottom_zone {
+	padding: 15px 0 ;
+}
+
+#left_zone {
+	width: 460px; 
+}
+
+#right_zone {
+	width: 290px;
+}
+
+/*** Bloc de chat */
+#chat_bloc {
+	border: 1px solid #B863B4;
+	padding: 0 0 15px 0;
+}
+
+#chat_bloc p {
+	margin: 2px 10px 10px 10px;
+}
+
+#chat_bloc p.channel {
+	margin: 10px 0 5px 0;
+}
+
+#chat_form {
+	padding: 10px;
+	clear: both;
+}
+
+#chat_bloc h2 {
+	background-color: #F9D3FA;
+	margin: 0 0 10px 0 ;
+	padding: 2px;
+}
+
+#chat_bloc #chat_nickname {
+	font-weight: bold;
+}
+
+#chat_bloc #chat_sex {
+	margin: 0 0 0 15px;
+}
+
+#chat_bloc #chat_nickname input{
+	width: 100px;
+}
+
+#chat_bloc #chat_buttons {
+	text-align: center;
+	clear:both;
+	padding: 10px 0 0 0;
+	margin: 0 ;
+}
+
+#chat_bloc #form_age {
+    width: 30px;
+}
+
+#chat_bloc #chat_localisation {
+    margin-right: 15px;
+}
+
+#chat_bloc #form_localisation {
+    width: 110px;
+}
+
+/* Pub webmasters */
+#webmasters_bloc {
+	background-color: #DEEDF5; 
+	-moz-border-radius: 5px;
+	padding: 5px;
+}
+
+#webmasters_bloc p {
+	margin: 5px 0;
+}
+
+/* Liens utiles */
+#links_bloc {
+	margin: 10px 0 ;
+}
+
+#links_bloc > ul {
+	margin: 3px;
+	padding: 0 25px ;
+}
+
+/* Liste des salons */
+#chans_bloc .left_column, .middle_column, .right_column {
+	width: 33%;
+	float: left;
+}
+
+#chans_bloc h2 {
+	border-bottom: 1px solid #B863B4;
+	padding-bottom: 2px;
+	margin: 0 0 10px 0 ;
+}
+
+#chans_bloc h3 {
+	font-size: 14px;
+}
+
+#chans_bloc ul {
+	list-style: none;
+	margin: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+#chans_bloc ul > li {
+	margin: 2px 0 ;
+}
+
+#chans_bloc .chans_category p {
+	margin: 0;
+}
+
+#chans_bloc .chan_name {
+	font-weight: bold;	
+}
+
+#chans_bloc .chan_adults {
+	font-size: 11px;
+	color: #FF0080;
+}
+
+#chans_bloc .chan_description {
+	font-size: 10px;
+	color: #585858;
+	margin: 0 ;
+	padding-left: 23px ;
+}
+
+#chans_bloc .chans_category {
+	margin: 0 0 10px 0 ;
+}

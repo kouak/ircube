@@ -1,0 +1,5 @@
+div.loading {
+	width: 100%;
+	height: 200px;
+	background: url('/img/ajax-loader-big.gif') no-repeat center center;
+};

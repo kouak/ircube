@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu name="principal">
+	<item id="accueil" label="Accueil" url="/" title="chat gratuit" />
+	<item id="chat" label="Chat" url="/chat/" title="t'chat"/>
+	<item id="communaute" label="Communauté">
+		<item id="trombinoscope" label="Trombinoscope" c="user_profiles" a="index" />
+		<!--<item id="carte" label="Carte" url="/users/viewmap/" />-->
+		<item id="forum" label="Forum" url="/forum/" />
+		<item id="zinfos" label="Les ZInfos" url="http://zinfos.ircube.org" />
+		<item id="quotes" label="Quotes" url="/quotes/" />
+		<item id="itw" label="Interviews" url="http://animation.ircube.org/interviews/" />
+	</item>
+	<item id="reseau" label="Réseau">
+		<item id="actualites" label="Actualités" c="news" a="index" />
+		<item id="statistiques" label="Statistiques" c="pages" a="statistiques" />
+		<item id="staff" label="Le staff" url="/staff/" />
+		<item id="partenaires" label="Partenaires" url="/partenaires/" />
+		<!--<item id="blog" label="Blog" url="http://blog.ircube.org" />-->
+	</item>
+	<item id="webmasters" label="Webmasters">
+		<item id="chatterbox" label="Chat gratuit" url="/webmasters/chatterbox/" title="créer chat" />
+		<item id="outils" label="Outils" url="/webmasters/statstools/" />
+	</item>
+	<item id="contact" label="Contactez nous">
+		<item id="contact" label="Contactez nous ici bla bla bla" url="/contact/"/>
+		<item id="boiteidees" label="Boite à idées un truc très long comme texte" url="/boiteidees/" />
+		<item id="boiteidees2" label="Boite à idées un truc très long comme texte" url="/boiteidees/" />
+		<item id="boiteidees3" label="Boite à idées un truc très long comme texte" url="/boiteidees/" />
+	</item>
+</menu>

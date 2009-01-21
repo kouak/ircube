@@ -1,0 +1,116 @@
+/* D?finitions des skins*/
+
+#bloc_chat {
+      margin-top: 15px;
+      clear: both;
+}
+#bloc_chat2 {
+      margin-top: 15px;
+	  clear: both;
+}
+#bloc_chat3 {
+      margin-top: 15px;
+	  clear: both;
+}
+#bloc_chat4 {
+      margin-top: 15px;
+      clear: both;
+}
+#bloc_chat label {
+      float: left;
+      width: 33%;
+}
+#bloc_chat2 label {
+      float: left;
+      width: 50%;
+}
+#bloc_chat4 label {
+      float: left;
+      width: 33%;
+}
+#skins {
+       text-align: center;
+       width: 100%;
+}
+div.tips {
+       margin-top: 15px;
+	   margin-bottom: 15px;
+       background-color: #98CBE6;
+       width: 100%;
+       float: left;
+}
+/* D?finitions globales */
+
+.hidden {
+     display: none;
+}
+.visible {
+    display: inline;
+}
+#exemple {
+        border: 1px solid #000000;
+        text-align: center;
+        margin: 5px;
+}
+p.syntaxe {
+        background-color: #CCCCCC;
+        border: 1px solid #000000; 
+		padding: 4px;
+}
+h2 {
+    margin-top: 20px;
+}
+#images li {
+    list-style-type: none;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    text-align: center;
+    width: 100%;
+    border: 1px solid #000000; 
+}
+#bloc_chat {
+      margin-top: 15px;
+      height: 200px;
+}
+#bloc_chat2 {
+      margin-top: 15px;
+      height: 250px;
+}
+#bloc_chat3 {
+      margin-top: 15px;
+}
+#bloc_chat4 {
+      margin-top: 15px;
+      height: 100px;
+}
+#bloc_chat label {
+      float: left;
+      width: 33%;
+}
+#bloc_chat2 label {
+      float: left;
+      width: 50%;
+}
+#bloc_chat4 label {
+      float: left;
+      width: 33%;
+}
+#skins {
+       text-align: center;
+       width: 100%;
+}
+div.tips {
+       margin-top: 15px;
+       margin-bottom: 15px;
+       background-color: #98CBE6;
+       width: 100%;
+       float: left;
+}
+#exemple {
+        border: 1px solid #000000;
+        text-align: center;
+        padding: 5px;
+}
+h2 {
+    margin-top: 20px;
+}

@@ -1,0 +1,112 @@
+/****** Index.php ******/
+
+/*** Zones ***/
+
+#left_zone {
+	width: 580px;
+}
+#right_zone {
+	width: 190px;
+}
+#bloc_top,#pics ul {
+     list-style-type: none;
+     padding: 0 0 0 10px;
+}
+#not_registered {
+	text-align: center;
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0 0 10px 0 ;
+	padding: 3px;
+	background-color: #F9D3FA;
+	border: 1px solid #B863B4;
+	-moz-border-radius: 4px;
+}
+#last_registered {
+       float: left;
+       width: 49%;
+       border: 1px solid #AFE2FD;
+}
+#last_registered h2 {
+	background-color: #DEEDF5;
+	padding-left: 2px ;
+}
+#most_popular {
+      float: right;
+      width: 49%;
+}
+#most_popular h2 {
+	border-bottom: solid 1px #FFCA00;
+}
+#trombi {
+	padding: 10px 0 ;
+	margin: 0; 
+}
+div.alphabet {
+	background-color: #F0F0F0;
+	border-bottom: 1px solid #DBDBDB ;
+	border-top: 1px solid #DBDBDB ;
+}
+div.alphabet span.active_letter {
+	font-size: 15px;
+	font-weight: bold;
+}
+#rappel {
+	font-size: 10px;
+	margin: 10px 0 ;
+	border: 1px solid black;
+	padding: 3px 3px 0 3px;
+}
+#rappel p {
+	margin: 0 ;
+	font-weight: bold;
+}
+#rappel ul {
+	padding-left: 15px;
+	margin: 3px 0 5px 0 ;
+} 
+#pics {
+	text-align: center;
+	padding: 10px 0 ;
+}
+#pics li {
+        float: left;
+        text-align: center;
+        margin: 10px;
+        height: 100px;
+        width: 120px;
+}
+#pics a {
+        text-decoration: none;
+}
+#login {
+	padding: 5px;
+   	text-align: justify;
+   	background-color: #F9D3FA;
+   	border: 1px solid #B863B4;
+   	margin: 0 0 10px 0;    
+}
+#login p {
+	margin: 0;
+}
+#login .my_pic {
+	text-align: center;
+	margin: 6px 0 ;
+}
+.image {
+      text-decoration: none;
+}
+#stats {
+	border: 1px solid #AFE2FD;
+	padding: 5px ;
+	margin: 0 0 10px 0;
+}
+#stats p{
+	margin: 0 0 10px 0;
+}
+#stats #last_pic {
+	text-align: center;
+}
+#filtres p {
+       text-align: center;
+}

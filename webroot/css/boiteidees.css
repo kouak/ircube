@@ -1,0 +1,21 @@
+#contact {
+	list-style-type: none;
+}
+#contact li {
+	padding-bottom: 5px;
+}
+#contact li div {
+	font-weight: bold;
+	float: left;
+	width: 200px;
+}
+#contact textarea {
+    width:380px;
+    height:130px;
+}
+input.text {
+    width: 380px;
+}
+#error {
+	color: #FF0000;
+}

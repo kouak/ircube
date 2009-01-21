@@ -1,0 +1,28 @@
+#listmemos {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+#listmemos li {
+	//height: 30px;
+	margin-bottom: 10px;	
+	float:left;
+  	display:block;
+  	width: 95%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 6px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#765;
+	border: 1px solid #CCCCCC;
+}
+#listmemos li:hover {
+	background-color: #CCCCCC;
+}
+div.delmemo {
+	float: right;
+	width: 24px;
+	padding-right: 5px;
+	padding-bottom: 10px;
+}

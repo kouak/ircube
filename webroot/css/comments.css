@@ -1,0 +1,40 @@
+/*
+ * Comments
+ *
+ */
+
+.commentlist ol {
+	margin-left: 0px; 
+	padding-left: 0px;
+
+}
+
+.commentlist ol li {
+	margin-left: 0px;
+	margin-bottom: 4em;
+}
+
+.commentlist img.avatar {
+	padding:1px;
+	float:left;
+	margin:0px 10px 5px 0px;
+	border:1px solid #ccc;
+}
+
+.commentlist {
+	margin-left: 0px; 
+	padding-left: 0px;
+}
+
+.comment-inside {
+background-color: #FFFFFF;
+border: 1px solid #ccc;
+padding: 10px;
+margin-top: 5px;
+}
+
+.comment-inside-alt {
+background-color: #FFFFFF;
+border: 1px solid #E6E6E6;
+padding: 10px;
+}

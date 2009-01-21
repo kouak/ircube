@@ -1,0 +1,318 @@
+/*
+Couleurs :
+- Bleu très foncé : #0066CC;
+- Bleu foncé : #98CBE6
+- Bleu moyen : #AFE2FD
+- Bleu clair : #CCEDFF
+- Bleu très clair : #DEEDF5
+
+- Rouge très foncé : #B21C1C;
+- Rouge foncé : #FC1B27 
+- Rouge moyen : #F64C4C
+- Rouge clair : #FF9292
+- Rouge très clair : #FFDBDB
+
+- Violet foncé : #760473
+- Violet moyen : #B863B4
+- Violet clair : #F9D3FA
+- Violet très clair : #FEE7FF
+- Orange foncé : #FFCA00
+- Orange très clair : #FFFEB8
+- Gris très clair : #F0F0F0
+- Gris clair : #DBDBDB
+- Gris foncé : #999999
+*/
+
+/***** Module accueil *****/
+
+/*** Zones ***/
+#left_zone {
+	width: 480px; 
+}
+
+#right_zone {
+	width: 290px;
+}
+
+/*** Bloc d'accueil ***/
+#welcome_bloc {
+	border: 1px solid #B863B4;
+	background-color: #F9D3FA; 
+	/*height: 200px;*/
+	padding: 4px;
+}
+
+#welcome_bloc ul {
+	padding: 0;
+	margin: 0;
+}
+
+#welcome_bloc li {
+	margin: 0 0 0 40px;
+}
+
+#welcome_bloc h2 {
+	margin: 0 ;
+	padding: 10px 3px ;
+	text-align: center;
+	font-size: 16px;
+	color: #760473;
+}
+
+#welcome_bloc #inscription_button, #migrer_button {
+	text-align: center;
+}
+
+#welcome_bloc strong {
+	font-weight: normal;
+}
+
+/*** Bloc com ***/
+#com_bloc {
+	margin-top: 10px;
+	border: 1px solid #B863B4;
+	padding: 0 5px;
+}
+
+/*** Bloc de chat */
+#chat_bloc {
+	border: 1px solid #AFE2FD;
+	height: 220px;
+	padding: 0 ;
+}
+
+#chat_bloc p {
+	margin: 2px 0;
+}
+
+#chat_bloc p.channel {
+	margin: 10px 0 5px 0;
+}
+
+#chat_form {
+	padding: 10px;
+	clear: both;
+}
+
+#chat_bloc h2 {
+	background-color: #AFE2FD;
+	margin: 0 ;
+	padding: 2px;
+	text-align: center;
+}
+
+#chat_bloc h2 a {
+	font-size:11px;
+	font-weight: normal;
+}
+
+#chat_bloc li {
+	display: block ;
+	width: 32%;
+	float: left;
+	margin: 3px 0 ;
+	padding: 0;
+}
+
+#chat_bloc li input{
+	margin: 0 2px 0 0;
+	padding: 0;
+}
+
+#chat_bloc ul {
+	margin: 0;
+	padding: 0;
+    width: 100%;  
+}
+
+#chat_bloc .official {
+	font-weight: bold;
+}
+
+#chat_bloc #chat_nickname {
+	font-weight: bold;
+}
+
+#chat_bloc #chat_sex {
+	margin: 0 0 0 15px;
+}
+
+#chat_bloc #chat_nickname input{
+	width: 100px;
+}
+#chat_input {
+	clear: both;
+	padding-top: 5px;
+	width: 100%;
+}
+
+#chat_bloc #chat_buttons {
+	text-align: center;
+	clear:both;
+	padding: 10px 0 0 0;
+	margin: 0 ;
+}
+
+/* Bloc news */
+#news_bloc {
+	clear:both;
+	margin: 10px 0 0 0;
+}
+
+#news_bloc .news_header {
+	width: 100%;
+	height: 30px;
+	background-image: url("/images/news_right.gif");
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+#news_bloc .news_date {
+	float: left;
+	padding: 0 6px;
+	height: 30px;
+	width: 60px;
+	background-image: url("/images/news_left.gif");
+	background-position: left;
+	background-repeat: no-repeat;
+}
+
+#news_bloc .news_date_day {
+	font-size: 26px;
+	margin: 0;
+	padding:0;
+	float:left;
+	color: #FFFFFF;
+}
+
+#news_bloc .news_date_my {
+	margin: 0;
+	padding:3px;
+	float:left;
+	width: 20px;
+	font-size: 9px;
+}
+
+#news_bloc .news_title {
+	float: left;
+	margin: 0;
+	height: 30px;
+	padding: 0 0 0 10px;
+}
+
+#news_bloc .news_title p {
+	font-size: 10px;
+	margin: 0;
+	padding: 0;
+}
+
+#news_bloc .news_title h2 {
+	margin: 0;
+	padding: 0;
+}
+
+#news_bloc .news_content {
+	clear: both;
+	padding : 10px 0 0 0;
+	text-align: justify;
+}
+
+#news_bloc .news_author {
+	margin: 10px 0 15px 0;
+	text-align: right;
+}
+
+/* Gestion des couleurs */
+#news_bloc .info .news_date {
+	background-color: #98CBE6;
+}
+#news_bloc .info .news_header {
+	background-color: #DEEDF5;
+}
+#news_bloc .evenement .news_date {
+	background-color: #B863B4;
+}
+#news_bloc .evenement .news_header {
+	background-color: #F9D3FA;
+}
+#news_bloc .reseau .news_date {
+	background-color: #FFCA00;
+}
+#news_bloc .reseau .news_header {
+	background-color: #FFFEB8;
+}
+/* Live stats */
+#livestats_bloc {
+	margin: 10px 0 10px 0 ;
+	padding: 1px;
+}
+
+#livestats_bloc h2 {
+	border-bottom: 1px solid #FFCA00;
+	margin: 0 0 3px 0;
+}
+
+#livestats_bloc ul {
+	padding-left: 25px;
+	margin: 0 ;
+}
+
+/* Photos des rencontres */
+#pix_bloc {
+	border: 1px solid #B863B4;
+	padding: 0 0 10px 0;
+	margin: 0 0 10px 0;
+}
+
+#pix_bloc p {
+	padding: 5px;
+	text-align: justify;
+}
+
+#pix_bloc h2 {
+	background-color: #B863B4;
+	margin: 0 0 5px 0;
+	color: #FFFFFF;
+}
+
+/* Aidez-nous !*/
+#linkus_bloc {
+	border: 1px solid #B863B4;
+}
+
+#linkus_bloc p {
+	padding: 5px;
+	text-align: justify;
+}
+
+#linkus_bloc h2 {
+	background-color: #B863B4;
+	margin: 0 0 5px 0;
+	color: #FFFFFF;
+}
+
+/* Partenaires */
+#partners_bloc {
+	border: 1px solid #FFCA00;
+	margin: 10px 0 ;
+	padding: 5px;
+}
+
+#partners_bloc h2 {
+	text-align: center;
+	margin: 0 0 5px 0;
+}
+
+/* Statistiques serveurs */
+span.offline {
+      color: red;
+      font-weight: bold;
+}
+span.online {
+      color: green;
+      font-weight: bold;
+}
+
+a img {
+    border: 0px;
+}

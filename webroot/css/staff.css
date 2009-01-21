@@ -1,0 +1,71 @@
+div.pole {
+    clear:both;
+}
+div.pole_gauche {
+    float:left ;
+    width: 48%;
+    margin: 0 2% 0 0 ;
+}
+div.pole_droite {
+    float:right ;
+    width: 48%;
+    margin: 0 0 0 2% ;
+}
+div.pole_responsables {
+    border: 1px solid #6699CC ;
+    background: #D2DCE6 ;
+    padding: 1em ;
+}
+
+div.pole_postuler {
+    width: 100px ;
+    text-align: center ;
+    margin: 1em 0 1em 0 ;
+    border: 1px solid #6699CC ;
+    padding: 0.3em ;
+}
+
+a.pole_postuler {
+    vertical-align: middle ;
+    border: none;
+}
+
+img.pole_postuler {
+    border : none ;
+}
+
+div.pole_membres {
+    border: 1px dashed #FDBE16 ;
+    padding: 1em ;
+}
+
+h1.pole {
+    font-size: 1.5em ;
+    margin: 0 0 1em 0 ;
+    border-bottom: 1px solid #000 ;
+    padding: 0 0 0 12px ;
+    background: url("http://www.irc.jeux.fr/modules/commun/carre.gif") left no-repeat;
+}
+h2.pole_responsables {
+    font-size: 1.2em ;
+    margin: 0 0 1em 0 ;
+    border-bottom: 1px solid #6699CC ;
+    padding: 0 0 0.3em 0 ;
+}
+h2.pole_membres {
+    font-size: 1.2em ;
+    margin: 0 0 1em 0 ;
+    border-bottom: 1px solid #FDBE16 ;
+    padding: 0 0 0.3em 0 ;
+}
+a.mail_pole {
+    background-color: none ;
+    padding: 0 0 0 0 ;
+    margin: 0 0 0 0 ;
+    vertical-align: middle ;
+    border: none ;
+}
+img.mail_pole {
+    border: none ;
+    background-color: none ;
+}

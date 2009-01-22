@@ -4,7 +4,7 @@
 	<?php
 //		if($userProfiles['UserProfile']['avatar_id'] == 0) { /* Use gravatar */
 		if(!file_exists(IMAGES . DS . 'upload' . DS . 'avatar' . DS . ($avatar = $userProfiles['UserProfile']['username'] . '.png'))) {
-			echo $gravatar->image('kouak@ircube.org');
+			echo $gravatar->image($userProfiles['UserProfile']['mail']);
 		} else {
 			echo $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . 'avatar' . DS . $avatar));
 		}
@@ -24,3 +24,4 @@ switch($userProfiles['UserProfile']['sex']) {
 		$userProfiles['UserProfile']['sex'] = __('Inconnu', true);
 }
 ?>
+

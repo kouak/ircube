@@ -20,7 +20,7 @@ class User extends AppModel {
 			),
 		'password' => array(
 			array(
-				'rule' => array('minLength', 7),
+				'rule' => array('minLength', 4),
 				'message' => 'Mot de passe invalide'
 				),
 			),

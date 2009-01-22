@@ -8,7 +8,7 @@
 <h3><?php __('Quelques informations pour compléter votre fiche :'); ?></h3>
 <?php
 	echo $form->input('UserProfile.url');
-	echo $form->input('UserProfile.birthday');
+	echo $form->input('UserProfile.birthday', array('dateFormat' => 'DMY', 'minYear' => '1920', 'maxYear' => '2008'));
 	echo $form->input('UserProfile.sexe', array('options' => array('f' => __('Femme', true), 'm' => __('Homme', true), 'u' => __('Inconnu', true)), 'default' => 'u'));
 	echo $form->end(__('Ok', true));
 ?>

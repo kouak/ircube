@@ -26,19 +26,19 @@
 	<div id="loginbar">
 		<div class="main_width">
 			<div id="search">
-				<form action="/search/">
+				<!-- <form action="/search/">
 					<input type="text" name="q" value="" />&nbsp;
 					<input type="submit" value="<?php __('Ok'); ?>" />&nbsp;<a href="/search/">&raquo; + d'options</a>
 				</form>
+				/-->
 			</div>
 			<span class="right">
 				<?php
 					if($profileHelper->isLoggedIn($AuthUser)):
-				?>
-						Bienvenue <?php echo $profileHelper->link(null, $AuthUser) ?> - <?php echo $profileHelper->link(__('Mon profil', true), $AuthUser); ?> - <?php echo $html->link(__('Déconnexion', true), array('controller' => 'user_profiles', 'action' => 'logout')); ?>
+						echo $html->link($AuthUser['username'], array('controller' => 'user_profiles', 'action' => 'view', 'username' => $AuthUser['username'])); ?> - <?php echo $html->link(__('Mon tableau de bord', true), array('controller' => 'user_profiles', 'action' => 'dashboard')); ?> - <?php echo $html->link(__('Déconnexion', true), array('controller' => 'user_profiles', 'action' => 'logout')); ?>
 				<?php
 					else:
-						echo $html->link(__('Login', true), array('controller' => 'user_profiles', 'action' => 'login'));
+						echo $html->link(__('Login', true), array('controller' => 'user_profiles', 'action' => 'login'));?> - <?php echo $html->link(__('J\'ai déja un compte Z', true), array('controller' => 'user_profiles', 'action' => 'create_profile'));
 				?>
 					
 				
@@ -56,17 +56,11 @@
 	<?php echo $this->element('menu_principal', array('menuPrincipal' => $menuPrincipal)); ?>
 	<div class="clear"></div>			
 	<div id="page" class="main_width">
-
-
 		<?php
 		if ($session->check('Message.auth')) 
 			$session->flash('auth');
 		?>
-		
-		<?php $session->flash(); ?>
-		
-		<?php if ($session->check('Message.flash'))
-		{
+		<?php if ($session->check('Message.flash')) {
 		    $session->flash();
 		}
 		?>
@@ -76,7 +70,7 @@
 		?>
 		<div class="clear"></div>
 		<div id="footer" class="main_width">
-				Conception <a href="http://sebastien-charrier.com" title="Chef de projet web">S&eacute;bastien Charrier</a> &amp; Damien Mathieu - Déclaration CNIL n° 1129692
+				Conception <a href="http://sebastien-charrier.com" title="Chef de projet web">S&eacute;bastien Charrier</a> &amp; Benjamin Beret - Déclaration CNIL n° 1129692
 		</div>
 	</div>
 </div>

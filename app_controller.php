@@ -62,9 +62,11 @@ class AppController extends Controller {
 			
 			if(strtotime($userProfile['UserProfile']['modified']) > strtotime($this->Auth->user('modified')) || strtotime($userProfile['User']['modified']) > strtotime($this->Auth->user('modified'))) { /* User's has changed */
 				//update the auth userModel data
+				//debug('CACA');
 				$this->UserProfile->syncProfile($this->Auth->user('id')); /* Update current UserProfile */
-				$userProfile['UserProfile']['lastseen'] = date('Y-m-d H:i:s');
+				//$userProfile['UserProfile']['lastseen'] = date('Y-m-d H:i:s');
 				unset($userProfile['UserProfile']['password']);
+				unset($userProfile['UserProfile']['lastseen']);
 				$authUpdated = Set::merge(
 				    $this->Session->read(
 				        sprintf('Auth.%s', $this->Auth->userModel)

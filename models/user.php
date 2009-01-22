@@ -8,8 +8,22 @@ class User extends AppModel {
 	
 	
 	var $validate = array(
-		'username' => array('alphanumeric'),
-		'password' => array('alphanumeric'),
+		'username' => array(
+			array(
+				'rule' => 'alphanumeric',
+				'message' => 'Username invalide'
+				),
+			array(
+				'rule' => 'notEmpty',
+				'message' => 'Username invalide'
+				),
+			),
+		'password' => array(
+			array(
+				'rule' => array('minLength', 7),
+				'message' => 'Mot de passe invalide'
+				),
+			),
 		'level' => array('numeric'),
 		'flag' => array('numeric'),
 		'mail' => array('email'),

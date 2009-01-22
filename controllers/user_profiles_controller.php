@@ -74,17 +74,26 @@ class UserProfilesController extends AppController {
 			$this->redirect($this->referer());
 		}
 		if(!empty($this->data)) {
-
+			
+			$this->User->data = $this->data;
+			if($this->User->validates() !== true) {
+				/* Few basic checks before SQL finds */
+				return;
+			}
+			$this->User->create(null); /* Clear User->data */
+			
 			if(isset($this->data['User']['password'])) { /* Hash former password */
 				$this->data['User']['password'] = $this->UserProfile->hashPassword($this->data['User']['password']);
 			}
-			$this->UserProfile->contain(array('User' => array('Data' => array('conditions' => array('Data.flag & 0x8')))));
+			
+			$this->UserProfile->contain(array('User' => array('Data' => array('conditions' => array('Data.flag & 0x8'))))); /* Find relevant userProfile */
 			$userProfile = $this->UserProfile->findByUsername($this->data['User']['username']);
 			
+
 			$this->User->contain(array('UserProfile', 'Data' => array('conditions' => array('Data.flag & 0x8'))));
 			$user = $this->User->findByUsername($this->data['User']['username']);
 			if(empty($user) || $user['User']['password'] != $this->data['User']['password'] || $this->User->isSuspended($user)) {
-				$this->Session->setFlash(__('Erreur de login pour le compte Z.', true), 'default', array(), 'auth');
+				$this->User->invalidate('password', __('Mot de passe invalide', true)); /* Let the user know that password is invalid */
 				return;
 			}
 			
@@ -99,10 +108,12 @@ class UserProfilesController extends AppController {
 				}
 			}
 			
+			debug($this->data);
+			
 			if($this->UserProfile->createProfile($this->data['UserProfile'], $user['User'])) {
 				$userProfile = $this->UserProfile->findById($this->UserProfile->id);
 				$this->Auth->login($userProfile);
-				$this->flash(__('Votre profil a été créé. Vous avez été automatiquement identifié.', true), '/');
+				$this->flash(__('Votre profil a été créé. Vous avez été automatiquement identifié.', true), array('controller' => 'user_profiles', 'action' => 'dashboard'));
 			}
 		}
 	}
@@ -111,6 +122,14 @@ class UserProfilesController extends AppController {
 		$this->UserProfile->contain(array());
 		$userProfiles = $this->UserProfile->find('list', array('fields' => array('username'), 'conditions' => array('UserProfile.active' => 1)));
 		$this->set('userProfiles', $userProfiles);
+	}
+	
+	
+	function dashboard() {
+		/* Should never happen thanks to Acl */
+		if(!$this->Auth->user('id')) {
+			$this->redirect('/');
+		}
 	}
 	
 	function view($username=null) {

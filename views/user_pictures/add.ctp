@@ -1,6 +1,7 @@
 <?php
 $javascript->link('swfupload/swfupload', false);
 $javascript->link('user_pictures/add', false);
+$html->css(array('swfupload'), null, array(), false);
 ?>
 <script type="text/javascript">
 var swfu;
@@ -8,15 +9,15 @@ $(function() {
 	swfu = new SWFUpload({
 		upload_url : '<?php echo $html->url(array('action' => 'upload', )); ?>',
 		flash_url : '<?php echo $html->url(DS . JS_URL . DS . 'swfupload' . DS . 'swfupload.swf'); ?>',
-		file_size_limit : "20480",
 		post_params: {"PHPSESSID" : "<?php echo $session->id(); ?>"},
 		
 
 		// File Upload Settings
 		file_size_limit : "2 MB",	// 2MB
-		file_types : "*",
-		file_types_description : "JPG Images",
-		file_upload_limit : "0",
+		file_types : "*.jpeg;*.png;*.jpg;*.gif",
+		file_types_description : "Images",
+		file_upload_limit : 0,
+		file_queue_limit : 2,
 
 		// Event Handler Settings - these functions as defined in Handlers.js
 		//  The handlers are not part of SWFUpload but are part of my website and control how
@@ -29,10 +30,10 @@ $(function() {
 		upload_complete_handler : uploadComplete,
 
 		// Button Settings
-		button_placeholder_id : "spanButtonPlaceholder",
+		button_placeholder_id : "divButtonPlaceholder",
 		button_width: 180,
-		button_height: 18,
-		button_text : '<span class="button">Select Images <span class="buttonSmall">(2 MB Max)</span></span>',
+		button_height: 30,
+		button_text : '<span class="button"><?php __('Sélectionnez vos images'); ?> <span class="buttonSmall">(2 MB Max)</span></span>',
 		button_text_style : '.button { font-family: Helvetica, Arial, sans-serif; font-size: 12pt; } .buttonSmall { font-size: 10pt; }',
 		button_text_top_padding: 0,
 		button_text_left_padding: 18,
@@ -53,9 +54,7 @@ $(function() {
 	<h2>Application Demo</h2>
 	<p>This demo shows how SWFUpload can behave like an AJAX application.  Images are uploaded by SWFUpload then some JavaScript is used to display the thumbnails without reloading the page.</p>
 	<form>
-		<div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;">
-			<span id="spanButtonPlaceholder"></span>
-		</div>
+			<div id="divButtonPlaceholder" style="border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"></div>
 	</form>
 		<div id="divFileProgressContainer" style="height: 75px;"></div>
 	<div id="thumbnails"></div>

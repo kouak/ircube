@@ -36,8 +36,17 @@ class UserProfile extends AppModel {
 	var $validate = array( 
 			'url' => array(
 				'rule' => 'url',
-				'message' => 'Lien non valide'),
-		
+				'message' => 'Lien non valide',
+				'allowEmpty' => true,
+			),
+			'birthday' => array(
+				'rule' => 'date',
+				'message' => 'Date non valide'
+			),
+			'sex' => array(
+				'rule' => array('multiple', array('in' => array('f', 'm', 'u'))),
+				'message' => 'Sexe non valide'
+			),
 		);
 	
 	/* ACL */	
@@ -138,6 +147,7 @@ class UserProfile extends AppModel {
 		$UserProfile['synched'] = date('Y-m-d H:i:s');
 		
 		$this->create();
+		debug($UserProfile);
 		return $this->save(array('UserProfile' => $UserProfile));
 	}
 	

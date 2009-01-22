@@ -1,4 +1,5 @@
 <?php
+debug($AuthUser);
 ?>
 <h1><?php echo __('Profil de ', true) . $userProfiles['UserProfile']['username']; ?></h1>
 
@@ -12,9 +13,3 @@
 		}
 	?>
 </div>
-<div class="clear"></div>
-<?php
-foreach($grav as $mail) {
-	echo $gravatar->image($mail);
-}
-?>

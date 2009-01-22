@@ -3,7 +3,7 @@
 <div class="avatar">
 	<?php
 //		if($userProfiles['UserProfile']['avatar_id'] == 0) { /* Use gravatar */
-		if(!file_exists(IMAGES . DS . 'upload' . DS . 'avatar' . DS . ($avatar = $userProfiles['UserProfile']['username'] . '.png'))) {
+		if(!file_exists(IMAGES . DS . 'upload' . DS . 'avatar' . DS . ($avatar = low($userProfiles['UserProfile']['username']) . '.png'))) {
 			echo $gravatar->image($userProfiles['UserProfile']['mail']);
 		} else {
 			echo $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . 'avatar' . DS . $avatar));

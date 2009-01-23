@@ -148,12 +148,12 @@ function uploadError(file, errorCode, message) {
 
 function addImage(src) {
 	/* TODO : find a way to grab pattern from IrcubeHelper */
-	$('<div class="thumbnail"><span><img src="' + src + '" alt="" /></span></div>').hide().appendTo('#thumbnails').fadeIn('slow');
+	$('<div class="thumbnail"><span><img src="' + src + '" alt="" /></span></div>').appendTo('#thumbnails').hide().fadeIn('slow');
 	$('p#noImgInGallery').remove();
 }
 
 function addImage(src, rel) {
-	$('<div class="thumbnail"><span><img src="' + src + '" alt="' + rel +'" /></span></div>').hide().appendTo('#thumbnails').fadeIn('slow');
+	$('<div class="thumbnail"><span><img src="' + src + '" alt="' + rel +'" /></span></div>').appendTo('#thumbnails').hide().fadeIn('slow');
 	$('p#noImgInGallery').remove();
 	loadDelete();
 }

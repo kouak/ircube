@@ -52,7 +52,8 @@ class UserPicturesController extends AppController {
                 if (!($UserPicture = $this->UserPicture->save($this->data))){ 
                     $this->set('ajaxMessage', 'ERROR:Database save failed');
                 } else {
-                    $this->set('ajaxMessage', 'FILENAME:' . 'thmb/' . $UserPicture['UserPicture']['filename']); 
+					$this->log($UserPicture['UserPicture']);
+                    $this->set('ajaxMessage', 'FILENAME:' . 'thmb/' . $UserPicture['UserPicture']['filename'] . ';'.$this->UserPicture->getLastInsertID()); 
                 } 
             } else {
                 $this->set('ajaxMessage', 'ERROR:' . $this->SwfUpload->errorMessage); 
@@ -62,8 +63,30 @@ class UserPicturesController extends AppController {
 		$this->render(null, 'ajax', '/ajaxempty');
 	}
 	
-	function add() {
+	function edit() {
+		$this->UserProfile->contain('Picture');
+		$userProfile = $this->UserProfile->findById($this->Auth->user('id'));
+		if(empty($userProfile)) {
+			$this->redirect('/'); /* Should never happen (Acl magic !) */
+		}
 		
+		$this->set($userProfile);
+		
+	}
+	
+	function delete() {
+		if($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
+			if(isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id'])) {
+				$this->UserPicture->id = $id;
+				$this->UserPicture->read();
+				if($this->Auth->user('id') == $this->UserPicture->data['UserPicture']['user_profile_id']) {
+					$this->UserPicture->delete();
+				}
+				$this->set('ajaxMessage', 'success');
+				$this->render(null, 'ajax', '/ajaxempty');
+			}
+		}
 	}
 	
     function avatarify($id=null) {

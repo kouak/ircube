@@ -640,6 +640,35 @@ span.partenaire_accueil {
 	color: #009933;
 }
 
+/* Thumbnails (IrcubeHelper) */
+
+div.thumbnail {
+	position: relative;
+	border: 1px solid #999;
+	float: left;
+	margin: 5px;
+	text-align: center;
+	background-color: #DDD;
+}
+
+/* How about FUCK IE hu ? */
+div.thumbnail:hover {
+	/*background-color: #EEE;*/
+}
+
+div.thumbnail span {
+	display: table-cell;
+	width: 160px;
+	height: 160px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+div.thumbnail img {
+	vertical-align: middle;
+}
+
+
 /* setFlash() layouts */
 .success_message
 {

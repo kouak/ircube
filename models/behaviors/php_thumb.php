@@ -195,6 +195,20 @@ class PhpThumbBehavior extends ModelBehavior {
 		return $toreturn;
 	}
 
+	/* Let's remove all linked files */
+	
+	function beforeDelete(&$Model) {
+		$Model->read(null, $model->id);
+		if(isset($Model->data)) {
+				$filename = $Model->data[$Model->name]['filename'];
+				foreach($this->settings[$Model->name] as $s) {
+					if(file_exists($s['folder'] . $filename)) {
+						@unlink($s['folder'] . $filename);
+					}
+				}
+		}
+		return true;
+	}
 }
 
 ?>

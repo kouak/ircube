@@ -23,5 +23,9 @@ switch($userProfiles['UserProfile']['sex']) {
 	default:
 		$userProfiles['UserProfile']['sex'] = __('Inconnu', true);
 }
+
+echo __('Sexe : ', true) . $userProfiles['UserProfile']['sex'] . '<br />';
+echo __('Url : ', true) . $userProfiles['UserProfile']['url'] . '<br />';
+echo __('Date de naissance : ', true) . $userProfiles['UserProfile']['birthday'] . '<br />';
 ?>
 

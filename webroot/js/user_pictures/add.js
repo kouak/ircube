@@ -70,7 +70,9 @@ function uploadSuccess(file, serverData) {
 		var progress = new FileProgress(file,  this.customSettings.upload_target);
 		this.debug(serverData);
 		if (serverData.substring(0, 9) === "FILENAME:") {
-			addImage("/img/upload/" + serverData.substring(9));
+			var data = serverData.substring(9).split(';', 2);
+			addImage("/img/upload/" + data[0], data[1]);
+			loadDelete();
 			progress.setStatus("Thumbnail Created.");
 			progress.toggleCancel(false);
 		} else {
@@ -146,25 +148,13 @@ function uploadError(file, errorCode, message) {
 
 
 function addImage(src) {
-	var newImg = document.createElement("img");
-	newImg.style.margin = "5px";
+	/* TODO : find a way to grab pattern from IrcubeHelper */
+	alert(src);
+	$('<div class="thumbnail"><span><img src="' + src + '" alt="" /></span></div>').appendTo('#thumbnails');
+}
 
-	document.getElementById("thumbnails").appendChild(newImg);
-	if (newImg.filters) {
-		try {
-			newImg.filters.item("DXImageTransform.Microsoft.Alpha").opacity = 0;
-		} catch (e) {
-			// If it is not set initially, the browser will throw an error.  This will set it if it is not set yet.
-			newImg.style.filter = 'progid:DXImageTransform.Microsoft.Alpha(opacity=' + 0 + ')';
-		}
-	} else {
-		newImg.style.opacity = 0;
-	}
-
-	newImg.onload = function () {
-		fadeIn(newImg, 0);
-	};
-	newImg.src = src;
+function addImage(src, rel) {
+	$('<div class="thumbnail"><span><img src="' + src + '" alt="' + rel +'" /></span></div>').appendTo('#thumbnails');
 }
 
 function fadeIn(element, opacity) {
@@ -196,8 +186,6 @@ function fadeIn(element, opacity) {
 		}, rate);
 	}
 }
-
-
 
 /* ******************************************
  *	FileProgress Object

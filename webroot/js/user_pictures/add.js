@@ -72,7 +72,6 @@ function uploadSuccess(file, serverData) {
 		if (serverData.substring(0, 9) === "FILENAME:") {
 			var data = serverData.substring(9).split(';', 2);
 			addImage("/img/upload/" + data[0], data[1]);
-			loadDelete();
 			progress.setStatus("Thumbnail Created.");
 			progress.toggleCancel(false);
 		} else {
@@ -149,12 +148,14 @@ function uploadError(file, errorCode, message) {
 
 function addImage(src) {
 	/* TODO : find a way to grab pattern from IrcubeHelper */
-	alert(src);
 	$('<div class="thumbnail"><span><img src="' + src + '" alt="" /></span></div>').appendTo('#thumbnails');
+	$('p#noImgInGallery').remove();
 }
 
 function addImage(src, rel) {
 	$('<div class="thumbnail"><span><img src="' + src + '" alt="' + rel +'" /></span></div>').appendTo('#thumbnails');
+	$('p#noImgInGallery').remove();
+	loadDelete();
 }
 
 function fadeIn(element, opacity) {

@@ -17,7 +17,9 @@ if(isset($gr) && $gr === true) {
 }
 ?>
 <div class="clear"></div>
+<ul>
 <?php
-echo $html->link(__('Voir ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'gallery', 'username' => $AuthUser['username']));
-echo $html->link(__('Ajouter une image à ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'add'));
+echo '<li>' . $html->link(__('Voir ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'gallery', 'username' => $AuthUser['username'])) . '</li>';
+echo '<li>' . $html->link(__('Modifier ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'edit')) . '</li>';
 ?>
+</ul>

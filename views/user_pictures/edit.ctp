@@ -93,7 +93,9 @@ function loadDelete() {
 	<div id="thumbnails">
 	<?php
 		if(empty($picture)) {
+			echo '<p id="noImgInGallery">';
 			__('Oops ! Il n\'y a pas encore d\'image dans votre gallerie. Dépêchez vous d\'en ajouter !');
+			echo '</p>';
 		} else {
 			foreach($picture as $pic) {
 				echo $ircube->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . 'thmb' . DS . $pic['filename']), array('alt' => $pic['id']));

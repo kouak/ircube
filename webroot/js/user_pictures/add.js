@@ -153,7 +153,9 @@ function addImage(src) {
 }
 
 function addImage(src, rel) {
-	$('<div class="thumbnail"><span><img src="' + src + '" alt="' + rel +'" /></span></div>').appendTo('#thumbnails');
+	$('<div class="thumbnail"><span><img src="' + src + '" alt="' + rel +'" /></span></div>').hide().appendTo('#thumbnails').load(function () {
+		$(this).fadeIn('slow');
+	});
 	$('p#noImgInGallery').remove();
 	loadDelete();
 }

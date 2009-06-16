@@ -126,3 +126,9 @@ a.calendrier:hover {
 #news_bloc .reseau .news_header {
 	background-color: #FFFEB8;
 }
+#news_bloc .unpublished .news_date {
+	background-color: #999;
+}
+#news_bloc .unpublished .news_header {
+	background-color: #ddd;
+}

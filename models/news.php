@@ -73,6 +73,14 @@ class News extends AppModel {
 		return Inflector::slug($str);
 	}
 	
+	function publish($id) {
+		return $this->save(array('News' => array('id' => $id, 'published' => 1)), true, array('id', 'published'));
+	}
+	
+	function unpublish($id) {
+		return $this->save(array('News' => array('id' => $id, 'published' => 0)), true, array('id', 'published'));
+	}
+	
 	function beforeSave()
 	{
 		if(isset($this->data['News']['title']) && !isset($this->data['News']['permalink'])) {

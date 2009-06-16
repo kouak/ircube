@@ -1,0 +1,43 @@
+Spécifications site IRCube
+
+* Backbone
+	- Utilisateurs
+		Compte Z lié
+		Fiche trombinoscope
+			Age
+			Sexe
+			Localisation
+			Salons favoris
+			Commentaires
+		Photos
+			Avatar (Gravatar)
+		Amis
+	- News
+		Catégorie
+		Commentaires
+		Archives
+	- Quotes
+		Catégorie
+		Auteur
+		Salon lié
+
+* Administration
+	- Utilisateurs
+		Derniers inscrits
+		Modification fiches
+		Signaler fiche incorrecte
+		Photos
+			Approbation des photos/Voir dernières photos postées
+			Signaler photo incorrecte
+		Groupe (niveau de l'utilisateur)
+		Page de monitoring (Links site <-> Z)
+	- News
+		Publication/Edition
+		Gestion des catégories
+		Publication retardée (à voir)
+		Modération commentaires
+		Approbation des commentaires/Voir derniers commentaires postés
+		
+	- Quotes
+		Dernières quotes
+		

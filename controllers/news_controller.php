@@ -20,6 +20,28 @@ class NewsController extends AppController {
 	}
 	
 	
+	function admin_publish($id = null) {
+		$this->News->publish($id);
+		if($this->RequestHandler->isAjax()) {
+			$this->set('news', $this->News->findById($id));
+			Configure::write('debug', 0);
+			$this->render('ajax/publish', 'ajax');
+			return;
+		}
+		$this->flash('News publiée !', $this->referer());
+	}
+	
+	function admin_unpublish($id = null) {
+		$this->News->unpublish($id);
+		if($this->RequestHandler->isAjax()) {
+			$this->set('news', $this->News->findById($id));
+			Configure::write('debug', 0);
+			$this->render('ajax/publish', 'ajax');
+			return;
+		}
+		$this->flash('News dépubliée !', $this->referer());
+	}
+	
 	function admin_index() {
 		//$this->placename = 'actualites';
 		if($this->RequestHandler->isAjax()) {
@@ -35,7 +57,7 @@ class NewsController extends AppController {
 				);
 			$this->set('news', $this->paginate('News'));
 			Configure::write('debug', 0);
-			$this->render('ajax/news', 'ajax');
+			$this->render('ajax/admin_index', 'ajax');
 		}
 	}
 	
@@ -51,7 +73,8 @@ class NewsController extends AppController {
 		$this->placename = 'actualites';
 		$this->paginate = array(
 			'limit' => 3,
-			'order' => array(
+				'conditions' => array('News.published' => 1),
+				'order' => array(
 				'News.created' => 'desc'
 				),
 			'contain' =>  array(
@@ -189,6 +212,7 @@ class NewsController extends AppController {
 
 							
 		$n = $this->News->find('all', array(	'limit' => 3,
+												'conditions' => array('News.published' => 1),
 												'order' => array(
 														'News.created' => 'desc'
 														)
@@ -232,6 +256,10 @@ class NewsController extends AppController {
 		
 		$this->set('news', $news);
 		$this->set('neighbors', $neighbors);
+	}
+	
+	function admin_edit($id = null) {
+		$this->edit($id);
 	}
 	
 	function edit($id = null) {

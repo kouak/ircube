@@ -58,7 +58,7 @@ class AppModel extends Model {
 		/* Empty id means create, we want to save the record return true */
 		if(empty($this->id))
 			return true;
-		if(!$this->exists()) /* This record does not exist though it's an update, return false */
+		if(!$this->exists()) /* This record does not exist although it's an update, return false */
 			return false;
 		
 		return true;

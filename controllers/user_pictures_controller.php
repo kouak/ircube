@@ -24,6 +24,19 @@ class UserPicturesController extends AppController {
         
     }
 	
+	function admin_index() {
+		$this->paginate = array(
+			'limit' => 2,
+			'order' => array(
+				'UserPicture.created' => 'desc'
+				),
+			'contain' =>  array(
+				'UserProfile',
+				),
+			);
+		$this->set('user_pictures', $this->paginate('UserPicture'));
+	}
+	
 	function upload() {
 		if (isset($this->params['form']['Filedata'])) { 
             // upload the file 

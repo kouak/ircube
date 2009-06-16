@@ -14,8 +14,8 @@ class IrcubeHelper extends AppHelper {
 		return $this->thumbnailWrap($this->Html->image($url, $options));
 	}
 
-	function thumbnailWrap($str) {
-		return '<div class="thumbnail"><span>' . $str . '</span></div>';
+	function thumbnailWrap($str, $class='thumbnail') {
+		return '<div class="'.$class.'"><span>' . $str . '</span></div>';
 	}
 
 }

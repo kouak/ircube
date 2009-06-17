@@ -31,14 +31,17 @@
 		?></div>
 		<div class="fright" style="margin: 2px">
 			<?php
+				echo $html->image('zoomin.png', array('alt' => __('Voir', true), 'class' => 'expand'));
+				echo $html->image('zoomout.png', array('alt' => __('Cacher', true), 'class' => 'collapse'));
+
 				if($news['News']['published'] == 0) {
-					echo $html->link($html->image('accept.png', array('alt' => __('Publier', true))),
+					echo $html->link($html->image('refuse.png', array('alt' => __('Publier', true))),
 								array('controller' => 'news', 'action' => 'publish', 'admin' => true, $news['News']['id']),
 								array('escape' => false, 'class' => 'publish')
 								);
 				}
 				else {
-					echo $html->link($html->image('refuse.png', array('alt' => __('Masquer', true))),
+					echo $html->link($html->image('accept.png', array('alt' => __('Masquer', true))),
 								array('controller' => 'news', 'action' => 'unpublish', 'admin' => true, $news['News']['id']),
 								array('escape' => false, 'class' => 'unpublish')
 								);
@@ -50,8 +53,7 @@
 
 				echo $html->link($html->image('delete.png', array('alt' => __('Supprimer', true))),
 								array('controller' => 'news', 'action' => 'delete', $news['News']['id']),
-								array('escape' => false),
-								__('Etes-vous sûr ?', true)
+								array('escape' => false, 'class' => 'delete')
 								);
 			?>
 		</div>

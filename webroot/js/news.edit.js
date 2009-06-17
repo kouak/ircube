@@ -1,13 +1,11 @@
 $(document).ready(function(){
-	$("#autoComplete").autocomplete("/user_profiles/autoComplete",
+	$("#autoComplete").autocomplete(
 	{
+		serviceUrl: '/user_profiles/autoComplete',
 		minChars: 2,
-		lineSeparator: "\n",
-		cacheLength: 10,
-		onItemSelect: selectItem,
-		onFindValue: findValue,
-		formatItem: formatItem,
-		autoFill: true
+		delimiter: "\n",
+		onSelect: selectItem,
+		deferRequestBy: 300,
 	});
 });
 
@@ -25,14 +23,4 @@ function findValue(li) {
 	else var sValue = li.selectValue;
 
 	alert("The value you selected was: " + sValue);
-}
-
-function formatItem(row) {
-	window.console.log(row);
-	if(row[1] == undefined) {
-		return row[0];
-	}
-	else {
-		return row[0] + " (id: " + row[1] + ")";
-	}
 }

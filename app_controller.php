@@ -12,16 +12,17 @@ class AppController extends Controller {
 		} else {
 			$placename = strtolower($this->name);
 		}
-		//On envoie le menu
-		$this->set('menuPrincipal', $this->MenuPrincipal->makeMenu($placename));
-		$this->set('menuActual', $placename);
 
 		$admin = Configure::read('Routing.admin');
 		if (isset($this->params[$admin]) && $this->params[$admin]) {
 			$this->set('adminPanel', true);
 			$this->layout = 'admin';
+			$this->set('menuPrincipal', $this->MenuPrincipal->makeAdminMenu($placename));
+			$this->set('menuActual', $placename);
 		} else {
 			$this->set('adminPanel', false);
+			$this->set('menuPrincipal', $this->MenuPrincipal->makeMenu($placename));
+			$this->set('menuActual', $placename);
 		}
 		return true;
 	}

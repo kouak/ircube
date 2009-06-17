@@ -13,14 +13,11 @@ class UserProfilesController extends AppController {
 	
 	/* AJAX callback for autocompletion */
 	function autoComplete() {
-
 		Configure::write('debug', 0);
-		$this->layout = '';
-
+		$this->layout = 'ajax';
 		$user_profiles = $this->UserProfile->find('all', array(
-		 'conditions'=>array('UserProfile.username LIKE'=>$this->params['url']['q'].'%'),
+		 'conditions'=>array('UserProfile.username LIKE'=>$this->params['url']['query'].'%'),
 		 'fields'=>array('username', 'id')));
-
 		$this->set('user_profiles', $user_profiles);
 	}
 		

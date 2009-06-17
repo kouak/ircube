@@ -23,26 +23,20 @@
 			
 		</div>
 	</noscript>
-	<div id="loading"><?php echo $html->image('ajax-loader.gif'); ?></div>
 	<div id="loginbar">
 		<div class="main_width">
-			<div id="search">
-				<form action="/search/">
-					<input type="text" name="q" value="" />&nbsp;
-					<input type="submit" value="<?php __('Ok'); ?>" />&nbsp;<a href="/search/">&raquo; + d'options</a>
-				</form>
-			</div>
+			<span style="float: left;">
+				Panneau d'administration IRCube
+			</span>
 			<span class="right">
 				<?php
 					if($profileHelper->isLoggedIn($AuthUser)):
 				?>
-						ADMIN ADMIN ADMIN - Bienvenue <?php echo $profileHelper->link(null, $AuthUser) ?> - <?php echo $profileHelper->link(__('Mon profil', true), $AuthUser); ?> - <?php echo $html->link(__('Déconnexion', true), array('controller' => 'user_profiles', 'action' => 'logout')); ?>
+						Bienvenue <?php echo $profileHelper->link(null, $AuthUser) ?> - <?php echo $profileHelper->link(__('Mon profil', true), $AuthUser); ?> - <?php echo $html->link(__('Déconnexion', true), array('controller' => 'user_profiles', 'action' => 'logout')); ?>
 				<?php
 					else:
 						echo $html->link(__('Login', true), array('controller' => 'user_profiles', 'action' => 'login'));
 				?>
-					
-				
 				<?php
 					endif;
 				?>
@@ -54,7 +48,10 @@
 			<?php echo $html->link($html->image('header.jpg', array('alt' => 'IRCube, R&eacute;seau IRC francophone')), '/', array(), false, false); ?>
 		</div>
 	</div>
-	<?php echo $this->element('menu_principal', array('menuPrincipal' => $menuPrincipal)); ?>
+	<?php 
+		/* Admin menu */
+		echo $this->element('menu_principal', array('menuPrincipal' => $menuPrincipal));
+	?>
 	<div class="clear"></div>			
 	<div id="page" class="main_width">
 

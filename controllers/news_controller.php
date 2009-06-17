@@ -46,7 +46,7 @@ class NewsController extends AppController {
 		//$this->placename = 'actualites';
 		if($this->RequestHandler->isAjax()) {
 			$this->paginate = array(
-				'limit' => 3,
+				'limit' => 10,
 				'order' => array(
 					'News.created' => 'desc'
 					),
@@ -58,13 +58,6 @@ class NewsController extends AppController {
 			$this->set('news', $this->paginate('News'));
 			Configure::write('debug', 0);
 			$this->render('ajax/admin_index', 'ajax');
-		}
-	}
-	
-	function delete($id = null) {
-		if ($this->News->del($id)) {
-			$this->Session->setFlash(__('News deleted', true));
-			$this->redirect(array('action'=>'index'));
 		}
 	}
 	
@@ -259,15 +252,9 @@ class NewsController extends AppController {
 	}
 	
 	function admin_edit($id = null) {
-		$this->edit($id);
-	}
-	
-	function edit($id = null) {
 		if (!empty($this->data)) {
-			debug($this->data);
-			return;
 			if(isset($id)) { /* Edit mode, keep current author */
-				$this->data['News']['user_profile_id'];
+				unset($this->data['News']['user_profile_id']);
 			}
 			else { /* Add mode, pick up current Author id from session */
 				$this->data['News']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
@@ -284,11 +271,31 @@ class NewsController extends AppController {
 			$this->data = $this->News->read(null, $id);
 			if(empty($this->data)) { /* No news with this id, raise an error */
 				$this->Session->setFlash(__('La news correspondante n\'existe pas', true), 'messages/failure');
-				$this->redirect(array('action' => 'edit'), 301);
+				$this->redirect($this->referer());
+			}
+			$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
+			$this->set(compact('newstypes'));
+			$this->set('addnews', false);
+		}
+		else {
+			$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
+			$this->set(compact('newstypes'));
+			$this->set('addnews', true);
+		}
+		
+	}
+	
+	function admin_delete($id = null) {
+		if ($this->News->del($id)) {
+			if($this->RequestHandler->isAjax()) {
+				Configure::write('debug', 0);
+				$this->render('ajax/admin_delete', 'ajax');
+			}
+			else {
+				$this->Session->setFlash(__('News deleted', true));
+				$this->redirect(array('action'=>'index'));
 			}
 		}
-		$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
-		$this->set(compact('newstypes'));
 	}
 
 }

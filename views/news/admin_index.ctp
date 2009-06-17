@@ -17,21 +17,49 @@ function attachPublishjQuery(a) {
 		}, "html");
 		return false;
 	});
-	/* Toggle visibility */
 
 }
-
+ 
 $(document).ready(function() {
 	loadPiece("<?php echo $html->url(array('controller'=>'news','action'=>'admin_index', 'admin' => true));?>","#news_bloc", function() {
-		attachPublishjQuery($('.publish, .unpublish'));
 		$('.news_content').hide();
-		$('.news_header').click(function() {
-			$(this).parent().children('.news_content').slideToggle('medium');
+		$('div.news_header img.collapse').hide();
+		$('div.news_header').toggle(function() {
+			$(this).parent().children('div.news_content').slideDown(function() {
+				$(this).parent().find('img.expand').hide();
+				$(this).parent().find('img.collapse').show();
+			});	
+		}, function() {
+			$(this).parent().children('div.news_content').slideUp(function() {
+				$(this).parent().find('img.collapse').hide();
+				$(this).parent().find('img.expand').show();
+			});
+		});
+		
+		attachPublishjQuery($('.publish, .unpublish'));
+		
+		$('.news_header a.delete').click(function() {
+			var c = confirm("Supprimer cette news ?");
+			if(c) {
+				$(this).children('img').attr({src: "/img/ajax-loader-snake.gif", alt: "Loading", id: 'delete-loading'});
+				var toDelete = $(this).parents('div.news');
+				$.ajax({
+					type: "GET",
+					url: $(this).attr('href'),
+					dataType: "html",
+					success: function(msg){
+						toDelete.slideUp("medium", function() {
+							$(this).remove();
+						});
+					}
+				});
+			}
+			return false;
 		});
 		/* pagination + toggle visibility */
 	});
 });
 
 </script>
-<h1><?php __('Archives des actualités :'); ?></h1>
+<h1><?php __('News :'); ?></h1>
 <div id="news_bloc"></div>

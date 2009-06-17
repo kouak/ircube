@@ -3,14 +3,18 @@ class MenuPrincipal extends AppModel {
 	var $name = 'MenuPrincipal';
 	var $useTable = false;
 	
-	function makeMenu($actual = null) {
+	function makeAdminMenu($actual) {
+		return $this->makeMenu($actual, 'menu_admin.xml');
+	}
+	
+	function makeMenu($actual = null, $filename = 'menu_principal.xml') {
 		if ($actual == null)
 		{
 			$actual = 'accueil';
 		}
 		App::import('Xml');
 
-		$file = APP . 'xml' . DS . 'menu_principal.xml';
+		$file = APP . 'xml' . DS . $filename;
 
 		// now parse it
 		$parsed_xml =& new XML($file);

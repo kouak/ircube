@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu name="principal">
+	<item id="actualités" label="News">
+		<item id="actus" label="News" c="news" a="admin_index" />
+		<item id="postnews" label="Poster une news" c="news" a="admin_edit" />
+	</item>
+	<item id="communaute" label="Communauté">
+		<item id="gallery" label="Photos" c="user_pictures" a="admin_index" />
+		<item id="utilisateurs" label="Utilisateurs" c="user_profiles" a="admin_index" />
+	</item>
+</menu>

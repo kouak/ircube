@@ -14,8 +14,8 @@ Spécifications site IRCube
 		Amis
 	- News
 		Catégorie (*)
-		Commentaires (* manque data sanitization)
-		Archives
+		Commentaires (* manque report utilisateurs/calcul spam)
+		Archives (* manque cosmétique)
 	- Quotes
 		Catégorie
 		Auteur
@@ -33,10 +33,10 @@ Spécifications site IRCube
 		Page de monitoring (Links site <-> Z)
 	- News
 		Publication/Edition (*)
-		Gestion des catégories
-		Publication retardée (à voir)
-		Modération commentaires
-		Approbation des commentaires/Voir derniers commentaires postés
+		Gestion des catégories (utile ?)
+		Publication retardée (utile ?)
+		Modération commentaires (* manque édition)
+		Approbation des commentaires/Voir derniers commentaires postés (*)
 		
 	- Quotes
 		Dernières quotes

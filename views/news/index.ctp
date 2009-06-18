@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 $paginator->options(array('url' =>  $this->passedArgs));
 /* Set modulus here */
 $mod = 4;

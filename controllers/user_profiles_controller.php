@@ -171,6 +171,40 @@ class UserProfilesController extends AppController {
 			return;
 		}
 	}
+	
+	function edit($id = null) {
+		if (!empty($this->data)) {
+			if(isset($id)) { /* Edit mode, keep current author */
+				unset($this->data['News']['user_profile_id']);
+			}
+			else { /* Add mode, pick up current Author id from session */
+				$this->data['News']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
+			}
+			if ($this->News->save($this->data))	{
+				$this->Session->setFlash(__('La news a été sauvegardée', true), 'messages/success');
+				$this->redirect(array('action'=>'index'));
+			} 
+			else {
+				$this->Session->setFlash(__('Une erreur s\'est produite, corrigez les erreurs indiquées', true), 'messages/failure');
+			}
+		}
+		if (isset($id)) { /* We have an id, but nothing was posted => bring up the edit form */
+			$this->data = $this->News->read(null, $id);
+			if(empty($this->data)) { /* No news with this id, raise an error */
+				$this->Session->setFlash(__('La news correspondante n\'existe pas', true), 'messages/failure');
+				$this->redirect($this->referer());
+			}
+			$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
+			$this->set(compact('newstypes'));
+			$this->set('addnews', false);
+		}
+		else {
+			$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
+			$this->set(compact('newstypes'));
+			$this->set('addnews', true);
+		}
+		
+	}
 
 	function logout() {
 		$this->redirect($this->Auth->logout());

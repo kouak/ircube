@@ -49,7 +49,7 @@
 				}
 				echo $html->link($html->image('edit.png', array('alt' => __('Editer', true))),
 								array('controller' => 'news', 'action' => 'edit', $news['News']['id']),
-								array('escape' => false,)
+								array('escape' => false, 'class' => 'edit')
 								);
 
 				echo $html->link($html->image('delete.png', array('alt' => __('Supprimer', true))),

@@ -23,6 +23,7 @@ function attachPublishjQuery(a) {
 $(document).ready(function() {
 	loadPiece("<?php echo $html->url(array('controller'=>'news','action'=>'admin_index', 'admin' => true));?>","#news_bloc", function() {
 		$('.news_content').hide();
+
 		$('div.news_header img.collapse').hide();
 		$('div.news_header').toggle(function() {
 			$(this).parent().children('div.news_content').slideDown(function() {
@@ -34,6 +35,11 @@ $(document).ready(function() {
 				$(this).parent().find('img.collapse').hide();
 				$(this).parent().find('img.expand').show();
 			});
+		});
+		
+		$('a.edit').click(function() {
+			top.location = $(this).attr('href');
+			return false;
 		});
 		
 		attachPublishjQuery($('.publish, .unpublish'));

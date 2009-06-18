@@ -146,9 +146,9 @@ class UserProfile extends AppModel {
 		$UserProfile['password'] = $User['password'];
 		$UserProfile['mail'] = $User['mail'];
 		$UserProfile['user_id'] = $User['id'];
+		$UserProfile['user_group_id'] = 2; /* Put new profiles in group members */
 		$UserProfile['active'] = 1;
 		$UserProfile['synched'] = date('Y-m-d H:i:s');
-		
 		$this->create();
 		debug($UserProfile);
 		return $this->save(array('UserProfile' => $UserProfile));

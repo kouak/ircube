@@ -65,6 +65,8 @@
 	
 	Router::connect('/viewgallery/:username', array('controller' => 'user_pictures', 'action' => 'gallery'), array('pass' => array('username')));
 	Router::connect('/viewprofile/:username', array('controller' => 'user_profiles', 'action' => 'view'), array('pass' => array('username')));
+	Router::connect('/editprofile', array('controller' => 'user_profiles', 'action' => 'edit'));
+	Router::connect('/dashboard', array('controller' => 'user_profiles', 'action' => 'dashboard'));
 	
 	/* Admin routing */
 	Router::connect('/login', array('controller' => 'user_profiles', 'action' => 'login'));

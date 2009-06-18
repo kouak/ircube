@@ -21,5 +21,7 @@ if(isset($gr) && $gr === true) {
 <?php
 echo '<li>' . $html->link(__('Voir ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'gallery', 'username' => $AuthUser['username'])) . '</li>';
 echo '<li>' . $html->link(__('Modifier ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'edit')) . '</li>';
+echo '<li>' . $html->link(__('Voir ma fiche', true), array('controller' => 'user_profiles', 'action' => 'view', 'username' => $AuthUser['username'])) . '</li>';
+echo '<li>' . $html->link(__('Modifier ma fiche', true), array('controller' => 'user_profiles', 'action' => 'edit')) . '</li>';
 ?>
 </ul>

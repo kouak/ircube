@@ -172,36 +172,29 @@ class UserProfilesController extends AppController {
 		}
 	}
 	
-	function edit($id = null) {
-		if (!empty($this->data)) {
-			if(isset($id)) { /* Edit mode, keep current author */
-				unset($this->data['News']['user_profile_id']);
+	function edit() {
+		$id = $this->Auth->user('id');
+		if($id > 0) {
+			if (!empty($this->data)) {
+				$this->data['UserProfile']['id'] = $id;
+				$blackList = array('username', 'password', 'mail', 'active', 'synched', 'user_id', 'user_group_id', 'avatar_id', 'lastseen');
+				if ($this->UserProfile->save($this->data, array('fieldlist' => array_diff(array_keys($this->UserProfile->schema()), $blackList)))) {
+					$this->Session->setFlash(__('Votre fiche a été sauvegardée', true), 'messages/success');
+					$this->redirect(array('controller' => 'user_profiles', 'action'=>'view', 'username' => $this->Auth->user('username')));
+				} 
+				else {
+					debug('CACA');
+					$this->Session->setFlash(__('Une erreur s\'est produite, corrigez les erreurs indiquées', true), 'messages/failure');
+				}
 			}
-			else { /* Add mode, pick up current Author id from session */
-				$this->data['News']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
-			}
-			if ($this->News->save($this->data))	{
-				$this->Session->setFlash(__('La news a été sauvegardée', true), 'messages/success');
-				$this->redirect(array('action'=>'index'));
-			} 
 			else {
-				$this->Session->setFlash(__('Une erreur s\'est produite, corrigez les erreurs indiquées', true), 'messages/failure');
+				/* Fill up edit form */
+				$this->data = $this->UserProfile->read(null, $id);
 			}
-		}
-		if (isset($id)) { /* We have an id, but nothing was posted => bring up the edit form */
-			$this->data = $this->News->read(null, $id);
-			if(empty($this->data)) { /* No news with this id, raise an error */
-				$this->Session->setFlash(__('La news correspondante n\'existe pas', true), 'messages/failure');
-				$this->redirect($this->referer());
-			}
-			$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
-			$this->set(compact('newstypes'));
-			$this->set('addnews', false);
 		}
 		else {
-			$newstypes = $this->News->NewsType->find('list', array('fields' => 'NewsType.titre'));
-			$this->set(compact('newstypes'));
-			$this->set('addnews', true);
+			echo "CACA ?";
+			/* Auth error */
 		}
 		
 	}

@@ -2,7 +2,7 @@ Spécifications site IRCube
 
 * Backbone
 	- Utilisateurs
-		Compte Z lié
+		Compte Z lié (*)
 		Fiche trombinoscope
 			Age
 			Sexe
@@ -13,7 +13,7 @@ Spécifications site IRCube
 			Avatar (Gravatar)
 		Amis
 	- News
-		Catégorie
+		Catégorie (*)
 		Commentaires
 		Archives
 	- Quotes
@@ -32,7 +32,7 @@ Spécifications site IRCube
 		Groupe (niveau de l'utilisateur)
 		Page de monitoring (Links site <-> Z)
 	- News
-		Publication/Edition
+		Publication/Edition (*)
 		Gestion des catégories
 		Publication retardée (à voir)
 		Modération commentaires

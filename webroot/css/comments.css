@@ -3,34 +3,54 @@
  *
  */
 
-.commentlist ol {
+ol#commentlist {
 	margin-left: 0px; 
 	padding-left: 0px;
-
+	list-style-type: none;
 }
 
-.commentlist ol li {
+ol#commentlist li {
 	margin-left: 0px;
 	margin-bottom: 4em;
+	display: block;
+	min-height: 100px;
 }
 
-.commentlist img.avatar {
+.commentlist div.comment-number {
+	float: left;
+	margin-right: 10px;
+}
+
+.commentlist div.avatar {
 	padding:1px;
-	float:left;
+	width: 100px;
+	float: left;
 	margin:0px 10px 5px 0px;
-	border:1px solid #ccc;
+	text-align: center;
+
+}
+.commentlist div.avatar img {
+	border: 1px solid #ccc;
+	padding: 1px;
+	margin: auto;
+}
+.commentlist div.comment {
+	margin-left: 150px;
 }
 
-.commentlist {
-	margin-left: 0px; 
-	padding-left: 0px;
+.commentlist div.comment p {
+	margin: 4px 0;
+	padding: 10px 0;
+	background-color: #FFFFFF;
+	border-top: 1px solid #ccc;
+}
+.commentlist cite {
+	margin: 0;
+	padding :0;
 }
 
 .comment-inside {
-background-color: #FFFFFF;
-border: 1px solid #ccc;
-padding: 10px;
-margin-top: 5px;
+
 }
 
 .comment-inside-alt {

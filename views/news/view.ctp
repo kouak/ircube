@@ -1,6 +1,5 @@
 <?php
 $html->css(array('comments'), null, array(), false);
-
 ?>
 <h1><?php echo __('Archives des actualit&eacute;s :', true); ?></h1>
 <div class="paging">
@@ -42,31 +41,28 @@ $html->css(array('comments'), null, array(), false);
 	?>
 </div>
 <div class="clear"></div>
-<h2><?php echo __('Commentaires :', true) ;?></h2>
+<a name="comments" /><h2><?php printf(__('Commentaires (%d)', true), count($news['NewsComment'])); ?></h2>
 <div class="clear"></div>
 <ol class="commentlist" id="commentlist">
-	
 <?php
-/* Todo : element comment */
 $i = 1;
-App::import('Helper', 'Time');
-$time = new TimeHelper();
+$javascript->link(array('jquery/jquery-form'), false);
 foreach($news['NewsComment'] as $newsComment)
 {
+	echo $this->element('comment', array('i' => $i, 'comment' => $newsComment));
+	$i++;
+}
+if(isset($authUser)) {
 ?>
-	  <li id="#comment-<?php echo $i?>">
-		<cite class="meta"> 
-			<img alt="Avatar" src='http://ircube.org/images/avatars/mini/bfe328761f87392cfa8970917927ea90.jpg' class="avatar avatar-96" />
-				<span class="permlink"><a href="#comment-11628" title="Permanent link to this comment">#<?php echo $i; ?></a></span> 
-				<span class="author">
-					<?php echo $html->link($newsComment['User']['username'], '/viewprofile/' . $newsComment['User']['username']); ?>
-				</span> 
-				<span class="date"><?php echo $time->niceShort($newsComment['created']); ?></span> 
-		</cite>
-		<p>Nunc hendrerit, arcu et vulputate rhoncus, tellus elit porta orci, sit amet aliquam arcu quam ut libero. Morbi nisi lacus, dictum eget, laoreet ac, tempus in, urna. In sapien felis, condimentum in, porta ut, mollis ut, mauris. Vivamus sit amet nunc in arcu aliquam tristique.</p> 
-	</li>
+
+<div class="clear"></div>
+<div id="news_comment_form">
 <?php
-$i++;
+echo $this->element('news/news_comment_form', array('news_id' => $news['News']['id']));
+?>
+</div>
+<?php
 }
 ?>
 </ol>
+<div class="clear"></div>

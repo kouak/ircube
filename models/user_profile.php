@@ -27,6 +27,9 @@ class UserProfile extends AppModel {
 			'News' => array('className' => 'News',
 							'foreignKey' => 'user_profile_id'
 			),
+			'NewsComment' => array('className' => 'NewsComment',
+									'foreignKey' => 'user_profile_id'
+			),
 			'Picture' => array('className' => 'UserPicture',
 							'foreignKey' => 'user_profile_id',
 							'conditions' => array('Picture.is_avatar' => false)

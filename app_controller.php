@@ -1,6 +1,6 @@
 <?php
 class AppController extends Controller {
-	var $helpers = array('Html', 'Form', 'Session', 'Javascript', 'Text', 'ProfileHelper', 'Ircube'); /* Html & Sessions already included */
+	var $helpers = array('Html', 'Form', 'Session', 'Javascript', 'Text', 'ProfileHelper', 'Ircube', 'Time'); /* Html & Sessions already included */
 	var $uses = array('MenuPrincipal', 'UserProfile', 'User');
 	var $components = array('Acl', 'Auth', 'Session', 'RequestHandler');
 	var $placename; /* Utilisée par le menu principal : condition $placename == $label['id'] */
@@ -38,7 +38,8 @@ class AppController extends Controller {
 		$this->Auth->loginAction = array('admin' => false, 'controller' => 'user_profiles', 'action' => 'login');
 		$this->Auth->authorize = 'actions';
 		$this->Auth->authError = "Vous ne disposez pas des droits nécessaires pour voir cette page.";
-		$this->Auth->loginError = "Login incorrect.";
+		$this->Auth->loginError = "Login incorrect.<br />"
+		."<span id=\"create_account\"><a href=\"". Router::url(array('controller' => 'user_profiles', 'action' => 'create_profile')) . "\">Vous n'avez pas de compte ?</a></span>";
 		$this->Auth->loginRedirect = array('controller'=>'news', 'action'=>'home');
 		$this->Auth->userScope = array('UserProfile.active' => 1);
 		$this->Auth->autoRedirect = false;

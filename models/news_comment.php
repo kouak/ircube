@@ -4,8 +4,8 @@ class NewsComment extends AppModel {
 	var $actsAs = array('Containable');
 
 	var $belongsTo = array(
-			'User' => array('className' => 'User', /* Comment author */
-							'foreignKey' => 'user_id',
+			'Author' => array('className' => 'UserProfile', /* Comment author */
+							'foreignKey' => 'user_profile_id',
 							'conditions' => '',
 							'fields' => '',
 							'order' => ''
@@ -14,6 +14,7 @@ class NewsComment extends AppModel {
 							'foreignKey' => 'news_id',
 							'conditions' => '',
 							'fields' => '',
+							'dependant' => true,
 							'counterCache' => true /* Cache newscount */
 			), 
 	);
@@ -27,7 +28,7 @@ class NewsComment extends AppModel {
 					'news_id' => array(
 						'notEmpty' => array(
 							'rule' => 'numeric', /* We want a numeric newstype */
-							'message' => 'Wrong newstype',
+							'message' => 'Wrong news_id',
 							'required' => true,
 							),
 						 'parentExists' => array(
@@ -35,10 +36,10 @@ class NewsComment extends AppModel {
 							'message' => 'Cette news n\'existe pas',
 							),	
 						),
-					'user_id' => array(
+					'user_profile_id' => array(
 						'notEmpty' => array(
 							'rule' => 'numeric', /* We want a numeric newstype */
-							'message' => 'Wrong newstype',
+							'message' => 'Wrong user_id',
 							'required' => true,
 							),
 						 'parentExists' => array(

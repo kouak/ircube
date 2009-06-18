@@ -29,3 +29,6 @@
 #authMessage.message, .flash_error {
     background-color: #900;
 }
+#authMessage #create_account {
+	border: 1px solid white;
+}

@@ -50,7 +50,14 @@ $html->css(array('actualites'), null, array(), false);
 	</div>
 	<div class="clear"></div>
 	<div class="news_author"><span class="fleft;"><?php
-		echo (($news['News']['news_comment_count'] > 0) ? $news['News']['news_comment_count'] : __('Aucun', true)) . ' ' . (($news['News']['news_comment_count'] > 1) ? Inflector::pluralize(__('Commentaire', true)) : __('Commentaire', true));
+		echo $html->link(sprintf(__('%d Commentaire' . (($news['News']['news_comment_count'] > 1) ? 's' : ''), true), $news['News']['news_comment_count']),
+			array(
+		    'controller' => 'news',
+		    'action' => 'view',
+		    'id' => $news['News']['id'],
+		    'slug' => $news['News']['permalink'] . '#comments',
+			)
+		);
 		echo ' - ';
 		echo $html->link(__('Permalien', true),
 											array(

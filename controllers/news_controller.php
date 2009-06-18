@@ -2,7 +2,7 @@
 class NewsController extends AppController {
 
 	var $name = 'News';
-	var $helpers = array('Form', 'Paginator', 'Time', 'Tinymce', 'Javascript');
+	var $helpers = array('Form', 'Paginator', 'Time', 'Tinymce', 'Javascript', 'Gravatar', 'ProfileHelper');
 	var $components = array('RequestHandler');
 	var $uses = array('News', 'NewsComment', 'NewsType');
 
@@ -225,8 +225,10 @@ class NewsController extends AppController {
 		$this->placename = 'actualites';
 		
 		$this->News->contain(array('NewsType',
-									'NewsComment' => array('User' => array('fields' => array('username', 'flag'))),
-									'Author' => array('fields' => array('username', 'user_id', 'active'))
+									'NewsComment' => array('Author' => array('Avatar', 'fields' => array('username', 'mail', 'active', 'user_id'))),
+									'Author' => array(
+										'fields' => array('username', 'user_id', 'active')
+										)
 									)
 							); /* Limit sql JOINs */
 		
@@ -283,6 +285,23 @@ class NewsController extends AppController {
 			$this->set('addnews', true);
 		}
 		
+	}
+	
+	function add_comment() {
+		if(1 || $this->RequestHandler->isAjax()) {
+			if(!empty($this->data)) {
+				Configure::write('debug', 0);
+				$this->data['NewsComment']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
+				if($this->NewsComment->save($this->data, array('fieldList' => array('user_profile_id', 'content', 'news_id')))) {
+					debug($this->NewsComment->read());
+					$this->set('comment', $this->NewsComment->data);
+					$this->render('ajax/add_comment_success', 'ajax');
+				}
+				else {
+					$this->render('ajax/add_comment_fail', 'ajax');
+				}
+			}
+		}
 	}
 	
 	function admin_delete($id = null) {

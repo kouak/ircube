@@ -25,7 +25,7 @@ class News extends AppModel {
 									'foreignKey' => 'news_id',
 									'conditions' => '',
 									'fields' => '',
-									'order' => 'NewsComment.created DESC',
+									'order' => 'NewsComment.created ASC', /* New comments at the bottom */
 									'dependant' => true /* Delete comments when we delete a news */
 									)
 						);

@@ -195,10 +195,17 @@ class AclExtrasShell extends Shell {
 	$this->Acl->allow('Guest', 'UserPictures/gallery');
 	$this->Acl->allow('Membre', 'UserPictures');
 	
-	$this->Acl->deny('Guest', 'news/edit');
-	$this->Acl->allow('Modérateur', 'news/edit');
-	
-	
+	/* Admin panel */
+	$this->Acl->deny('Guest', 'news/admin_index');
+	$this->Acl->allow('Membre', 'news/admin_index');
+	$this->Acl->deny('Guest', 'news/admin_edit');
+	$this->Acl->allow('Membre', 'news/admin_edit');
+	$this->Acl->deny('Guest', 'news/admin_delete');
+	$this->Acl->allow('Membre', 'news/admin_delete');
+	$this->Acl->deny('Guest', 'news/admin_publish');
+	$this->Acl->allow('Membre', 'news/admin_publish');
+	$this->Acl->deny('Guest', 'news/admin_unpublish');
+	$this->Acl->allow('Membre', 'news/admin_unpublish');
 	
 	
   }

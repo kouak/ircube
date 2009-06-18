@@ -689,3 +689,8 @@ div.thumbnail img {
     color: #000;
     font-weight: bold;
 }
+
+#authMessage span#create_account {
+	font-weight: normal;
+	border: 1px solid blue;
+}

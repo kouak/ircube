@@ -225,7 +225,10 @@ class NewsController extends AppController {
 		$this->placename = 'actualites';
 		
 		$this->News->contain(array('NewsType',
-									'NewsComment' => array('Author' => array('Avatar', 'fields' => array('username', 'mail', 'active', 'user_id'))),
+									'NewsComment' => array(
+										'conditions'=> array('NewsComment.published' => 1),
+										'Author' => array('Avatar', 'fields' => array('username', 'mail', 'active', 'user_id'))
+										),
 									'Author' => array(
 										'fields' => array('username', 'user_id', 'active')
 										)
@@ -287,32 +290,17 @@ class NewsController extends AppController {
 		
 	}
 	
-	function add_comment() {
-		if(1 || $this->RequestHandler->isAjax()) {
-			if(!empty($this->data)) {
-				Configure::write('debug', 0);
-				$this->data['NewsComment']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
-				if($this->NewsComment->save($this->data, array('fieldList' => array('user_profile_id', 'content', 'news_id')))) {
-					debug($this->NewsComment->read());
-					$this->set('comment', $this->NewsComment->data);
-					$this->render('ajax/add_comment_success', 'ajax');
+	function admin_delete($id = null) {
+		if($id) {
+			if ($this->News->del($id)) {
+				if($this->RequestHandler->isAjax()) {
+					Configure::write('debug', 0);
+					$this->render('ajax/admin_delete', 'ajax');
 				}
 				else {
-					$this->render('ajax/add_comment_fail', 'ajax');
+					$this->Session->setFlash(__('News deleted', true));
+					$this->redirect(array('action'=>'index'));
 				}
-			}
-		}
-	}
-	
-	function admin_delete($id = null) {
-		if ($this->News->del($id)) {
-			if($this->RequestHandler->isAjax()) {
-				Configure::write('debug', 0);
-				$this->render('ajax/admin_delete', 'ajax');
-			}
-			else {
-				$this->Session->setFlash(__('News deleted', true));
-				$this->redirect(array('action'=>'index'));
 			}
 		}
 	}

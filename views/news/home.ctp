@@ -4,7 +4,7 @@
 			<h2><?php __('News');?></h2>
 			<?php
 			foreach ($news as $news) {
-				echo $this->element('news', array('news' => $news));
+				echo $this->element('news/news', array('news' => $news));
 			}
 			?>
 			<div style="text-align: right;margin-bottom: 5px;">

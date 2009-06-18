@@ -14,7 +14,7 @@ Spécifications site IRCube
 		Amis
 	- News
 		Catégorie (*)
-		Commentaires
+		Commentaires (* manque data sanitization)
 		Archives
 	- Quotes
 		Catégorie

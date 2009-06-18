@@ -3,6 +3,7 @@
 	<item id="actualités" label="News">
 		<item id="actus" label="News" c="news" a="admin_index" />
 		<item id="postnews" label="Poster une news" c="news" a="admin_edit" />
+		<item id="postnews" label="Derniers commentaires" c="news_comments" a="admin_index" />
 	</item>
 	<item id="communaute" label="Communauté">
 		<item id="gallery" label="Photos" c="user_pictures" a="admin_index" />

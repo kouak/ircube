@@ -1,5 +1,5 @@
 <?php
-$javascript->link(array('jquery/jquery-cakephp-pagination', 'jquery/jquery.animateToClass'), false);
+$javascript->link(array('jquery/jquery-cakephp-pagination'), false);
 $html->css(array('actualites', 'loading'), null, array(), false);
 /* Set modulus here */
 ?>

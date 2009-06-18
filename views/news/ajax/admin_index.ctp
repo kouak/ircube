@@ -9,7 +9,7 @@
 <div id="news_bloc">
 	<?php
 	foreach ($news as $news) {
-		echo $this->element('news/news_admin', array('news' => $news));
+		echo $this->element('admin/news/news', array('news' => $news));
 	}
 	?>
 </div>

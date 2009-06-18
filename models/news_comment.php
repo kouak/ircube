@@ -15,7 +15,8 @@ class NewsComment extends AppModel {
 							'conditions' => '',
 							'fields' => '',
 							'dependant' => true,
-							'counterCache' => true /* Cache newscount */
+							'counterCache' => true, /* Cache newscount */
+							'counterScope' => array('NewsComment.published' => 1)
 			), 
 	);
 	
@@ -55,7 +56,16 @@ class NewsComment extends AppModel {
 							),
 						),
 					);
-	
+					
+					
+	function publish($id) {
+		return $this->save(array('NewsComment' => array('id' => $id, 'published' => 1)), true, array('id', 'published'));
+	}
+
+	function unpublish($id) {
+		return $this->save(array('NewsComment' => array('id' => $id, 'published' => 0)), true, array('id', 'published'));
+	}
+
 	function updateCache()
 	{
 		$r = $this->find('all', array('recursive' => -1));

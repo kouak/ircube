@@ -1,0 +1,65 @@
+/*
+ * Comments
+ *
+ */
+
+ol#commentlist {
+	margin-left: 0px; 
+	padding-left: 0px;
+	list-style-type: none;
+}
+
+ol#commentlist li {
+	margin-left: 0px;
+	margin-bottom: 4em;
+	display: block;
+	min-height: 100px;
+	background: #dfd;
+}
+
+ol#commentlist li.unpublished {
+	background: #fdd;
+}
+
+.commentlist div.comment-number {
+	float: left;
+	width: 15px;
+	margin-right: 10px;
+}
+
+.commentlist div.avatar {
+	padding:1px;
+	width: 100px;
+	float: left;
+	margin:0px 10px 5px 0px;
+	text-align: center;
+
+}
+.commentlist div.avatar img {
+	border: 1px solid #ccc;
+	padding: 1px;
+	margin: auto;
+}
+.commentlist div.comment {
+	margin-left: 150px;
+}
+
+.commentlist div.comment p {
+	margin: 4px 0;
+	padding: 10px 0;
+	border-top: 1px solid #ccc;
+}
+.commentlist cite {
+	margin: 0;
+	padding :0;
+}
+
+.comment-inside {
+
+}
+
+.comment-inside-alt {
+background-color: #FFFFFF;
+border: 1px solid #E6E6E6;
+padding: 10px;
+}

@@ -9,7 +9,7 @@ $(function() {
 			$('#delete-img').attr('id', 'loading-img');
 			$.ajax({
 				type: "POST",
-				url: "<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'delete')); ?>",
+				url: "<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'admin_delete')); ?>",
 				data: "id=" + id,
 				dataType: "html", /* IMPORTANT */
 				success: function(msg) {

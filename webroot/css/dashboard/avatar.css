@@ -1,0 +1,42 @@
+#actual-avatar {
+	width: 100%;
+	clear: both;
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+#actual-avatar .thumbnail {
+	position: relative;
+	left: 50%;
+	width: 160px;
+	margin-left: -80px;
+	float: none;
+}
+
+#gravatar-avatar {
+	width: 50%;
+	text-align: center;
+	float: left;
+}
+
+#gravatar-avatar .thumbnail {
+	position: relative;
+	left: 50%;
+	width: 160px;
+	margin-left: -80px;
+	float: none;
+}
+
+#gallery-avatar {
+	width: 50%;
+	float: left;
+	text-align: center;
+}
+
+#gallery-avatar .thumbnail {
+	position: relative;
+	left: 50%;
+	width: 160px;
+	margin-left: -80px;
+	float: none;
+}

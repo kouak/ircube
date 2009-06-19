@@ -4,20 +4,21 @@ Spécifications site IRCube
 	- Utilisateurs
 		Compte Z lié (*)
 		Fiche trombinoscope
-			Age
-			Sexe
-			Localisation
-			Salons favoris
-			Commentaires
+			Age (* manque traduction)
+			Sexe (*)
+			Localisation (google maps API)
+			Salons favoris (salons enregistrés seulement ? à étudier)
+			Commentaires (repomper le code des news)
 		Photos
-			Avatar (Gravatar)
+			Avatar (Gravatar / Avatarify, mettre en forme, revoir l'helper gravatar)
 		Amis
 	- News
 		Catégorie (*)
-		Commentaires (* manque report utilisateurs/calcul spam)
+		Commentaires (* manque report utilisateurs/calcul spam, manque message annonçant modération du commentaire : non visible de suite)
 		Archives (* manque cosmétique)
 	- Quotes
 		Catégorie
+		Score
 		Auteur
 		Salon lié
 
@@ -31,6 +32,7 @@ Spécifications site IRCube
 			Signaler photo incorrecte
 		Groupe (niveau de l'utilisateur)
 		Page de monitoring (Links site <-> Z)
+		Statistiques
 	- News
 		Publication/Edition (*)
 		Gestion des catégories (utile ?)

@@ -96,6 +96,16 @@ class GravatarHelper extends AppHelper {
 			}
 			return '';
 		}
+		
+		function ircube_avatar($userProfile, $options = array()) {
+			if(!is_file(IMAGES . 'upload' . DS . 'avatar' . DS . low($userProfile['username']) . '.png')) {
+				/* No picture set, use gravatar */
+				return $this->image($userProfile['mail'], $options);
+			}
+			else {
+				return $this->Html->image('upload' . DS . 'avatar' . DS . low($userProfile['username']) . '.png', $options);
+			}
+		}
 
 	}
 ?>

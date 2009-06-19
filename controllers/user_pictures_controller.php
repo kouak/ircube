@@ -6,9 +6,8 @@ class UserPicturesController extends AppController {
 	var $uses = array('UserPicture', 'UserProfile');
 	
 	function beforeFilter() {
-        
 		if ($this->action == 'upload') {
-			$this->log($this->params);
+			/* SWFUpload hack */
 			if(isset($this->params['url']['PHPSESSID'])) {
 				$this->Session->id($this->params['url']['PHPSESSID']);
 	            $this->Session->start();
@@ -26,7 +25,7 @@ class UserPicturesController extends AppController {
 	
 	function admin_index() {
 		$this->paginate = array(
-			'limit' => 2,
+			'limit' => 30,
 			'order' => array(
 				'UserPicture.created' => 'desc'
 				),
@@ -102,6 +101,19 @@ class UserPicturesController extends AppController {
 		}
 	}
 	
+	function admin_delete() {
+		if($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
+			if(isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id'])) {
+				$this->UserPicture->id = $id;
+				$this->UserPicture->read();
+				$this->UserPicture->delete();
+				$this->set('ajaxMessage', 'success');
+				$this->render(null, 'ajax', '/ajaxempty');
+			}
+		}
+	}
+	
     function avatarify($id=null) {
 		if($id == null) {
 			$this->redirect('/');
@@ -117,7 +129,7 @@ class UserPicturesController extends AppController {
 		}
 		
 		if($UserPicture['UserPicture']['user_profile_id'] != $this->Auth->user('id')) {
-			$this->redirect('/');
+			$this->deny();
 		}
 		if (!empty($this->data)) {
 			$settings = array(
@@ -132,11 +144,50 @@ class UserPicturesController extends AppController {
 				$this->Session->setFlash(__('Oops ! Quelque chose s\'est mal passé pendant la création de votre avatar !', true), 'messages/failure');
 			} else {
 				$this->Session->setFlash(__('Admirez votre superbe nouvel avatar !', true), 'messages/success');
-				$this->redirect(array('controller' => 'user_profiles', 'action' => 'view', 'username' => $this->Auth->user('username')));
+				$this->redirect(array('controller' => 'user_profiles', 'action' => 'dashboard'));
 			}
 		}
 		
 		$this->set('UserPicture', $UserPicture);
+	}
+	
+	function avatar() {
+		if($this->Auth->user('id') >= 0) {
+			$this->UserProfile->contain(array('Picture', 'Avatar'));
+			if(empty($this->data)) {
+				$this->set('userProfile', $this->UserProfile->findById($this->Auth->user('id')));
+			}
+		}
+		else {
+			$this->deny();
+		}
+	}
+	
+	function use_gravatar() {
+		if($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
+			$this->set('ajaxMessage', 'success');
+			if($this->Auth->user('id') > 0) {
+				if(is_file(($file = $this->UserPicture->avatarPath(low($this->Auth->user('username')) . '.png')))) {
+					unlink($file);
+					$this->set('ajaxMessage', 'success');
+				}
+			}
+			$this->render(null, 'ajax', '/ajaxempty');
+		}
+		else {
+			$this->redirect('/');
+		}
+	}
+	
+	function avatar_from_gallery() {
+		$id = $this->Auth->user('id');
+		if($id <= 0) {
+			$this->deny();
+		}
+		$this->UserProfile->contain(array('Picture'));
+		$bla = $this->UserProfile->findById($id);
+		$this->set($bla);
 	}
 	
 	function index() {
@@ -155,12 +206,6 @@ class UserPicturesController extends AppController {
 			$this->redirect('/');
 		}
 		$this->set($bla);
-	}
-	
-	function avatar_step3() {
-		$bla = $this->JqImgcrop->cropImage(150, $this->data['UserPicture']['x1'], $this->data['UserPicture']['y1'], $this->data['UserPicture']['x2'], $this->data['UserPicture']['y2'], $this->data['UserPicture']['w'], $this->data['UserPicture']['h'], $this->data['UserPicture']['imagePath'], $this->data['UserPicture']['imagePath']);
-		debug($bla);
-		
 	}
 	
 }

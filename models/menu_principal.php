@@ -3,13 +3,12 @@ class MenuPrincipal extends AppModel {
 	var $name = 'MenuPrincipal';
 	var $useTable = false;
 	
-	function makeAdminMenu($actual) {
+	function makeAdminMenu($actual = null) {
 		return $this->makeMenu($actual, 'menu_admin.xml');
 	}
 	
 	function makeMenu($actual = null, $filename = 'menu_principal.xml') {
-		if ($actual == null)
-		{
+		if ($actual == null) {
 			$actual = 'accueil';
 		}
 		App::import('Xml');
@@ -25,7 +24,7 @@ class MenuPrincipal extends AppModel {
 
 		/* Add actual key */
 		foreach($menu as $key => $value) {
-			if($actual == $value['id']) {
+			if(low($actual) == low($value['id'])) {
 				$menu[$key]['actual'] = 1;
 				break;
 			}

@@ -1,0 +1,328 @@
+/* CSS Document */
+
+/*
+Couleurs :
+- Bleu très foncé : #0066CC;
+- Bleu foncé : #98CBE6
+- Bleu moyen : #AFE2FD
+- Bleu clair : #CCEDFF
+- Bleu très clair : #DEEDF5
+- Violet foncé : #760473
+- Violet moyen : #B863B4
+- Violet clair : #F9D3FA
+- Violet très clair : #FEE7FF
+- Orange foncé : #FFCA00
+- Orange très clair : #FFFEB8
+- Gris très clair : #F0F0F0
+- Gris clair : #DBDBDB
+- Gris foncé : #999999
+*/
+
+
+/* Couleurs v2 :
+- Gris bleuté foncé++ : #333E47
+- Gris bleuté foncé : #586B7A
+- Gris bleuté moyen : #94B3C5
+- Gris moyen : #A6A69B
+- Vert pomme : #ABC507
+- Vert pomme léger : #F8FFC9
+- Rouge orangé : #FF4A12
+- Rouge orangé foncé : #7F2509
+- Rouge sang : #820F00
+- Blanc cassé : #FEF6E2
+- Bleu ciel : #74C6F1
+- Rouge orangé clair: #FFD582
+- Rouge orangé très clair : #FFEFCE
+*/
+
+/* Masquer les logs SQL */
+#cakeSqlLog {
+/*	display:visible; */
+}
+
+/* Formatage par défaut des balises de texte */
+body {
+	color: #000;
+	background-color: #FFF;
+}
+h1 {
+	font-size: 2.5em;
+	font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+	color: #586B7A;
+}
+
+a {
+	color: #586B7A;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #FF4A12;
+	text-decoration: underline;
+}
+
+/* Conteneur de la page (permet de centrer) */
+#background {
+	width: 100%;
+	margin-top: 10px;
+}
+
+
+#header {
+}
+
+#header-background {
+	margin: 0;
+	border-top: 1px solid #586B7A;
+	width: 100%;
+	background-color: #586B7A;
+}
+
+/*** Entete ***/
+#loginbar span {
+	font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+	display: block;
+	float: right;
+	padding: 0 10px;
+	margin: 10px 0;
+	text-align: right;
+	background-color: #ABC507;
+	color: #FEF6E2;
+	font-size: 1.4em;
+}
+
+#loginbar a {
+	color: #FEF6E2;
+	text-decoration: none;
+}
+
+#loginbar a:hover {
+	color: #FF4A12;
+}
+#search {
+
+}
+
+/* Bannière */
+
+
+
+#footer {
+	background-color: #DBDBDB;
+	border-top: 3px solid #999999;
+	border-bottom: 1px solid #999999;
+}
+
+#partners {
+
+}
+
+/****** Gestion du menu ******/
+
+#menubar {
+	padding: 0;
+	margin: 0;
+}
+
+/*1st level elements*/
+#menubar ul
+{
+	margin: 0;
+	padding: 0;
+	list-style:none;
+}
+
+#menubar li {
+	/* background: transparent url('/img/menu_green_left_slide.gif') bottom left no-repeat; */
+
+	display: block;
+	float: left;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+}
+
+#menubar li.last {
+	border-right: 0;
+}
+
+#menubar li.clicked, #menubar li:hover {
+	/* background: transparent url('/img/menu_orange_left_slide.gif') bottom left no-repeat; */
+	background: #FF4A12;
+}
+
+#menubar li.main_active a {
+	/* background: transparent url('/img/menu_orange_right.gif') bottom right no-repeat; */
+
+}
+/* 1st level text */
+#menubar li a, #menubar li span {
+	text-transform: uppercase;
+	font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+	/* background: transparent url('/img/menu_green_right.gif') bottom right no-repeat; */
+	height: 100%;
+	text-decoration: none;
+	font-size: 1.5em;
+	color: #FEF6E2;
+	height: 100%;
+	margin: 0;
+	padding: 0 0.5em;
+	display: block;
+}
+
+/* 2nd level elements */
+
+#submenubar-background {
+	width: 100%;
+	background-color: #94B3C5;
+}
+
+#submenubar {
+	padding: 0;
+	margin: 0;
+}
+
+#submenubar ul
+{
+	padding: 0;
+	margin: 0;
+	list-style:none;
+}
+
+#submenubar li {
+	margin: 0 10px 4px 0;
+	float: left;
+	padding: 0;
+}
+
+#submenubar li a {
+	font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+	background: none;
+	font-size: 1.3em;
+	display: block;
+	color: #333E47;
+	margin: 0;
+	padding: 0 10px 0 10px;
+	text-align: center;
+	line-height: 1.8em;
+	text-decoration: none;
+	height: 100%;
+}
+
+#submenubar li a:hover, #submenubar li a:active {
+	color: #CC3B0E;
+	text-decoration: underline;
+}
+
+#submenubar li.subitem_active a {
+	color: #CC3B0E;
+	
+}
+
+/*** Messages ***/
+/* Messages de page */
+.page_error {
+	border-top: 1px solid #FF8080;
+	border-bottom: 1px solid #FF8080;
+	background-color: #FFDDDD ;
+	text-align: center;
+	font-weight: bold;
+	padding: 2px 0 ;
+}
+
+.page_done {
+	border-top: 1px solid #9FFC67;
+	border-bottom: 1px solid #9FFC67;
+	background-color: #DAFCC6 ;
+	text-align: center;
+	font-weight: bold;
+	padding: 2px 0 ;
+}
+
+.page_information {
+	background-color: #FFFFE8;
+	border-top: 1px solid #FFFF80;
+	border-bottom: 1px solid #FFFF80;
+	text-align: center;i
+	font-weight: bold;
+	padding: 2px 0 ;
+}
+
+/* Messages de formulaire */
+.error_message {
+	color: #FF0000;
+	font-weight: bold;
+	margin: 2px 0 ;
+}
+
+.error_field {
+	background-color:black;
+}
+
+/* Classes permettant de générer les barres de titre arrondies */
+#baseline {
+	margin: 5px ;
+}
+
+#baseline ul, #baseline li {
+	display: inline ;
+}
+.mnp_nom_reseau {
+	display: inline;
+	margin: 0;
+}
+.mnp_liste_sites {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.mnp_lien{
+	display: inline ;
+	margin: 0 3px 0 3px;
+}
+
+/* Thumbnails (IrcubeHelper) */
+
+div.thumbnail {
+	position: relative;
+	border: 1px solid #999;
+	float: left;
+	margin: 5px;
+	text-align: center;
+	background-color: #DDD;
+}
+
+/* How about FUCK IE hu ? */
+div.thumbnail:hover {
+	/*background-color: #EEE;*/
+}
+
+div.thumbnail span {
+	display: table-cell;
+	width: 160px;
+	height: 160px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+div.thumbnail img {
+	vertical-align: middle;
+}
+
+
+/* setFlash() layouts */
+#authMessage.message, .failure_message
+{
+    background: #ffcccc;
+    border: solid 1px #cc3333;
+    padding: 8px;
+	margin-bottom: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+#authMessage span#create_account {
+	font-weight: normal;
+	border: 1px solid blue;
+}

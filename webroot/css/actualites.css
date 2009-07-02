@@ -11,84 +11,67 @@ div.title {
 	width: 200px;
 }
 
-#left_zone {
-	width: 480px; 
-}
-
-#right_zone {
-	width: 290px;
-}
-
-a.calendrier {
-	font-size: 10px;
-	font-weight: bold;
-	font-family: Verdana, Helvetica;
-	text-decoration: none;
-}
-a.calendrier:hover {
-	text-decoration: underline;
-}
-
 /* Bloc news */
 #news_bloc {
 	clear:both;
-	margin: 10px 0 0 0;
 }
 
 #news_bloc .news_header {
-	width: 100%;
-	height: 30px;
-	background-image: url("/img/news_right.gif");
-	background-position: right;
-	background-repeat: no-repeat;
+	height: 4em;
 }
 
 #news_bloc .news_date {
 	float: left;
-	padding: 0 6px;
-	height: 30px;
-	width: 60px;
-	background-image: url("/img/news_left.gif");
-	background-position: left;
-	background-repeat: no-repeat;
+	padding: 0;
+	margin: 0;
+	height: 100%;
 }
 
 #news_bloc .news_date_day {
-	font-size: 26px;
+	font-size: 2.8em;
+	line-height: 1.427em;
 	margin: 0;
+	margin-left: 10px;
 	padding:0;
-	float:left;
-	color: #FFFFFF;
+	float: left;
+	display: inline;
+	color: #FEF6E2;
 }
 
 #news_bloc .news_date_my {
-	margin: 0;
-	padding:3px;
-	float:left;
-	width: 20px;
-	font-size: 9px;
+	margin-top: 0.55em;
+	margin-left: 6px;
+	font-size:1.3em;
+	line-height: 1em;
+	float: left;
+	overflow: hidden;
+	display: inline;
+	padding: 0;
+	color: #586B7A;
 }
 
 #news_bloc .news_title {
 	float: left;
 	margin: 0;
-	height: 30px;
-	padding: 0 0 0 10px;
+	padding: 0;
 }
 
-#news_bloc .news_title p {
-	font-size: 10px;
-	margin: 0;
-	padding: 0;
+#news_bloc .news_title a {
+	color: #333E47;
 }
 
 #news_bloc .news_title h2 {
 	margin: 0;
+	margin-left: 10px;
+	font-family: Helvetica, Arial, sans-serif;
 	padding: 0;
+	font-size: 2em;
+	line-height: 2em; /* Height / font-size */
 }
 
 #news_bloc .news_content {
 	clear: both;
+	font-size: 1.2em;
 	padding : 10px 0 0 0;
 	text-align: justify;
 }
@@ -107,24 +90,24 @@ a.calendrier:hover {
 #news_bloc .news_header {
 	background-color: #FFFEB8;
 }
-
-#news_bloc .info .news_date {
-	background-color: #98CBE6;
-}
 #news_bloc .info .news_header {
-	background-color: #DEEDF5;
+	background-color: #FFD582;
 }
+#news_bloc .info .news_date {
+	background-color: #FF4A12;
+}
+
 #news_bloc .evenement .news_date {
-	background-color: #B863B4;
+	background-color: #ABC507;
 }
 #news_bloc .evenement .news_header {
-	background-color: #F9D3FA;
+	background-color: #CFE069;
 }
 #news_bloc .reseau .news_date {
-	background-color: #FFCA00;
+	background-color: #74C6F1;
 }
 #news_bloc .reseau .news_header {
-	background-color: #FFFEB8;
+	background-color: #CCEBFF;
 }
 #news_bloc .unpublished .news_date {
 	background-color: #ddd;

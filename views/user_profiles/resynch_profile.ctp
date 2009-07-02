@@ -1,12 +1,9 @@
-<h1>Informations sur votre compte Z actuel :</h1>
 <?php
-    echo $form->create('UserProfile', array('action' => 'resynch_profile'));
-	echo $form->input('User.username');
-	echo $form->input('User.password', array('value' => ''));
-?>
-<h1>Informations sur votre ancien profil :</h1>
-<?php
-	echo $form->input('UserProfile.username');
-	echo $form->input('UserProfile.password', array('value' => ''));
-	echo $form->end(__('Ok', true));
+    echo $uniForm->create('UserProfile', array('action' => 'resynch_profile', 'fieldset' => __('Informations sur votre compte Z actuel', true)));
+	echo $uniForm->input('User.username');
+	echo $uniForm->input('User.password', array('value' => '', 'label' => __('Mot de passe', true)));
+	echo $uniForm->fieldset(__('Informations sur votre ancien profil', true));
+	echo $uniForm->input('UserProfile.username');
+	echo $uniForm->input('UserProfile.password', array('value' => '', 'label' => __('Mot de passe', true)));
+	echo $uniForm->end(__('Ok', true));
 ?>

@@ -1,5 +1,5 @@
 <?php
-$javascript->link(array('jquery/jquery-cakephp-pagination'), false);
+$javascript->link(array('jquery/jquery-cakephp-pagination', 'actualites-corners'), false);
 $html->css(array('actualites', 'loading'), null, array(), false);
 /* Set modulus here */
 ?>
@@ -22,6 +22,13 @@ function attachPublishjQuery(a) {
  
 $(document).ready(function() {
 	loadPiece("<?php echo $html->url(array('controller'=>'news','action'=>'admin_index', 'admin' => true));?>","#news_bloc", function() {
+		
+		/* Curvy corners */
+		
+		$('#news_bloc .news_header ').corners("10px");
+		$('#news_bloc .news_date ').corners("10px left");
+		
+		/* Hide */
 		$('.news_content').hide();
 
 		$('div.news_header img.collapse').hide();

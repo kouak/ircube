@@ -14,6 +14,7 @@ class NewsController extends AppController {
 		);
 		
 	function beforeFilter() {
+		$this->placename = 'news';
 		parent::beforeFilter();
 		$canEdit = false;
 		$this->set('canEdit', $canEdit);
@@ -43,7 +44,6 @@ class NewsController extends AppController {
 	}
 	
 	function admin_index() {
-		//$this->placename = 'actualites';
 		if($this->RequestHandler->isAjax()) {
 			$this->paginate = array(
 				'limit' => 10,
@@ -63,7 +63,7 @@ class NewsController extends AppController {
 	
 	function index($c = null)
 	{
-		$this->placename = 'actualites';
+		$this->placename = 'news';
 		$this->paginate = array(
 			'limit' => 3,
 				'conditions' => array('News.published' => 1),
@@ -222,8 +222,6 @@ class NewsController extends AppController {
 			$this->redirect(array('action'=>'index'), 301);
 		}
 		
-		$this->placename = 'actualites';
-		
 		$this->News->contain(array('NewsType',
 									'NewsComment' => array(
 										'conditions'=> array('NewsComment.published' => 1),
@@ -257,6 +255,7 @@ class NewsController extends AppController {
 	}
 	
 	function admin_edit($id = null) {
+		$this->placename = 'postnews';
 		if (!empty($this->data)) {
 			if(isset($id)) { /* Edit mode, keep current author */
 				unset($this->data['News']['user_profile_id']);

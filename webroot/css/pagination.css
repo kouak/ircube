@@ -9,20 +9,21 @@ div.paging {
 div.paging a {
 	padding: 2px 5px 2px 5px;
 	margin: 2px;
-	border: 1px solid #AAAADD;
+	border: 1px solid #586B7A;
 	text-decoration: none; /* no underline */
-	color: #0066CC;
+	color: #586B7A;
 }
 div.paging a:hover, div.paging a:active {
-	border: 1px solid #0066CC;
-	background-color: #DEEDF5;
+	border: 1px solid #586B7A;
+	background-color: #ABC507;
+	color: #fff;
 }
 div.paging span.current {
 	padding: 2px 5px 2px 5px;
 	margin: 2px;
-	border: 1px solid #0066CC;
+	border: 1px solid #ABC507;
 	font-weight: bold;
-	background-color: #0066CC;
+	background-color: #ABC507;
 	color: #FFF;
 }
 div.paging div.disabled {

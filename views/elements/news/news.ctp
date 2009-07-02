@@ -1,15 +1,16 @@
 <?php
 /* A news without comments */
 $html->css(array('actualites'), null, array(), false);
+$javascript->link(array('actualites-corners'), false);
 ?>
 <div class="clear"></div>
-<div class="news <?php echo $news['NewsType']['classe']; ?>">
-	<div class="news_header">
-		<div class="news_date">
-			<p class="news_date_day"><?php echo $time->format('d', $news['News']['created']); ?></p>
-			<p class="news_date_my"><?php echo up($time->format('M', $news['News']['created'])) . ' ' . $time->format('Y', $news['News']['created']);?></p>
+<div class="container news <?php echo $news['NewsType']['classe']; ?>">
+	<div class="news_header span-24 last container">
+		<div class="news_date span-3">
+			<span class="news_date_day"><?php echo $time->format('d', $news['News']['created']); ?></span>
+			<span class="news_date_my"><?php echo up($time->format('M', $news['News']['created'])) . '<br />' . $time->format('Y', $news['News']['created']);?></span>
 		</div>
-		<div class="news_title"><h2><?php echo $html->link($news['News']['title'],
+		<div class="news_title span-21 last"><h2><?php echo $html->link($news['News']['title'],
 											array(
 										    'controller' => 'news',
 										    'action' => 'view',
@@ -17,31 +18,7 @@ $html->css(array('actualites'), null, array(), false);
 										    'slug' => $news['News']['permalink'],
 											)
 										);
-				?></h2><?php
-					if(!empty($news['NewsType']['titre']))
-						echo '<p>'
-							.__('Catégorie : ', true)
-							.$html->link($news['NewsType']['titre'],
-														array('controller' => 'news', 'action' => 'index', 'cat' => $news['NewsType']['titre'])
-														)
-							."</p>\n";
-							
-		?></div>
-		<div class="fright" style="margin: 2px">
-			<?php
-			if($adminPanel == true) {
-				echo $html->link($html->image('edit.png'),
-								array('controller' => 'news', 'action' => 'edit', $news['News']['id']),
-								array('escape' => false,)
-								);
-
-				echo $html->link($html->image('delete.png'),
-								array('controller' => 'news', 'action' => 'delete', $news['News']['id']),
-								array('escape' => false),
-								__('Etes-vous sûr ?', true)
-								);
-			}
-			?>
+				?></h2>
 		</div>
 	</div>
 	<div class="clear"></div>
@@ -58,13 +35,12 @@ $html->css(array('actualites'), null, array(), false);
 		    'slug' => $news['News']['permalink'] . '#comments',
 			)
 		);
-		echo ' - ';
-		echo $html->link(__('Permalien', true),
-											array(
-										    'controller' => 'news',
-										    'action' => 'view',
-										    'id' => $news['News']['id'],
-										    'slug' => $news['News']['permalink'],
-										)); ?> - <?php echo __('Posté par ', true) . $profileHelper->link(null, $news['Author']); ?>
+		if(!empty($news['NewsType']['titre'])) {
+			echo ' - '
+				.$html->link($news['NewsType']['titre'],
+							array('controller' => 'news', 'action' => 'index', 'cat' => $news['NewsType']['titre'])
+							);
+		}
+		?> - <?php echo __('Posté par ', true) . $profileHelper->link(null, $news['Author']);?>
 	</div>
 </div>

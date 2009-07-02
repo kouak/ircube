@@ -13,10 +13,10 @@ $(document).ready(function() {
 });
 </script>
 <?php
-echo $form->create('NewsComment', array('url' => array('controller' => 'news_comments', 'action' => 'add')));
-echo $form->input('NewsComment.news_id', array('type' => 'hidden', 'value' => $news_id));
-echo $form->input('NewsComment.content', array('label' => false));
+echo $uniForm->create('NewsComment', array('url' => array('controller' => 'news_comments', 'action' => 'add'), 'fieldset' => array('blockLabels' => false)));
+echo $uniForm->input('NewsComment.news_id', array('type' => 'hidden', 'value' => $news_id));
+echo $uniForm->input('NewsComment.content', array('label' => __('Commentaire', true)));
 //echo $form->input('NewsComment.user_profile_id', array('style' => 'display: none;', 'label' => 'none'));
-echo $form->submit();
-echo $form->end();
+echo $uniForm->submit();
+echo $uniForm->end();
 ?>

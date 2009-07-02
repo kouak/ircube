@@ -8,6 +8,7 @@ class UserProfilesController extends AppController {
 	
 	function beforeFilter() {
 		$this->Auth->allow('login', 'logout', 'autoComplete');
+		$this->placename = 'communauté';
 		parent::beforeFilter();
 	}
 	
@@ -181,10 +182,6 @@ class UserProfilesController extends AppController {
 				if ($this->UserProfile->save($this->data, array('fieldlist' => array_diff(array_keys($this->UserProfile->schema()), $blackList)))) {
 					$this->Session->setFlash(__('Votre fiche a été sauvegardée', true), 'messages/success');
 					$this->redirect(array('controller' => 'user_profiles', 'action'=>'view', 'username' => $this->Auth->user('username')));
-				} 
-				else {
-					debug('CACA');
-					$this->Session->setFlash(__('Une erreur s\'est produite, corrigez les erreurs indiquées', true), 'messages/failure');
 				}
 			}
 			else {
@@ -200,7 +197,8 @@ class UserProfilesController extends AppController {
 	}
 
 	function logout() {
-		$this->redirect($this->Auth->logout());
+		$this->Auth->logout();
+		$this->redirect('/');
 	}
 }
 ?>

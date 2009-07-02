@@ -7,6 +7,7 @@ class NewsCommentsController extends AppController {
 	var $uses = array('News', 'NewsComment', 'NewsType');
 
 	function admin_index() {
+		$this->placename = 'lastcomments';
 		if($this->RequestHandler->isAjax()) {
 			$this->paginate = array(
 				'limit' => 10,

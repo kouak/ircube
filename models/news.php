@@ -90,6 +90,18 @@ class News extends AppModel {
 		return true;
 	}
 	
+	function latest() {
+		$this->contain(array('NewsType'));					
+		return $this->find('all', array('limit' => 5,
+										'fields' => array('id', 'created', 'title', 'permalink'),
+										'conditions' => array('News.published' => 1),
+										'order' => array(
+													'News.created' => 'desc'
+												)
+										)
+							);
+	}
+	
 	
 	/* Create slugs for news without it */
 	function createAllPermalinks() {

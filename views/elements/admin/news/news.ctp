@@ -1,36 +1,28 @@
 <div class="clear"></div>
-<div class="news <?php 
+<div class="container news <?php 
 	if($news['News']['published'] == 0) {
 		echo "unpublished";
 	}
 	else {
 		echo $news['NewsType']['classe'];  
 	}?>">
-	<div class="news_header">
-		<div class="news_date">
-			<p class="news_date_day"><?php echo $time->format('d', $news['News']['created']); ?></p>
-			<p class="news_date_my"><?php echo up($time->format('M', $news['News']['created'])) . ' ' . $time->format('Y', $news['News']['created']);?></p>
+	<div class="news_header span-24 last container">
+		<div class="news_date span-3">
+			<span class="news_date_day"><?php echo $time->format('d', $news['News']['created']); ?></span>
+			<span class="news_date_my"><?php echo up($time->format('M', $news['News']['created'])) . '<br />' . $time->format('Y', $news['News']['created']);?></span>
 		</div>
-		<div class="news_title"><h2><?php echo $html->link($news['News']['title'],
+		<div class="news_title span-19"><h2><?php echo $html->link($news['News']['title'],
 											array(
 										    'controller' => 'news',
 										    'action' => 'view',
 										    'id' => $news['News']['id'],
 										    'slug' => $news['News']['permalink'],
-											'admin' => false
 											)
 										);
-				?></h2><?php
-					if(!empty($news['NewsType']['titre']))
-						echo '<p>'
-							.__('Catégorie : ', true)
-							.$html->link($news['NewsType']['titre'],
-														array('controller' => 'news', 'action' => 'index', 'cat' => $news['NewsType']['titre'], 'admin' => false)
-														)
-							."</p>\n";
-
-		?></div>
-		<div class="fright" style="margin: 2px">
+				?></h2>
+		</div>
+		<div class="span-2 last">
+			<span style="float: right; height: 16px; position: relative; top: 50%; margin-top: -8px; display:block; padding: 0;">
 			<?php
 				echo $html->image('zoomin.png', array('alt' => __('Voir', true), 'class' => 'expand'));
 				echo $html->image('zoomout.png', array('alt' => __('Cacher', true), 'class' => 'collapse'));
@@ -57,6 +49,7 @@
 								array('escape' => false, 'class' => 'delete')
 								);
 			?>
+			</span>
 		</div>
 	</div>
 	<div class="clear"></div>

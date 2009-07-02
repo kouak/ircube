@@ -1,6 +1,6 @@
 <?php
 class AppController extends Controller {
-	var $helpers = array('Html', 'Form', 'Session', 'Javascript', 'Text', 'ProfileHelper', 'Ircube', 'Time'); /* Html & Sessions already included */
+	var $helpers = array('Html', 'Form', 'UniForm', 'Session', 'Javascript', 'Text', 'ProfileHelper', 'Ircube', 'Time'); /* Html & Sessions already included */
 	var $uses = array('MenuPrincipal', 'UserProfile', 'User');
 	var $components = array('Acl', 'Auth', 'Session', 'RequestHandler');
 	var $placename; /* Utilisée par le menu principal : condition $placename == $label['id'] */

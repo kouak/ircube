@@ -35,7 +35,7 @@
  */
 	Router::parseExtensions('rss', 'json', 'xml');
 	
-	Router::connect('/', array('controller' => 'news', 'action' => 'home'));
+	Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 	Router::connect('/statistiques', array('controller' => 'pages', 'action' => 'display', 'statistiques'));
 	
 	Router::connect(

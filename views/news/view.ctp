@@ -41,7 +41,7 @@ $html->css(array('comments'), null, array(), false);
 	?>
 </div>
 <div class="clear"></div>
-<a name="comments" /><h2><?php printf(__('Commentaires (%d)', true), count($news['NewsComment'])); ?></h2>
+<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), count($news['NewsComment'])); ?></h2>
 <div class="clear"></div>
 <ol class="commentlist" id="commentlist">
 <?php

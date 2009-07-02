@@ -1,11 +1,11 @@
 <div class="news form">
-<?php echo $form->create('News', array('action' => 'edit'));?>
-	<fieldset>
- 		<legend><?php if($addnews == true) { __('Ajouter une news'); } else { __('Editer une news'); }?></legend>
-	<?php
-		echo $form->input('id');
-		echo $form->input('newstype_id', array('label' => __('Catégorie', true)));
-		echo $form->input('title', array('label' => __('Titre', true)));
+<?php
+if($addnews == true) { $legend =  __('Ajouter une news', true); } else { $legend = __('Editer une news', true); }
+
+		echo $uniForm->create('News', array('action' => 'edit', 'fieldset' => array('legend' => $legend, 'blockLabels' => true)));
+		echo $uniForm->input('id');
+		echo $uniForm->input('newstype_id', array('label' => __('Catégorie', true)));
+		echo $uniForm->input('title', array('label' => __('Titre', true)));
         echo $tinymce->input('content', array('label' => false, 'rows' => '30'), array(  
 		         'theme' => 'advanced',                                 
 		         "plugins" => "safari,style,paste,directionality,visualchars,nonbreaking,xhtmlxtras,inlinepopups,emotions", 
@@ -20,8 +20,7 @@
 				 'width' => '100%',
 
 		        ));
-		echo $form->input('News.published', array('label' => 'Publiée'));
-	?>
-	</fieldset>
-<?php echo $form->end('Envoyer');?>
+		echo $uniForm->input('News.published', array('label' => 'Publiée'));
+		echo $uniForm->end('Envoyer');
+?>
 </div>

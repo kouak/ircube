@@ -2,6 +2,7 @@
 class HomeController extends AppController {
 	var $name = 'Home';
 	var $uses = array();
+	var $helpers = array('gravatar');
 	
 	function index() {
 		$this->placename = 'Accueil';

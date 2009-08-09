@@ -63,6 +63,12 @@ class AppModel extends Model {
 		
 		return true;
 	}
+	
+	
+	public function equalsField($data, $field = '') {
+		return (isset($this->data[$this->name][$field]) && (current($data) == $this->data[$this->name][$field]));
+	}
+	
 
 }
 ?>

@@ -16,6 +16,10 @@ ol#commentlist li {
 	min-height: 100px;
 }
 
+.commentlist div.box {
+	min-height: 120px;
+}
+
 .commentlist div.comment-number {
 	float: left;
 	width: 15px;
@@ -47,14 +51,4 @@ ol#commentlist li {
 .commentlist cite {
 	margin: 0;
 	padding :0;
-}
-
-.comment-inside {
-
-}
-
-.comment-inside-alt {
-background-color: #FFFFFF;
-border: 1px solid #E6E6E6;
-padding: 10px;
 }

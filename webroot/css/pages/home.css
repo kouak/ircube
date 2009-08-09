@@ -1,36 +1,8 @@
-div#whatisircube div.box, div#chatform div.box {
+div#chatform div.box, div#whatisircube div.box {
+	height: 240px;
 	margin: 0;
 	padding: 0;
-	height: 240px
 }
-
-div#whatisircube h1, div#chatform h1 {
-	padding: 6px 20px;
-	margin: 0;
-}
-
-
-#whatisircube div.box {
-	border: 1px solid #ABC507;
-	background: #F8FFC9;
-}
-
-#chatform div.box {
-	border: 1px solid #FF4A12;
-	background: #FFEFCE;
-}
-
-#whatisircube h1 {
-	background: #ABC507;
-	color: #FFF;
-}
-
-#chatform h1 {
-	background: #FF4A12;
-	color: #FFF;
-}
-
-
 
 #chatform label, #chatform .label {
 	font-weight: bold;

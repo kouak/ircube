@@ -1,15 +1,9 @@
-<script type="text/javascript">
-$(function() {
-	$('div.box').corners("10px bottom");
-	$('#latestNews h1').corners("10px top");
-});
-</script>
 <?php
-$html->css(array('news/latest'), null, array(), false);
+echo $html->css(array('news/latest', 'ircube-boxes'), null, array(), false);
 ?>
-<div id="latestNews" class="<?php echo $class; ?>">
-				<h1><?php echo $html->link(__('Dernières nouvelles', true), array('controller' => 'news', 'action' => 'index')); ?></h1>
-				<div class="box">
+<div id="latestNews" class="ircube-box <?php echo $span; ?>">
+				<h2 class="<?php echo $class; ?>"><?php echo $html->link(__('Dernières nouvelles', true), array('controller' => 'news', 'action' => 'index')); ?></h2>
+				<div class="box <?php echo $class; ?>">
 					<ul>
 						<?php
 foreach ($latestNews as $news) {

@@ -1,6 +1,10 @@
-<h1><?php echo __('Tableau de bord : ', true) . $AuthUser['username']; ?></h1>
-
-<div id="avatar">
+<h1><?php echo sprintf(__('Bienvenue %s !', true), $AuthUser['username']); ?></h1>
+<?php
+echo $this->element('news/latest', array('span' => 'span-10 push-1', 'class' => 'orange', 'latestNews' => $latestNews));
+?>
+<div id="avatar" class="span-6 ircube-box">
+	<h3 class="blue">Votre avatar</h3>
+	<div class="box blue">
 		<?php
 	//		if($userProfiles['UserProfile']['avatar_id'] == 0) { /* Use gravatar */
 			if(!file_exists(IMAGES . DS . 'upload' . DS . 'avatar' . DS . ($avatar = low($AuthUser['username']) . '.png'))) {
@@ -10,6 +14,7 @@
 				echo $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . 'avatar' . DS . $avatar));
 			}
 		?>
+	</div>
 </div>
 <?php
 if(isset($gr) && $gr === true) {

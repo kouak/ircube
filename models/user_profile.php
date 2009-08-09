@@ -32,11 +32,77 @@ class UserProfile extends AppModel {
 			),
 			'Picture' => array('className' => 'UserPicture',
 							'foreignKey' => 'user_profile_id',
-							'conditions' => array('Picture.is_avatar' => false)
 			),
 		);
 	
-	var $validate = array( 
+	var $validate = array(
+			'username' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Veuillez saisir un pseudo',
+					'last' => true,
+					),
+				'firstChar' => array(
+					'rule' => array('custom', '@^([a-zA-Z]|_|`|\\{|\\[|]|}|\\||\\\\|\\^){1}.*@'),
+					'message' => 'Votre pseudo ne peut pas commencer par un chiffre ou un tiret',
+					'last' => true,
+					),
+				'ircNickname' => array(
+					'rule' => array('custom', '@^([a-zA-Z]|_|`|\\{|\\[|]|}|\\||\\\\|\\^){1}([a-zA-Z0-9]|_|`|\\{|\\[|]|}|\\||\\\\|-|\\^){1,19}$@'),
+					'message' => 'Ce pseudo est invalide',
+					'last' => true,
+					), /* handle wrong characters */
+				'isUnique' => array(
+					'rule' => 'isUnique',
+					'message' => 'Un profil existe déja avec cet username, utilisez l\'interface de récupération',
+					'last' => true,
+					),
+				'isUniqueExtended' => array(
+					'rule' => 'isUsernameAvailable',
+					'message' => 'Ce pseudo est déja utilisé',
+					'last' => true,
+					), /* Fails if user already registered, checks Z database */
+				),
+			'tmp-password' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Veuillez saisir un mot de passe',
+					'last' => true,
+					),
+				'minLength' => array(
+					'rule' => array('minLength', '7'),
+					'message' => 'Le mot de passe doit faire au moins 7 caractères',
+					'last' => true,
+					),
+				'equalsPassword' => array(
+					'rule' => array('equalsField', 'password-confirm'),
+					'message' => 'Les mots de passe doivent être identiques',
+					),
+				),
+			'password-confirm' => array(
+				'equalsPassword' => array(
+					'rule' => array('equalsField', 'tmp-password'),
+					'message' => 'Les mots de passe doivent être identiques',
+					),
+				),
+			'mail' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Veuillez saisir un email'
+					),
+				'validEmail' => array(
+					'rule' => 'email',
+					'message' => 'Cet email est invalide'
+					),
+				'isUniqueExtended' => array(
+					'rule' => 'isEmailAvailable',
+					'message' => 'Cet email est déja utilisé',
+					),
+				'isUnique' => array(
+					'rule' => 'isUnique',
+					'message' => 'Un profil existe déja avec cet email, utilisez l\'interface de récupération',
+					), /* Fails if user already registered, checks Z database */
+				),
 			'url' => array(
 				'rule' => 'url',
 				'message' => 'Lien non valide',
@@ -51,7 +117,6 @@ class UserProfile extends AppModel {
 				'message' => 'Sexe non valide'
 			),
 		);
-	
 	/* ACL */	
 		
 	function parentNode()
@@ -154,12 +219,45 @@ class UserProfile extends AppModel {
 		return $this->save(array('UserProfile' => $UserProfile));
 	}
 	
+	
+	
+	function isUsernameAvailable($data) {
+		$a = $this->User->findByUsername($data['username'], array('contain' => array()));
+		if(empty($a)) {
+			return true;
+		}
+		return false;
+	}
+	
+	function isEmailAvailable($data) {
+		$a = $this->User->findByMail($data['mail']);
+		if(empty($a)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public function equalsPassword($data, $field = '') {
+		$key = key($data);
+		$value = current($data);
+		$value = $this->hashPassword($value);
+		return $this->equalsField(array($key => $value), $field);
+	}
+	
 	/* Auth component hook */
 	function hashPasswords($data) {
 		if (is_array($data) && isset($data[$this->name]) && isset($data[$this->name]['password'])) {
 		    $data[$this->name]['password'] = $this->hashPassword($data[$this->name]['password']);
 		}
 		return $data;
+	}
+	
+	function registerAfterValidate() {
+		if(isset($this->data[$this->name]['tmp-password'])) {
+			$this->data[$this->name]['password'] = $this->hashPassword($this->data[$this->name]['tmp-password']);
+			unset($this->data[$this->name]['tmp-password']);
+		}
+		return;
 	}
 	
 	function hashPassword($password) {
@@ -191,5 +289,45 @@ class UserProfile extends AppModel {
 		}
 	    return $sign . $h; 
 	}
+	
+	function W2CRegister($data) {
+		/* Register an user with Z */
+		
+		if (!isset($this->data['NewUser']['id'])) {
+			$query = 'REGISTER '.$this->data['NewUser']['pseudo'].' '.$this->data['NewUser']['mail'].' '.$this->data['NewUser']['password'].' '. $this->data['NewUser']['ip'] ;
+
+			/* Envoi de la requête */
+			$w2c = new web2csService();
+			$w2c->connect();
+			if ($w2c->query($query)) {
+				$res = $w2c->get_result();
+				/* On récupère l'id pour la sauvegarde dans la bdd */
+				$this->data['NewUser']['id'] = $res['userid'] ;
+				$w2c->disconnect();
+				return true ;
+			} else {
+				/* Il y a eu une erreur dans la création, on stope l'enregistrement */
+				switch($w2c->get_error_code()) {
+					case 'USER_INUSE' : {
+						$this->invalidate('pseudo','Ce pseudonyme existe déjà, veuillez en saisir un autre');
+						break;
+					}
+					case 'USER_MAILINUSE' : {
+						$this->invalidate('mail','Cette adresse email est déjà utilisée par un utilisateur');
+						break;
+					}
+				}
+				$w2c->disconnect();
+				return false ;
+			}
+		} else {
+			/* Il a un identifiant : c'est une mise à jour */
+			/* A écrire (va falloir simplifier) */
+		}
+
+	}
+    
+	
+	
 }
 ?>

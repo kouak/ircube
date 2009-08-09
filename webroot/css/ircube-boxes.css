@@ -1,0 +1,99 @@
+div.ircube-box > h1 {
+	padding: 6px 20px;
+	margin: 0;
+}
+
+div.ircube-box > h2, div.ircube-box > h3 {
+	margin: 0;
+	padding: 0 20px;
+}
+
+div.ircube-box > h3 {
+	margin: 0;
+	padding: auto 20px;
+}
+
+/* Defaults */
+div.ircube-box > div {
+	border: 1px solid #ABC507;
+	background: #F8FFC9;
+}
+
+div.ircube-box > h1, div.ircube-box > h2, div.ircube-box > h3 {
+	background: #ABC507;
+	color: #FFF;
+}
+
+div.ircube-box > h1 > a, div.ircube-box > h2 > a, div.ircube-box > h3 > a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+div.ircube-box > h1 > a:hover, div.ircube-box > h2 > a:hover, div.ircube-box > h3 > a:hover {
+	text-decoration: underline;
+	color: #94B3C5;
+}
+
+/* Blue */
+div.ircube-box > div.blue {
+	border: 1px solid #333E47;
+	background: #E3F3FF;
+}
+
+div.ircube-box > h1.blue, div.ircube-box > h2.blue, div.ircube-box > h3.blue {
+	background: #333E47;
+	color: #FFF;
+}
+
+div.ircube-box > h1.blue > a, div.ircube-box > h2.blue > a, div.ircube-box > h3.blue > a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+div.ircube-box > h1.blue > a:hover, div.ircube-box > h2.blue > a:hover, div.ircube-box > h3.blue > a:hover {
+	text-decoration: underline;
+	color: #94B3C5;
+}
+
+
+/* Green */
+div.ircube-box > div.green {
+	border: 1px solid #ABC507;
+	background: #F8FFC9;
+}
+
+div.ircube-box > h1.green, div.ircube-box > h2.green, div.ircube-box > h3.green {
+	background: #ABC507;
+	color: #FFF;
+}
+
+div.ircube-box > h1.green > a, div.ircube-box > h2.green > a, div.ircube-box > h3.green > a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+div.ircube-box > h1.green > a:hover, div.ircube-box > h2.green > a:hover, div.ircube-box > h3.green > a:hover {
+	text-decoration: underline;
+	color: #F5FFB5;
+}
+
+/* Orange */
+div.ircube-box > div.orange {
+	border: 1px solid #FF4A12;
+	background: #FFEFCE;
+}
+
+div.ircube-box > h1.orange, div.ircube-box > h2.orange, div.ircube-box > h3.orange {
+	background: #FF4A12;
+	color: #FFF;
+}
+
+div.ircube-box > h1.orange > a, div.ircube-box > h2.orange > a, div.ircube-box > h3.orange > a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+div.ircube-box > h1.orange > a:hover, div.ircube-box > h2.orange > a:hover, div.ircube-box > h3.orange > a:hover {
+	text-decoration: underline;
+	color: #FFCF70;
+}

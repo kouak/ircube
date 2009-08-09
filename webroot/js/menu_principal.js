@@ -8,6 +8,11 @@ $(function() {
 		
 		var index = $(this).attr('id').charAt($(this).attr('id').length - 1);
 		
+		/* If it's a link, follow it and that's it */
+		if($(this).children('a').attr('href') != undefined) {
+			return true;
+		}
+
 		/* Add second line */
 		$('#submenubar > ul').hide();
 		$('#submenubar > ul#subitem' + index).show();

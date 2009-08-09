@@ -1,10 +1,10 @@
 <script type="text/javascript">
 function preview(img, selection)
 {
-	var scaleX = 100 / selection.width;
-	var scaleY = 100 / selection.height;
+	var scaleX = 100 / (selection.width || 1);
+	var scaleY = 100 / (selection.height || 1); 
 
-	$('#fullsize + div > img').css({
+	$('#avatarvalidation img').css({
 		width: Math.round(scaleX * img.width) + 'px',
 		height: Math.round(scaleY * img.height) + 'px',
 		marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
@@ -16,32 +16,40 @@ function preview(img, selection)
 	$('#h').val(selection.height);
 }
 
-$(document).ready(function () {
-	$('<div id="avatar-preview"><img src="' + $('#fullsize').attr('src') + '" style="position: relative;" /></div>')
-	.css({
-		float: 'left',
-		position: 'relative',
-		overflow: 'hidden',
-		width: '100px',
-		height: '100px'
-	})
-	.insertAfter($('#fullsize'));
+$(function() {
+	$('div.box').corners("10px bottom");
+	$('#avatarareaselect h1, #avatarvalidation h1').corners("10px top");
 });
 
 $(window).load(function () {
 	$('#fullsize').imgAreaSelect({ aspectRatio: '1:1', onSelectChange: preview });
 });
-
-
 </script>
 <?php
+$html->css(array('user_pictures/avatarify'), null, array(), false);
 $javascript->link('jquery/jquery.imgareaselect.js', false);
 echo $form->create(null, array('url' => $this->here));
 echo $form->hidden('x1', array("value" => "0", "id"=>"x1"));
 echo $form->hidden('y1', array("value" => "0", "id"=>"y1"));
 echo $form->hidden('w', array("value" => "0", "id"=>"w"));
 echo $form->hidden('h', array("value" => "0", "id"=>"h"));
-echo $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . $UserPicture['UserPicture']['filename']), array('id' => 'fullsize'));
-echo $form->submit('Done', array("id"=>"save_thumb")); 
+?>
+<div id="avatarareaselect" class="span-14 push-1">
+				<h1>Sélectionnez une partie de votre image</h1>
+				<div class="box">
+					<?php echo $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . $UserPicture['UserPicture']['filename']), array('id' => 'fullsize'));?>
+				</div>
+</div>
+<div id="avatarvalidation" class="span-6 push-1">
+	<h1>Créez votre avatar</h1>
+	<div class="box">
+		<?php
+			echo $ircube->thumbnailWrap($html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . $UserPicture['UserPicture']['filename'])));
+			echo $form->submit('Done', array("id"=>"save_thumb"));
+		?>
+	</div>
+
+</div>
+<?php
 echo $form->end();
 ?>

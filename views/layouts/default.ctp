@@ -13,6 +13,9 @@
 <script type="text/javascript">
 $(function() {
 	$('#loginbar span').corners("6px");
+	$('div.ircube-box > h1, div.ircube-box > h2, div.ircube-box > h3').corners("10px top");
+	$('div.ircube-box > div.noheader').corners("10px");
+	$('div.ircube-box > div.box').corners("10px bottom");
 });
 </script>
 
@@ -48,7 +51,7 @@ $(function() {
 				<span class="right">
 					<?php
 						if(isset($AuthUser) && $profileHelper->isLoggedIn($AuthUser)):
-							echo $html->link($AuthUser['username'], array('controller' => 'user_profiles', 'action' => 'dashboard')); ?> - <?php echo $html->link(__('Déconnexion', true), array('controller' => 'user_profiles', 'action' => 'logout')); ?>
+							echo $html->link($AuthUser['username'], array('controller' => 'home', 'action' => 'index')); ?> - <?php echo $html->link(__('Déconnexion', true), array('controller' => 'user_profiles', 'action' => 'logout')); ?>
 					<?php
 						else:
 							echo $html->link(__('Login', true), array('controller' => 'user_profiles', 'action' => 'login'));?> / <?php echo $html->link(__('J\'ai déja un compte Z', true), array('controller' => 'user_profiles', 'action' => 'create_profile'));

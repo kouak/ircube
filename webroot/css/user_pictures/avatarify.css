@@ -1,0 +1,51 @@
+div#avatarvalidation div.box, div#avatarareaselect div.box {
+	margin: 0;
+	padding: 0;
+}
+
+div#avatarvalidation h1, div#avatarareaselect h1 {
+	padding: 6px 20px;
+	text-align: center;
+	margin: 0;
+}
+
+#avatarvalidation div.box {
+	border: 1px solid #ABC507;
+	background: #F8FFC9;
+}
+
+#avatarareaselect div.box {
+	border: 1px solid #FF4A12;
+	background: #FFEFCE;
+}
+
+#avatarvalidation h1 {
+	background: #ABC507;
+	color: #FFF;
+}
+
+#avatarareaselect h1 {
+	background: #FF4A12;
+	color: #FFF;
+}
+
+#avatarareaselect div.box, #avatarvalidation div.box {
+	text-align: center;
+}
+
+#avatarareaselect div.box img {
+	margin: 5px;
+}
+
+#avatarvalidation .thumbnail {
+	margin: 15px;
+	float: none;
+}
+
+#avatarvalidation .thumbnail span {
+	display: block;
+	overflow: hidden;
+	margin: 15px auto;
+	width: 100px;
+	height: 100px;
+}

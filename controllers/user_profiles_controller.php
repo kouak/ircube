@@ -195,6 +195,21 @@ class UserProfilesController extends AppController {
 		}
 		
 	}
+	
+	function register() {
+		if(is_numeric($this->Auth->user('id'))) {
+			$this->redirect('/');
+			return;
+		}
+		if(!empty($this->data)) { /* Data posted */
+			if($this->UserProfile->set($this->data)) { /* Data validates */
+				if($this->UserProfile->validates() === true) {
+					$this->UserProfile->registerAfterValidate();
+					
+				}
+			}
+		}
+	}
 
 	function logout() {
 		$this->Auth->logout();

@@ -144,7 +144,8 @@ class UserPicturesController extends AppController {
 				$this->Session->setFlash(__('Oops ! Quelque chose s\'est mal passé pendant la création de votre avatar !', true), 'messages/failure');
 			} else {
 				$this->Session->setFlash(__('Admirez votre superbe nouvel avatar !', true), 'messages/success');
-				$this->redirect(array('controller' => 'user_profiles', 'action' => 'dashboard'));
+				$this->UserPicture->save(array('UserPicture' => array('id' => $UserPicture['UserPicture']['id'], 'is_avatar' => true)), false, array('id', 'is_avatar'));
+				$this->redirect(array('controller' => 'home', 'action' => 'index'));
 			}
 		}
 		
@@ -168,8 +169,7 @@ class UserPicturesController extends AppController {
 			Configure::write('debug', 0);
 			$this->set('ajaxMessage', 'success');
 			if($this->Auth->user('id') > 0) {
-				if(is_file(($file = $this->UserPicture->avatarPath(low($this->Auth->user('username')) . '.png')))) {
-					unlink($file);
+				if($this->UserPicture->removeAvatar($this->Auth->user('username'))) {
 					$this->set('ajaxMessage', 'success');
 				}
 			}

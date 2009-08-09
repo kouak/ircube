@@ -6,7 +6,7 @@ $(function() {
 
 });
 </script>
-<h1><?php echo __('Votre gallerie : ', true); ?></h1>
+<h1><?php echo __('Choisissez l\'image pour construire votre avatar', true); ?></h1>
 <div id="gallery">
 <?php
 foreach($picture as $i) {

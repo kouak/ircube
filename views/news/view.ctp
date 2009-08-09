@@ -1,5 +1,5 @@
 <?php
-$html->css(array('comments'), null, array(), false);
+$html->css(array('comments', 'ircube-boxes'), null, array(), false);
 ?>
 <h1><?php echo __('Archives des actualit&eacute;s :', true); ?></h1>
 <div class="paging">

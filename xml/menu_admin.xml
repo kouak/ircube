@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu name="principal">
-	<item id="actualités" label="News">
-		<item id="news" label="News" c="news" a="admin_index" />
-		<item id="postnews" label="Poster une news" c="news" a="admin_edit" />
-		<item id="lastcomments" label="Derniers commentaires" c="news_comments" a="admin_index" />
-	</item>
-	<item id="communaute" label="Communauté">
-		<item id="gallery" label="Photos" c="user_pictures" a="admin_index" />
-		<item id="utilisateurs" label="Utilisateurs" c="user_profiles" a="admin_index" />
-	</item>
+<menu>
+	<Topitem>
+		<title>News</title>
+		<label>actualités</label>
+		<Subitem>
+			<title>Actualités</title>
+			<label>actualités</label>
+			<Url>
+				<controller>news</controller>
+				<action>index</action>
+				<admin />
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Poster une news</title>
+			<label>Poster une news</label>
+			<Url>
+				<controller>news</controller>
+				<action>edit</action>
+				<admin />
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Derniers commentaires</title>
+			<label>lastcomments</label>
+			<Url>
+				<controller>news_comments</controller>
+				<action>index</action>
+				<admin />
+			</Url>
+		</Subitem>
+	</Topitem>
+	<Topitem>
+		<title>Communauté</title>
+		<label>communauté</label>
+		<Subitem>
+			<title>Dernières images</title>
+			<label>lastpictures</label>
+			<Url>
+				<controller>user_pictures</controller>
+				<action>index</action>
+				<admin />
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Derniers utilisateurs</title>
+			<label>lastusers</label>
+			<Url>
+				<controller>user_profiles</controller>
+				<action>index</action>
+				<admin />
+			</Url>
+		</Subitem>
+	</Topitem>
 </menu>

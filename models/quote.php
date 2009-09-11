@@ -1,27 +1,20 @@
 <?php
-class Access extends AppModel {
+class Quote extends AppModel {
 
-	var $name = 'Access';
-	
-	var $useTable = 'accesses';
+	var $name = 'Quote';
 	
 	var $actsAs = array('Containable');
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $belongsTo = array(
-		'Channel' => array(
-			'className' => 'Channel',
-			'foreignKey' => 'channel_id',
+		'UserProfile' => array(
+			'className' => 'UserProfile',
+			'foreignKey' => 'user_profile_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-		)
 	);
-	
 
 }
 ?>

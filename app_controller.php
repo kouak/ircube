@@ -51,7 +51,7 @@ class AppController extends Controller {
 			$this->set('AuthUser', array());
 		}
 		else { /* User is currently logged in */
-			$this->UserProfile->contain(array('User' => array('Data' => array('conditions' => array('Data.flag & 0x8'))))); /* Try to find current user suspend state */
+			$this->UserProfile->contain(array('User' => array('ObjectStatus' => array('conditions' => array('ObjectStatus.flag & 0x8'))))); /* Try to find current user suspend state */
 			$userProfile = $this->UserProfile->findById($this->Auth->user('id'));
 			
 			
@@ -83,9 +83,9 @@ class AppController extends Controller {
 			
 			if($this->UserProfile->User->isSuspended($userProfile)) { /* User is suspended */
 				$this->Session->setFlash(	'Votre compte a été suspendu.<br />' .
-											'Suspendu par : ' . $userProfile['User']['Data'][0]['sender'] . '<br />'.
-											'Expire : ' . $userProfile['User']['Data'][0]['expire'] . '<br />' .
-											'Raison : ' . $userProfile['User']['Data'][0]['raison'] . '<br />'
+											'Suspendu par : ' . $userProfile['User']['ObjectStatus'][0]['sender'] . '<br />'.
+											'Expire : ' . $userProfile['User']['ObjectStatus'][0]['expire'] . '<br />' .
+											'Raison : ' . $userProfile['User']['ObjectStatus'][0]['raison'] . '<br />'
 											);
 				$this->redirect($this->Auth->logout());
 			}
@@ -99,6 +99,12 @@ class AppController extends Controller {
 		}
 
     }
+	
+	/* Wrapper to manually deny access to some page, even if Acl says go */
+	function authDeny() {
+		$this->Session->setFlash($this->Auth->authError, 'default', array(), 'auth');
+		$this->redirect($this->referer(), null, true);
+	}
 
 }
 ?>

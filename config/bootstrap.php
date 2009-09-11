@@ -42,5 +42,22 @@
  * $controllerPaths = array('this path to controllers', 'second full path to controllers', 'etc...');
  *
  */
+
+if(!defined('DATACOND_CHAN'))
+	define('DATACOND_CHAN', "ObjectStatus.flag & 0x4");
+if(!defined('DATACOND_USER'))
+	define('DATACOND_USER', "ObjectStatus.flag & (0x8|0x10|0x20)");
+
+function cleanChannelName($channel, $options = array()) {
+	if($channel[0] == '#') {
+		$channel = substr($channel, 1);
+	}
+	if(isset($options['urlencode'])) {
+		$channel = urlencode($channel);
+	}
+	
+	return $channel;
+}
+
 //EOF
 ?>

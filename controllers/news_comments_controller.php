@@ -38,12 +38,13 @@ class NewsCommentsController extends AppController {
 			if(!empty($this->data)) {
 				Configure::write('debug', 0);
 				$this->data['NewsComment']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
-				$this->data['NewsComment']['published'] = 0;
+				/* TODO : read from configuration */
+				$this->data['NewsComment']['published'] = 1;
 				App::import('Sanitize'); /* Data sanitization */
 				$this->data['NewsComment']['content'] = Sanitize::html($this->data['NewsComment']['content']);
 				if($this->NewsComment->save($this->data, array('fieldList' => array('user_profile_id', 'content', 'news_id', 'published')))) {
-					debug($this->NewsComment->read());
-					$this->set('comment', $this->NewsComment->data);
+					$this->NewsComment->recursive = -1;
+					$this->set('comment', $this->NewsComment->read());
 					$this->render('ajax/add_comment_success', 'ajax');
 				}
 				else {

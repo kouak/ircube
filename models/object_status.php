@@ -1,11 +1,9 @@
 <?php
-if(!defined('DATACOND_CHAN'))
-	define('DATACOND_CHAN', "Data.flag & 0x4");
-if(!defined('DATACOND_USER'))
-	define('DATACOND_USER', "Data.flag & (0x8|0x10|0x20)");
-class Data extends AppModel {
+class ObjectStatus extends AppModel {
 
-	var $name = 'Data';
+	var $name = 'ObjectStatus';
+	var $useTable = 'datas';
+	
 	var $actsAs = array('Containable',
 						'Flaggable' => array(
 								'flags' => array(

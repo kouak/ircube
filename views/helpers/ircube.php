@@ -17,6 +17,18 @@ class IrcubeHelper extends AppHelper {
 	function thumbnailWrap($str, $class='thumbnail') {
 		return '<div class="'.$class.'"><span>' . $str . '</span></div>';
 	}
+	
+	function thumbnailCenterWrap($str) {
+		return $this->thumbnailWrap($str, 'thumbnail-center');
+	}
+	
+	function channelProfileUrl($channel) {
+		if($channel[0] == '#') {
+			$channel = substr($channel, 1);
+		}
+		return Router::url(array('controller' => 'channel_profiles', 'action' => 'view', 'channel' => $channel));
+		
+	}
 
 }
 

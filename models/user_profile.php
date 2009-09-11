@@ -34,6 +34,12 @@ class UserProfile extends AppModel {
 							'foreignKey' => 'user_profile_id',
 			),
 		);
+		
+	var $hasAndBelongsToMany = array(
+			'Channel' => array(
+				'joinTable' => 'channels_user_profiles',
+			),
+		);
 	
 	var $validate = array(
 			'username' => array(

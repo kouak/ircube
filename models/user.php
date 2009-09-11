@@ -1,7 +1,4 @@
 <?php
-if(!defined('DATACOND_USER'))
-	define('DATACOND_USER', "Data.flag & (0x8|0x10|0x20)");
-	
 class User extends AppModel {
 
 	var $name = 'User';
@@ -58,7 +55,24 @@ class User extends AppModel {
 						);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
+	/*var $hasMany = array(
+			'Data' => array('className' => 'Data',
+								'foreignKey' => 'object_id',
+								'dependent' => false,
+								'conditions' => DATACOND_USER,
+			),
+			'Access' => array('className' => 'Access',
+								'foreignKey' => 'user_id',
+								'dependent' => false
+			),
+	); */
+	
 	var $hasMany = array(
+			'ObjectStatus' => array('className' => 'ObjectStatus',
+								'foreignKey' => 'object_id',
+								'conditions' => DATACOND_USER,
+								'dependent' => false,
+			),
 			'Access' => array('className' => 'Access',
 								'foreignKey' => 'user_id',
 								'dependent' => false,
@@ -70,23 +84,6 @@ class User extends AppModel {
 								'exclusive' => '',
 								'finderQuery' => '',
 								'counterQuery' => ''
-			),
-			'Memo' => array('className' => 'Memo',
-								'foreignKey' => 'user_id',
-								'dependent' => false,
-								'conditions' => '',
-								'fields' => '',
-								'order' => '',
-								'limit' => '',
-								'offset' => '',
-								'exclusive' => '',
-								'finderQuery' => '',
-								'counterQuery' => ''
-			),
-			'Data' => array('className' => 'Data',
-								'foreignKey' => 'object_id',
-								'dependent' => false,
-								'conditions' => DATACOND_USER,
 			),
 	);
 	

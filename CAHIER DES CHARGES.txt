@@ -7,7 +7,7 @@ Spécifications site IRCube
 			Age (* manque traduction)
 			Sexe (*)
 			Localisation (google maps API)
-			Salons favoris (salons enregistrés seulement ? à étudier)
+			Salons favoris (*)
 			Commentaires (repomper le code des news)
 		Photos
 			Avatar (Gravatar / Avatarify, mettre en forme, revoir l'helper gravatar)

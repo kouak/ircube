@@ -1,5 +1,7 @@
 <?php
 class AppModel extends Model {
+	
+	var $recursive = -1;
 
 	function invalidate($field, $value = null) 
 	{

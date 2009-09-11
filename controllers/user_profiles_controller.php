@@ -33,7 +33,7 @@ class UserProfilesController extends AppController {
 			if(isset($this->data['User']['password'])) { /* Hash former password */
 				$this->data['User']['password'] = $this->UserProfile->hashPassword($this->data['User']['password']);
 			}
-			$this->UserProfile->contain(array('User' => array('Data' => array('conditions' => array('Data.flag & 0x8')))));
+			$this->UserProfile->contain(array('User' => array('ObjectStatus' => array('conditions' => array('ObjectStatus.flag & 0x8')))));
 			$userProfile = $this->UserProfile->findByUsername($this->data['UserProfile']['username']);
 			$this->User->contain(array());
 			$user = $this->User->findByUsername($this->data['User']['username']);
@@ -84,11 +84,11 @@ class UserProfilesController extends AppController {
 				$this->data['User']['password'] = $this->UserProfile->hashPassword($this->data['User']['password']);
 			}
 			
-			$this->UserProfile->contain(array('User' => array('Data' => array('conditions' => array('Data.flag & 0x8'))))); /* Find relevant userProfile */
+			$this->UserProfile->contain(array('User' => array('ObjectStatus' => array('conditions' => array('ObjectStatus.flag & 0x8'))))); /* Find relevant userProfile */
 			$userProfile = $this->UserProfile->findByUsername($this->data['User']['username']);
 			
 
-			$this->User->contain(array('UserProfile', 'Data' => array('conditions' => array('Data.flag & 0x8'))));
+			$this->User->contain(array('UserProfile', 'ObjectStatus' => array('conditions' => array('ObjectStatus.flag & 0x8'))));
 			$user = $this->User->findByUsername($this->data['User']['username']);
 			if(empty($user) || $user['User']['password'] != $this->data['User']['password'] || $this->User->isSuspended($user)) {
 				$this->User->invalidate('password', __('Mot de passe invalide', true)); /* Let the user know that password is invalid */
@@ -134,14 +134,13 @@ class UserProfilesController extends AppController {
 		if($username == null) {
 			$this->redirect(array('action'=>'index'), 301);
 		}
-		$this->UserProfile->contain(array('Avatar'));
+		$this->UserProfile->contain(array('Avatar', 'Channel' => array('id', 'channel')));
 		$userProfile = $this->UserProfile->find('first', array('conditions' => array('UserProfile.active' => 1, 'UserProfile.username' => $username)));
 		if(empty($userProfile)) {
 			$this->Session->setFlash(__('Cet utilisateur n\'existe pas', true), 'messages/failure');
 			$this->redirect(array('action' => 'index'), 303);
 		}
 		$this->set('userProfiles', $userProfile);
-		$this->set('grav', $this->User->find('list', array('fields' => array('mail'))));
 	}
 	
 	function login() {
@@ -151,7 +150,7 @@ class UserProfilesController extends AppController {
 			return;
 		}
 		if(!empty($this->data)) { /* Login submitted and user not logged in => try to redirect him */
-			$this->UserProfile->contain(array('User' => array('Data' => array('conditions' => array('Data.flag & 0x8')))));
+			$this->UserProfile->contain(array('User' => array('ObjectStatus' => array('conditions' => array('ObjectStatus.flag & 0x8')))));
 			$userProfile = $this->UserProfile->findByUsername($this->data['UserProfile']['username']);
 			if(empty($userProfile)) { /* No profile yet */
 				$this->User->contain(array());
@@ -186,6 +185,7 @@ class UserProfilesController extends AppController {
 			}
 			else {
 				/* Fill up edit form */
+				$this->UserProfile->contain(array('Channel' => array('id', 'channel')));
 				$this->data = $this->UserProfile->read(null, $id);
 			}
 		}

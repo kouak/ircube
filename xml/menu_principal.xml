@@ -5,16 +5,18 @@
 	<item id="news" label="News" title="news" c="news" a="index"/>
 	<item id="communauté" label="Communauté">
 		<item id="trombinoscope" label="Trombinoscope" c="user_profiles" a="index" />
+		
 		<!--<item id="carte" label="Carte" url="/users/viewmap/" />-->
 		<item id="forum" label="Forum" url="/forum/" />
 		<item id="zinfos" label="Les ZInfos" url="http://zinfos.ircube.org" />
-		<item id="quotes" label="Quotes" url="/quotes/" />
 		<item id="itw" label="Interviews" url="http://animation.ircube.org/interviews/" />
 	</item>
 	<item id="reseau" label="Réseau">
 		<item id="statistiques" label="Statistiques" c="pages" a="statistiques" />
 		<item id="staff" label="Le staff" url="/staff/" />
 		<item id="partenaires" label="Partenaires" url="/partenaires/" />
+		<item id="salons" label="Salons" c="channel_profiles" a="index" />
+		<item id="quotes" label="Quotes" c="quotes" a="index" />
 		<!--<item id="blog" label="Blog" url="http://blog.ircube.org" />-->
 	</item>
 	<item id="webmasters" label="Webmasters">

@@ -73,8 +73,10 @@
 	Router::connect('/logout', array('controller' => 'user_profiles', 'action' => 'logout'));
 	
 	Router::connect('/admin', array('controller' => 'news', 'action' => 'index', 'admin' => true)); 
-
 	
+	/* Channel Profiles */
+	Router::connect('/viewchannel/:channel', array('controller' => 'channel_profiles', 'action' => 'view'), array('pass' => array('channel')));
+	Router::connect('/channel/createprofile/:channel', array('controller' => 'channel_profiles', 'action' => 'create'), array('pass' => array('channel')));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

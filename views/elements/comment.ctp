@@ -1,21 +1,33 @@
-<li id="#comment-<?php echo $i?>">
-<div class="ircube-box">
-	<div class="box orange noheader">
+<li id="#comment-<?php echo $i?>">	
+<?php
+$content = <<<EOF
 		<div class="comment-number">
-			<span class="permlink"><a name="comment-<?php echo $i; ?>" href="#comment-<?php echo $i; ?>" title="Lien vers ce commentaire">#<?php echo $i; ?></a></span>
+			<span class="permlink"><a name="comment-$i" href="#comment-$i" title="Lien vers ce commentaire">#$i</a></span>
 		</div>
 		<div class="avatar">
-			<?php echo $gravatar->image($comment['Author']['mail']); ?>
+			
+EOF;
+$content .= $gravatar->image($comment['Author']['mail']);
+$content .= '
 		</div>
 		<div class="comment">
 			<cite class="meta"> 
 					<span class="author">
-						<?php echo $profileHelper->link($comment['Author']['username'], $comment['Author']); ?>
+						';
+$content .= $profileHelper->link($comment['Author']['username'], $comment['Author']);
+$content .= '
 					</span> 
-					<span class="date"><?php echo $time->niceShort($comment['created']); ?></span> 
+					<span class="date">' . $time->niceShort($comment['created']) . '</span> 
 			</cite>
-			<p class="comment-inside"><?php echo $comment['content']; ?></p>
+			<p class="comment-inside">' . $comment['content'] . '</p>
 		</div>
-	</div>
-</div>
+';
+?>
+<?php
+	$color = 'green';
+	if($i % 2 == 0) {
+		$color = 'orange';
+	}
+	echo $this->element('ircube-box', array('options' => array('header' => false, 'color' => $color), 'content' => $content));
+?>
 </li>

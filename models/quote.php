@@ -7,12 +7,9 @@ class Quote extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $belongsTo = array(
-		'UserProfile' => array(
+		'Author' => array(
 			'className' => 'UserProfile',
-			'foreignKey' => 'user_profile_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+			'foreignKey' => 'author_id',
 		),
 	);
 

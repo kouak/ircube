@@ -16,14 +16,14 @@
 			<?php echo $quote['Quote']['modified']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('User Profile Id'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Auteur'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $quote['Quote']['user_profile_id']; ?>
+			<?php echo $quote['Author']['username']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Channel Profile Id'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Channel'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $quote['Quote']['channel_profile_id']; ?>
+			<?php echo $quote['Quote']['channel']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Titre'); ?></dt>

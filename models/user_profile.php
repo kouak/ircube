@@ -4,34 +4,44 @@ class UserProfile extends AppModel {
 	var $actsAs = array('Containable', 'Acl' => 'requester');
 	
 	var $belongsTo = array(
-			'User' => array('className' => 'User',
-								'foreignKey' => 'user_id',
-								'conditions' => '',
-								'fields' => '',
-								'order' => ''
+			'User' => array(
+				'className' => 'User',
+				'foreignKey' => 'user_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => ''
 			),
-			'UserGroup' => array('className' => 'UserGroup',
-							'foreignKey' => 'user_group_id',
-							'conditions' => '',
-							'fields' => '',
-							'order' => '',
-							'counterCache' => '',
+			'UserGroup' => array(
+				'className' => 'UserGroup',
+				'foreignKey' => 'user_group_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'counterCache' => '',
 			),
-			'Avatar' => array('className' => 'UserPicture',
-							'foreignKey' => 'avatar_id',
-							'conditions' => array('Avatar.is_avatar' => true)
+			'Avatar' => array(
+				'className' => 'UserPicture',
+				'foreignKey' => 'avatar_id',
+				'conditions' => array('Avatar.is_avatar' => true)
 			),
 		);
 	
 	var $hasMany = array(
-			'News' => array('className' => 'News',
-							'foreignKey' => 'user_profile_id'
+			'News' => array(
+				'className' => 'News',
+				'foreignKey' => 'user_profile_id'
 			),
-			'NewsComment' => array('className' => 'NewsComment',
-									'foreignKey' => 'user_profile_id'
+			'NewsComment' => array(
+				'className' => 'NewsComment',
+				'foreignKey' => 'user_profile_id'
 			),
-			'Picture' => array('className' => 'UserPicture',
-							'foreignKey' => 'user_profile_id',
+			'Picture' => array(
+				'className' => 'UserPicture',
+				'foreignKey' => 'user_profile_id',
+			),
+			'Quotes' => array(
+				'className' => 'Quote',
+				'foreignKey' => 'author_id',
 			),
 		);
 		
@@ -144,7 +154,7 @@ class UserProfile extends AppModel {
 		parent::beforeFilter();
 	}
 		
-	/* Takes and id or array of ids as argument
+	/* Takes an UserProfile.id or array of ids as argument
 	 * Sync Profiles with matching Users
 	 */	
 	function syncProfile($ids = array()) {
@@ -236,7 +246,7 @@ class UserProfile extends AppModel {
 	}
 	
 	function isEmailAvailable($data) {
-		$a = $this->User->findByMail($data['mail']);
+		$a = $this->User->findByMail($data['mail'], array('contain' => array()));
 		if(empty($a)) {
 			return true;
 		}

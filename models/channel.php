@@ -7,20 +7,13 @@ class Channel extends AppModel {
 	
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $hasMany = array(
-			'Access' => array('className' => 'Access',
-								'foreignKey' => 'channel_id',
-								'dependent' => false,
-								'conditions' => '',
-								'fields' => '',
-								'order' => '',
-								'limit' => '',
-								'offset' => '',
-								'exclusive' => '',
-								'finderQuery' => '',
-								'counterQuery' => ''
+			'Access' => array(
+				'className' => 'Access',
+				'foreignKey' => 'channel_id',
 			),
-			'ObjectStatus' => array('foreignKey' => 'object_id',
-									'conditions' => DATACOND_CHAN,
+			'ObjectStatus' => array(
+				'foreignKey' => 'object_id',
+				'conditions' => DATACOND_CHAN,
 			),
 	);
 	
@@ -57,7 +50,12 @@ class Channel extends AppModel {
 	
 	function find($type = 'first', $options = array()) {
 		if(isset($options['hideSecret']) && $options['hideSecret'] == true) {
-			$options['conditions'] = am($options['conditions'], array("LOCATE('s', SUBSTRING_INDEX(Channel.defmodes, ' ', 1))" => 0));
+			$options['conditions'] = am($options['conditions'], array(
+				'OR' => array(
+					"LOCATE('s', SUBSTRING_INDEX(Channel.defmodes, ' ', 1))" => 0,
+					"LOCATE('p', SUBSTRING_INDEX(Channel.defmodes, ' ', 1))" => 0,
+				)
+			));
 		}
 		unset($options['hideSecret']);
 		return parent::find($type, $options);

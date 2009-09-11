@@ -10,11 +10,7 @@ class ChannelProfilesController extends AppController {
 	}
 
 	function view($channel = null) {
-		phpinfo();
-		debug($this->params);
-		debug($_SERVER);
-		debug(urlencode('??%%[[CACA'));
-		debug($channel);
+		/* TODO : secret channels ?*/
 		if (!$channel) {
 			$this->redirect(array('action'=>'index'));
 		}
@@ -24,21 +20,30 @@ class ChannelProfilesController extends AppController {
 		}
 		
 		/* Set up query */
+		
+		/* Find quotes */
+		$this->ChannelProfile->bindModel(array(
+			'hasMany' => array(
+				'Quote' => array(
+					'foreignKey' => false,
+					'conditions' => array('Quote.channel' => '#' . $channel)
+				)
+			)
+		));
 		$contain = array(
-			'ChannelProfile', /* Profile infos */
+			'ChannelProfile' => array(
+				'Quote',
+			), /* Profile infos */
 			'UserProfile' => array( /* Who likes this channel ?*/
 				'fields' => array('username'), 
-				'limit' => 10
+				'limit' => 10,
+				'order' => 'RAND(NOW())',
 			)
 		);
-		if(is_numeric($this->Auth->user('id'))) {
+		if(is_numeric($this->Auth->user('id'))) { /* Add conditions to contain */
 			$contain['Access'] = array( /* Who can edit this channel */
 				'conditions' => array('Access.user_id' => $this->Auth->user('user_id')),
-				'User' => array(
-					'UserProfile' => array(
-						'fields' => array('id'),
-					),
-				),
+				'fields' => array('level'),
 			);
 		}
 		$this->Channel->contain($contain);

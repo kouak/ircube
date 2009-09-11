@@ -34,7 +34,7 @@ foreach ($channelProfiles as $channelProfile):
 			<?php echo $channelProfile['ChannelProfile']['modified']; ?>
 		</td>
 		<td>
-			<?php echo $html->link($channelProfile['Channel']['channel'], array('action'=>'view', 'channel' => cleanChannelName('###'. $channelProfile['Channel']['channel'], array('urlencode')))); ?>
+			<?php echo $html->link($channelProfile['Channel']['channel'], array('action'=>'view', 'channel' => cleanChannelName($channelProfile['Channel']['channel'], array('urlencode')))); ?>
 		</td>
 		<td>
 			<?php echo $channelProfile['ChannelProfile']['description']; ?>

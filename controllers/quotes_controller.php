@@ -14,8 +14,7 @@ class QuotesController extends AppController {
 			$this->Session->setFlash(__('Invalid Quote.', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Quote->contain(array('UserProfile', 'ChannelProfile' => array('Channel')));
-		debug($this->Quote->findById($id));
+		$this->Quote->contain(array('Author' => array('fields' => array('username'))));
 		$this->set('quote', $this->Quote->read(null, $id));
 	}
 

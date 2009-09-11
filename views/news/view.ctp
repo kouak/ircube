@@ -2,38 +2,6 @@
 $html->css(array('comments', 'ircube-boxes'), null, array(), false);
 ?>
 <h1><?php echo __('Archives des actualit&eacute;s :', true); ?></h1>
-<div class="paging">
-	<?php
-	if(isset($neighbors['prev']))
-	{
-	?>
-		<div style="float:right;"><?php
-		echo $html->link($neighbors['prev']['News']['title']. ' »', array(
-		    'controller' => 'news',
-		    'action' => 'view',
-		    'id' => $neighbors['prev']['News']['id'],
-		    'slug' => $neighbors['prev']['News']['permalink']
-		));
-		?></div>
-	<?php
-	}
-	?>
-	<?php
-	if(isset($neighbors['next']))
-	{
-	?>
-		<div style="float:left;"><?php
-		echo $html->link('« ' . $neighbors['next']['News']['title'], array(
-		    'controller' => 'news',
-		    'action' => 'view',
-		    'id' => $neighbors['next']['News']['id'],
-		    'slug' => $neighbors['next']['News']['permalink']
-		));
-		?></div>
-	<?php
-	}
-	?>
-</div>
 <div class="clear"></div>
 <div id="news_bloc">
 	<?php

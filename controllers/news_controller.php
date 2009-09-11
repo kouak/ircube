@@ -241,17 +241,10 @@ class NewsController extends AppController {
 		}
 		
 		if($news['News']['permalink'] != $permalink) { /* Weird URL ? Redirect to the good one */
-			// $this->Session->setFlash(__('Le lien a changé !', true), 'messages/failure');
 			$this->redirect(array('action'=>'view', 'id' => $id, 'slug' => $news['News']['permalink']), 301);
 		}
 		
-		$this->News->id = $news['News']['id'];
-		
-		$this->News->contain(array('NewsType')); /* We don't need much for Before/Next links */ 
-		$neighbors = $this->News->find('neighbors', array('fields' => array('id', 'title', 'permalink', 'created'), 'field' => 'created', 'value' => $news['News']['created']));
-		
 		$this->set('news', $news);
-		$this->set('neighbors', $neighbors);
 	}
 	
 	function admin_edit($id = null) {

@@ -1,4 +1,3 @@
-
 <?php
 /* SVN FILE: $Id: core.php 7296 2008-06-27 09:09:03Z gwoo $ */
 /**

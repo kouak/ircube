@@ -1,32 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu name="principal">
-	<item id="accueil" label="Accueil" url="/" title="accueil"/>
-	<item id="chat" label="Chat" url="/chat/" title="t'chat"/>
-	<item id="news" label="News" title="news" c="news" a="index"/>
-	<item id="communauté" label="Communauté">
-		<item id="trombinoscope" label="Trombinoscope" c="user_profiles" a="index" />
-		
-		<!--<item id="carte" label="Carte" url="/users/viewmap/" />-->
-		<item id="forum" label="Forum" url="/forum/" />
-		<item id="zinfos" label="Les ZInfos" url="http://zinfos.ircube.org" />
-		<item id="itw" label="Interviews" url="http://animation.ircube.org/interviews/" />
-	</item>
-	<item id="reseau" label="Réseau">
-		<item id="statistiques" label="Statistiques" c="pages" a="statistiques" />
-		<item id="staff" label="Le staff" url="/staff/" />
-		<item id="partenaires" label="Partenaires" url="/partenaires/" />
-		<item id="salons" label="Salons" c="channel_profiles" a="index" />
-		<item id="quotes" label="Quotes" c="quotes" a="index" />
-		<!--<item id="blog" label="Blog" url="http://blog.ircube.org" />-->
-	</item>
-	<item id="webmasters" label="Webmasters">
-		<item id="chatterbox" label="Chat gratuit" url="/webmasters/chatterbox/" title="créer chat" />
-		<item id="outils" label="Outils" url="/webmasters/statstools/" />
-	</item>
-	<item id="contact" label="Contact">
-		<item id="contact" label="Contactez nous ici bla bla bla" url="/contact/"/>
-		<item id="boiteidees" label="Boite à idées un truc très long comme texte" url="/boiteidees/" />
-		<item id="boiteidees2" label="Boite à idées un truc très long comme texte" url="/boiteidees/" />
-		<item id="boiteidees3" label="Boite à idées un truc très long comme texte" url="/boiteidees/" />
-	</item>
+<menu>
+	<Topitem>
+		<title>Accueil</title>
+		<Url>/</Url>
+		<label>accueil</label>
+	</Topitem>
+	<Topitem>
+		<title>Chat</title>
+		<Url>/chat/</Url>
+		<label>t'chat</label>
+	</Topitem>
+	<Topitem>
+		<title>News</title>
+		<Url>
+			<controller>news</controller>
+			<action>index</action>
+		</Url>
+		<label>news</label>
+	</Topitem>
+	<Topitem>
+		<title>Communauté</title>
+		<label>communauté</label>
+		<Subitem>
+			<title>Trombinoscope</title>
+			<label>trombinoscope</label>
+			<Url>
+				<controller>user_profiles</controller>
+				<action>index</action>
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Forum</title>
+			<label>forum</label>
+			<Url>/forum/</Url>
+		</Subitem>
+		<Subitem>
+			<title>Z'Infos</title>
+			<label>Les z'infos</label>
+			<Url>http://zinfos.ircube.org/</Url>
+		</Subitem>
+		<Subitem>
+			<title>Interviews</title>
+			<label>interviews</label>
+			<Url>http://animation.ircube.org/interviews/</Url>
+		</Subitem>
+	</Topitem>
+	<Topitem>
+		<title>Réseau</title>
+		<label>réseau</label>
+		<Subitem>
+			<title>Statistiques</title>
+			<label>statistiques</label>
+			<Url>
+				<controller>pages</controller>
+				<action>statistiques</action>
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Salons</title>
+			<label>salons</label>
+			<Url>
+				<controller>channel_profiles</controller>
+				<action>index</action>
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Quotes</title>
+			<label>quotes</label>
+			<Url>
+				<controller>quotes</controller>
+				<action>index</action>
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Partenaires</title>
+			<label>partenaires</label>
+			<Url>
+				<controller>pages</controller>
+				<action>partenaires</action>
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Staff</title>
+			<label>staff</label>
+			<Url>
+				<controller>pages</controller>
+				<action>staff</action>
+			</Url>
+		</Subitem>
+	</Topitem>
+	<Topitem>
+		<title>Webmasters</title>
+		<label>webmasters</label>
+		<Subitem>
+			<title>Chat gratuit</title>
+			<label>chat gratuit</label>
+			<Url>
+				<controller>pages</controller>
+				<action>staff</action>
+			</Url>
+		</Subitem>
+		<Subitem>
+			<title>Outils</title>
+			<label>outils</label>
+			<Url>
+				<controller>pages</controller>
+				<action>staff</action>
+			</Url>
+		</Subitem>
+	</Topitem>
+	<Topitem>
+		<title>Contact</title>
+		<label>contact</label>
+		<Url>/contact/</Url>
+	</Topitem>		
 </menu>

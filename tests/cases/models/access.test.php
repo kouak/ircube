@@ -1,20 +1,14 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Access Test cases generated on: 2008-09-24 21:09:48 : 1222284288*/
+/* Access Test cases generated on: 2009-08-31 17:08:05 : 1251732845*/
 App::import('Model', 'Access');
-
-class TestAccess extends Access {
-	var $cacheSources = false;
-	var $useDbConfig  = 'test_suite';
-}
 
 class AccessTestCase extends CakeTestCase {
 	var $Access = null;
 	var $fixtures = array('app.access', 'app.channel', 'app.user');
 
-	function start() {
-		parent::start();
-		$this->Access = new TestAccess();
+	function startTest() {
+		$this->Access =& ClassRegistry::init('Access');
 	}
 
 	function testAccessInstance() {
@@ -22,23 +16,22 @@ class AccessTestCase extends CakeTestCase {
 	}
 
 	function testAccessFind() {
-		$results = $this->Access->recursive = -1;
+		$this->Access->recursive = -1;
 		$results = $this->Access->find('first');
 		$this->assertTrue(!empty($results));
 
 		$expected = array('Access' => array(
 			'id'  => 1,
 			'flag'  => 1,
-			'created'  => '2008-09-24 21:24:48',
-			'modified'  => '2008-09-24 21:24:48',
-			'lastseen'  => '2008-09-24 21:24:48',
+			'modified'  => '2009-08-31 17:34:02',
+			'lastseen'  => '2009-08-31 17:34:02',
 			'channel_id'  => 1,
 			'user_id'  => 1,
 			'channel_name'  => 'Lorem ipsum dolor sit amet',
 			'user_name'  => 'Lorem ipsum dolor sit amet',
 			'level'  => 1,
 			'info'  => 'Lorem ipsum dolor sit amet'
-			));
+		));
 		$this->assertEqual($results, $expected);
 	}
 }

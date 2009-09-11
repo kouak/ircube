@@ -3,6 +3,28 @@ class MenuPrincipal extends AppModel {
 	var $name = 'MenuPrincipal';
 	var $useTable = false;
 	
+	function __xmlToMenu($xml, $actual = '') {
+		$menu = $xml->toArray();
+		$menu = Set::extract('Menu.Topitem', $menu);
+		/* Add actual key */
+		foreach($menu as $key => $value) {
+			if(low($actual) == low($value['label'])) {
+				$menu[$key]['actual'] = 1;
+				break;
+			}
+			if(isset($value['Subitem']) && !empty($value['Subitem'])) {
+				foreach($value['Subitem'] as $k => $v) {
+					if(low($actual) == $v['label']) {
+						$menu[$key]['actual'] = 1;
+						$menu[$key]['Subitem'][$k]['actual'] = 1;
+						break;
+					}
+				}
+			}
+		}
+		return $menu;
+	}
+	
 	function makeAdminMenu($actual = null) {
 		return $this->makeMenu($actual, 'menu_admin.xml');
 	}
@@ -17,29 +39,8 @@ class MenuPrincipal extends AppModel {
 
 		// now parse it
 		$parsed_xml =& new XML($file);
-		
-		$menu = $parsed_xml->toArray();
-		
-		$menu = Set::extract($menu, 'Menu.Item');
 
-		/* Add actual key */
-		foreach($menu as $key => $value) {
-			if(low($actual) == low($value['id'])) {
-				$menu[$key]['actual'] = 1;
-				break;
-			}
-			if(!empty($value['Item'])) {
-				foreach($value['Item'] as $k => $v) {
-					if($actual == $v['id']) {
-						$menu[$key]['actual'] = 1;
-						$menu[$key]['Item'][$k]['actual'] = 1;
-						break;
-					}
-				}
-			}
-		}
-
-		return $menu;
+		return $this->__xmlToMenu($parsed_xml, $actual);
 		
 		$xml = simplexml_load_file($file);
 				

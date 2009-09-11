@@ -1,3 +1,4 @@
+
 <?php
 /* SVN FILE: $Id: core.php 7296 2008-06-27 09:09:03Z gwoo $ */
 /**
@@ -166,6 +167,13 @@
  * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JavaScriptHelper::link().
  */
 	//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
+
+/**
+ * If you are on PHP 5.3 uncomment this line and correct your server timezone
+ * to fix the date & time related errors.
+ */
+        date_default_timezone_set('CET');
+
 /**
  * The classname and database used in CakePHP's
  * access control lists.

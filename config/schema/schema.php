@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Ircube schema generated on: 2009-09-12 02:09:07 : 1252714027*/
+/* Ircube schema generated on: 2009-09-12 18:09:32 : 1252771952*/
 class IrcubeSchema extends CakeSchema {
 	var $name = 'Ircube';
 

@@ -63,6 +63,8 @@
 	//Router::connect('/actualites/getNewsByMonth/*', array('controller' => 'news', 'action' => 'getNewsByMonth'));
 	
 	
+	Router::connect('/trombinoscope', array('controller' => 'user_profiles', 'action' => 'index'));
+	Router::connect('/trombinoscope/:filter', array('controller' => 'user_profiles', 'action' => 'index'), array('pass' => array('filter')));
 	Router::connect('/viewgallery/:username', array('controller' => 'user_pictures', 'action' => 'gallery'), array('pass' => array('username')));
 	Router::connect('/viewprofile/:username', array('controller' => 'user_profiles', 'action' => 'view'), array('pass' => array('username')));
 	Router::connect('/editprofile', array('controller' => 'user_profiles', 'action' => 'edit'));

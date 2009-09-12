@@ -116,10 +116,22 @@ class UserProfilesController extends AppController {
 		}
 	}
 	
-	function index() { /* Trombinoscope */
+	function index($filter = null) { /* Trombinoscope */
+		$this->placename = "trombinoscope";
+		
 		$this->UserProfile->contain(array());
-		$userProfiles = $this->UserProfile->find('list', array('fields' => array('username'), 'conditions' => array('UserProfile.active' => 1)));
+		$userProfiles = $this->UserProfile->find('letter', array('letter' => $filter, 'output' => 'list', 'fields' => array('username'), 'conditions' => array('UserProfile.active' => 1)));
+		
 		$this->set('userProfiles', $userProfiles);
+		
+		
+		$filterLetters = $this->UserProfile->filterLetters(array('conditions' => array('UserProfile.active' => 1))); /* Retrieve menu letters */
+		
+		if(isset($filter) && isset($filterLetters[$filter])) {
+			$filterLetters[$filter] = 'active'; /* Find active */
+		}
+		
+		$this->set('filterLetters', $filterLetters);
 	}
 	
 	

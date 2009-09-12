@@ -50,8 +50,8 @@ class Channel extends AppModel {
 	
 	function find($type = 'first', $options = array()) {
 		if(isset($options['hideSecret']) && $options['hideSecret'] == true) {
-			$options['conditions'] = am($options['conditions'], array(
-				'OR' => array(
+			$options['conditions'] = am(@$options['conditions'], array(
+				'AND' => array(
 					"LOCATE('s', SUBSTRING_INDEX(Channel.defmodes, ' ', 1))" => 0,
 					"LOCATE('p', SUBSTRING_INDEX(Channel.defmodes, ' ', 1))" => 0,
 				)

@@ -2,7 +2,7 @@
 class UserProfile extends AppModel {
 	var $name = 'UserProfile';
 	var $actsAs = array('Containable', 'Acl' => 'requester');
-	
+
 	var $belongsTo = array(
 			'User' => array(
 				'className' => 'User',
@@ -25,7 +25,7 @@ class UserProfile extends AppModel {
 				'conditions' => array('Avatar.is_avatar' => true)
 			),
 		);
-	
+
 	var $hasMany = array(
 			'News' => array(
 				'className' => 'News',
@@ -44,13 +44,13 @@ class UserProfile extends AppModel {
 				'foreignKey' => 'author_id',
 			),
 		);
-		
+
 	var $hasAndBelongsToMany = array(
 			'Channel' => array(
 				'joinTable' => 'channels_user_profiles',
 			),
 		);
-	
+
 	var $validate = array(
 			'username' => array(
 				'notEmpty' => array(
@@ -133,8 +133,8 @@ class UserProfile extends AppModel {
 				'message' => 'Sexe non valide'
 			),
 		);
-	/* ACL */	
-		
+	/* ACL */
+
 	function parentNode()
 	{
 		return null;
@@ -147,26 +147,81 @@ class UserProfile extends AppModel {
 			'foreign_key' => $object['UserProfile']['user_group_id']
 			);
 	}
-		
-	
-	function beforeFilter() {
-		$this->Auth->allow('login', 'logout');
-		parent::beforeFilter();
+
+	/* 
+	 * Use $options['letter'] to filter results 
+	 * Use $options['output'] to set parent::find() type (default : all)
+	 */
+
+	function __findLetter($options = array()) {
+		if(!isset($options['letter']) || $options['letter'] == '#') {
+			$c = array(
+				'OR' => array(
+					'ASCII(LEFT(UserProfile.username,1)) < ' => 65,
+					'AND' => array(
+						'ASCII(LEFT(UserProfile.username,1)) >' => 90,
+						'ASCII(LEFT(UserProfile.username,1)) <' => 97,
+					),
+					'ASCII(LEFT(UserProfile.username,1)) >' => 122,
+				),
+			); /* Handle special characters */
+		} else {
+			$c = array('LEFT(UserProfile.username,1)' => $options['letter'][0]);
+		}
+		$options['conditions'] = am(@$options['conditions'], $c);
+		unset($options['letter']);
+		$output = 'all';
+		if(isset($options['output'])) {
+			$output = $options['output'];
+			unset($options['output']);
+		}
+		return parent::find($output, $options); 
 	}
+	
+	
+	/* 
+	 * Returns array of unempty letter filters for find('letter') 
+	 * e.g : array('a' => false, 'b' => true ...)
+	 */
+	function filterLetters($options = array()) {
+		$letters = array('#', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
 		
+		$this->contain(array());
+		
+		$fopt = array(
+			'fields' => array('LOWER(LEFT(UserProfile.username, 1)) as initial'),
+			'group' => 'LOWER(LEFT(UserProfile.username, 1))',
+			'order' => 'LOWER(LEFT(UserProfile.username, 1)) ASC',
+		);
+
+		if(isset($options['conditions'])) {
+			$fopt['conditions'] = $options['conditions'];
+		}
+
+		$initials = $this->find('all', $fopt);
+		$initials = Set::extract('/0/initial', $initials);
+		
+		$specialchars = array_diff($initials, $letters);
+		if(!empty($specialchars)) { /* Are there any special chars ? */
+			array_unshift($initials, '#'); /* Add '#' to the front of $initials */
+		}
+		
+		return am(array_fill_keys($letters, false), array_fill_keys($initials, true));
+	}
+
 	/* Takes an UserProfile.id or array of ids as argument
 	 * Sync Profiles with matching Users
-	 */	
+	 */
 	function syncProfile($ids = array()) {
 		if(is_numeric($ids)) {
 			$ids = array($ids);
 		}
 		$synched = 0;
-		
+
 		foreach($ids as $ProfileId) {
 			$this->contain('User');
 			$profile = $this->findById($ProfileId); /* Lookup matching profile */
-			
+
 			if(!is_numeric($profile['User']['id']) && $profile['UserProfile']['active'] == 1) { /* User not found with active profile */
 				$profile['UserProfile']['user_id'] = 0;
 				$profile['UserProfile']['active'] = 0;
@@ -195,12 +250,12 @@ class UserProfile extends AppModel {
 		}
 		return $synched;
 	}
-	
+
 	/*
 	 * Relink a profile with a given User
 	 *
 	 */
-	
+
 	function relinkProfile($UserProfile, $User) {
 		if(!is_numeric($UserProfile['id'])) {
 			return false; /* We don't want to create a new profile */
@@ -217,12 +272,12 @@ class UserProfile extends AppModel {
 		$UserProfile['synched'] = date('Y-m-d H:i:s');
 		return $this->save(array('UserProfile' => $UserProfile), false);
 	}
-	
+
 	function createProfile($UserProfile, $User) {
 		if(empty($User) || !is_numeric($User['id']) || !isset($User['username']) || !isset($User['password']) || !isset($User['mail'])) {
 			return false;
 		}
-		
+
 		$UserProfile['username'] = $User['username'];
 		$UserProfile['password'] = $User['password'];
 		$UserProfile['mail'] = $User['mail'];
@@ -234,9 +289,9 @@ class UserProfile extends AppModel {
 		debug($UserProfile);
 		return $this->save(array('UserProfile' => $UserProfile));
 	}
-	
-	
-	
+
+
+
 	function isUsernameAvailable($data) {
 		$a = $this->User->findByUsername($data['username'], array('contain' => array()));
 		if(empty($a)) {
@@ -244,7 +299,7 @@ class UserProfile extends AppModel {
 		}
 		return false;
 	}
-	
+
 	function isEmailAvailable($data) {
 		$a = $this->User->findByMail($data['mail'], array('contain' => array()));
 		if(empty($a)) {
@@ -252,14 +307,14 @@ class UserProfile extends AppModel {
 		}
 		return false;
 	}
-	
+
 	public function equalsPassword($data, $field = '') {
 		$key = key($data);
 		$value = current($data);
 		$value = $this->hashPassword($value);
 		return $this->equalsField(array($key => $value), $field);
 	}
-	
+
 	/* Auth component hook */
 	function hashPasswords($data) {
 		if (is_array($data) && isset($data[$this->name]) && isset($data[$this->name]['password'])) {
@@ -267,7 +322,7 @@ class UserProfile extends AppModel {
 		}
 		return $data;
 	}
-	
+
 	function registerAfterValidate() {
 		if(isset($this->data[$this->name]['tmp-password'])) {
 			$this->data[$this->name]['password'] = $this->hashPassword($this->data[$this->name]['tmp-password']);
@@ -275,40 +330,40 @@ class UserProfile extends AppModel {
 		}
 		return;
 	}
-	
+
 	function hashPassword($password) {
 		$xsum = md5(substr($password,0,2).$password);
 		$pass = ltrim(substr($this->__dec2hex(base_convert(substr($xsum, 0,8),16,10) + base_convert(substr($xsum, 16,8),16,10)), -8), '0');
 		$pass .= ltrim(substr($this->__dec2hex(base_convert(substr($xsum, 8,8),16,10) + base_convert(substr($xsum, 24,8),16,10)), -8), '0');
 	    return $pass;
 	}
-	
-	private function __dec2hex($dec) 
-	{ 
-	    $sign = ''; // suppress errors 
-		$h = '';
-		
-	    if( $dec < 0){ $sign = '-'; $dec = abs($dec); } 
 
-	    $hex = array( 0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 
-	                  6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 'a', 
-	                  11 => 'b', 12 => 'c', 13 => 'd', 14 => 'e',    
-	                  15 => 'f' ); 
+	private function __dec2hex($dec)
+	{
+	    $sign = ''; // suppress errors
+		$h = '';
+
+	    if( $dec < 0){ $sign = '-'; $dec = abs($dec); }
+
+	    $hex = array( 0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5,
+	                  6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 'a',
+	                  11 => 'b', 12 => 'c', 13 => 'd', 14 => 'e',
+	                  15 => 'f' );
 
 	    while ($dec >= 1)
-	    { 
+	    {
 	        $h = $hex[(int) fmod($dec, 16)] . $h;
 	        $dec = floor($dec - fmod($dec, 16)) / 16;
-	    } 
+	    }
 		if($h[0] == '0') {
 			$h[0] = '';
 		}
-	    return $sign . $h; 
+	    return $sign . $h;
 	}
-	
+
 	function W2CRegister($data) {
 		/* Register an user with Z */
-		
+
 		if (!isset($this->data['NewUser']['id'])) {
 			$query = 'REGISTER '.$this->data['NewUser']['pseudo'].' '.$this->data['NewUser']['mail'].' '.$this->data['NewUser']['password'].' '. $this->data['NewUser']['ip'] ;
 
@@ -342,8 +397,8 @@ class UserProfile extends AppModel {
 		}
 
 	}
-    
-	
-	
+
+
+
 }
 ?>

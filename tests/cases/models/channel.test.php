@@ -1,51 +1,37 @@
-<?php 
-/* SVN FILE: $Id$ */
-/* Channel Test cases generated on: 2008-09-24 21:09:47 : 1222284227*/
+<?php
+/* Channel Test cases generated on: 2009-09-12 16:09:41 : 1252766741*/
 App::import('Model', 'Channel');
 
-class TestChannel extends Channel {
-	var $cacheSources = false;
-	var $useDbConfig  = 'test_suite';
-}
-
 class ChannelTestCase extends CakeTestCase {
-	var $Channel = null;
-	var $fixtures = array('app.channel', 'app.access');
+	var $fixtures = array('app.channel', 'app.channel_profile', 'app.access', 'app.user', 'app.user_profile', 'app.user_group', 'app.user_picture', 'app.news', 'app.news_type', 'app.news_comment', 'app.quote', 'app.channels_user_profile', 'app.data');
 
-	function start() {
-		parent::start();
-		$this->Channel = new TestChannel();
+	function startTest() {
+		$this->Channel =& ClassRegistry::init('Channel');
 	}
 
-	function testChannelInstance() {
-		$this->assertTrue(is_a($this->Channel, 'Channel'));
+	function endTest() {
+		unset($this->Channel);
+		ClassRegistry::flush();
 	}
 
-	function testChannelFind() {
-		$results = $this->Channel->recursive = -1;
-		$results = $this->Channel->find('first');
-		$this->assertTrue(!empty($results));
+	function testCleanChannelName() {
+		$expected = 'caca';
+		$this->assertEqual($expected, $this->Channel->cleanChannelName('#caca'));
+		$this->assertEqual($expected, $this->Channel->cleanChannelName('caca'));
+		
+		$this->assertEqual('#caca', $this->Channel->cleanChannelName('##caca'));
 
-		$expected = array('Channel' => array(
-			'id'  => 1,
-			'channel'  => 'Lorem ipsum dolor sit amet',
-			'flag'  => 1,
-			'modified'  => '2008-09-24 21:23:47',
-			'created'  => '2008-09-24 21:23:47',
-			'defmodes'  => 'Lorem ipsum dolor sit amet',
-			'deftopic'  => 'Lorem ipsum dolor sit amet',
-			'welcome'  => 'Lorem ipsum dolor sit amet',
-			'description'  => 'Lorem ipsum dolor sit amet',
-			'url'  => 'Lorem ipsum dolor sit amet',
-			'motd'  => 'Lorem ipsum dolor sit amet',
-			'banlevel'  => 1,
-			'chmodelevel'  => 1,
-			'bantype'  => 1,
-			'limit_inc'  => 1,
-			'limit_min'  => 1,
-			'bantime'  => 1
-			));
-		$this->assertEqual($results, $expected);
 	}
+
+	function testAutoComplete() {
+		$expected = array(array('Channel' => array('channel' => '#lemondedethaanis', 'id' => 5)), array('Channel' => array('channel' => '#leplat', 'id' => 8)));
+		$this->assertEqual($expected, $this->Channel->autoComplete('#le'));
+	}
+	
+	function testFindHideSecret() {
+		$this->assertEqual(array(), $this->Channel->find('all', array('conditions' => array('Channel.channel' => '#iserv'), 'hideSecret' => true)));
+		$this->assertEqual(array('Channel' => array('channel' => '#iserv')), $this->Channel->find('first', array('fields' => array('channel'), 'conditions' => array('Channel.channel' => '#iserv'))));
+	}
+
 }
 ?>

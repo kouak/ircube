@@ -21,7 +21,7 @@ class ChannelProfilesController extends AppController {
 		
 		/* Set up query */
 		
-		/* Find quotes */
+		/* Attach quotes */
 		$this->ChannelProfile->bindModel(array(
 			'hasMany' => array(
 				'Quote' => array(

@@ -3,6 +3,18 @@ class AppModel extends Model {
 	
 	var $recursive = -1;
 
+	/* Polymorphic + Comment */
+	function __construct($id = false, $table = null, $ds = null) { 
+		parent::__construct($id, $table, $ds);
+		if(isset($this->Polymorphic)) {
+			debug('caca');
+		}
+		if (isset($this->hasMany) && isset($this->hasMany['Comment'])) { 
+			$this->hasMany['Comment']['conditions']['Comment.model'] = $this->name; 
+			$this->hasMany['Comment']['foreignKey'] = 'model_id'; 
+		} 
+	}
+
 	/* Custom find types (pseudocoder.com) */
 	function find($type, $options = array()) {
 		$method = null;
@@ -80,6 +92,14 @@ class AppModel extends Model {
 			return false;
 		
 		return true;
+	}
+	
+	function validateMaxLines($data, $lines = 12) {
+		if (sizeof(explode("\n", current($data))) > 12) {
+			return false;
+		}
+		return true;
+
 	}
 	
 	

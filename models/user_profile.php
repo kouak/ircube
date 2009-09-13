@@ -22,7 +22,7 @@ class UserProfile extends AppModel {
 			'Avatar' => array(
 				'className' => 'UserPicture',
 				'foreignKey' => 'avatar_id',
-				'conditions' => array('Avatar.is_avatar' => true)
+				'conditions' => array('Avatar.is_avatar' => true),
 			),
 		);
 
@@ -31,9 +31,16 @@ class UserProfile extends AppModel {
 				'className' => 'News',
 				'foreignKey' => 'user_profile_id'
 			),
-			'NewsComment' => array(
-				'className' => 'NewsComment',
-				'foreignKey' => 'user_profile_id'
+			'WrittenComment' => array(
+				'className' => 'Comment',
+				'foreignKey' => 'author_id'
+			),
+			'Comment' => array(
+				'className' => 'Comment',
+				'foreignKey' => 'model_id',
+				'conditions' => array('Comment.model' => 'UserProfile'),
+				'order' => 'Comment.created ASC',
+				'dependant' => true,
 			),
 			'Picture' => array(
 				'className' => 'UserPicture',

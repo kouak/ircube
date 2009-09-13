@@ -21,15 +21,6 @@
 				<admin />
 			</Url>
 		</Subitem>
-		<Subitem>
-			<title>Derniers commentaires</title>
-			<label>lastcomments</label>
-			<Url>
-				<controller>news_comments</controller>
-				<action>index</action>
-				<admin />
-			</Url>
-		</Subitem>
 	</Topitem>
 	<Topitem>
 		<title>Communauté</title>
@@ -52,5 +43,14 @@
 				<admin />
 			</Url>
 		</Subitem>
+	</Topitem>
+	<Topitem>
+		<title>Commentaires</title>
+		<label>lastcomments</label>
+		<Url>
+			<controller>comments</controller>
+			<action>index</action>
+			<admin />
+		</Url>
 	</Topitem>
 </menu>

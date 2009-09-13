@@ -4,7 +4,7 @@ $html->css(array('admin/comments', 'loading'), null, array(), false);
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-	loadPiece("<?php echo $html->url(array('controller'=>'news_comments','action'=>'admin_index', 'admin' => true));?>","#commentlist", function() {}); /* Pagination */
+	loadPiece("<?php echo $this->here;?>","#commentlist", function() {}); /* Pagination */
 });
 </script>
 <h1><?php __('Dernier commentaires :'); ?></h1>

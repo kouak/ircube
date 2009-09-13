@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Ircube schema generated on: 2009-09-12 18:09:32 : 1252771952*/
+/* Ircube schema generated on: 2009-09-13 18:09:12 : 1252860492*/
 class IrcubeSchema extends CakeSchema {
 	var $name = 'Ircube';
 
@@ -88,6 +88,17 @@ class IrcubeSchema extends CakeSchema {
 		'user_profile_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'channel_id' => array('column' => array('channel_id', 'user_profile_id'), 'unique' => 0))
 	);
+	var $comments = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'status' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'author_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'model' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'model_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
+		'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'news_id' => array('column' => 'model_id', 'unique' => 0))
+	);
 	var $datas = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'flag' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
@@ -118,19 +129,9 @@ class IrcubeSchema extends CakeSchema {
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'user_profile_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8),
-		'news_comment_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'comment_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'published' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
-	);
-	var $news_comments = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'published' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'user_profile_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'news_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
-		'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'news_id' => array('column' => 'news_id', 'unique' => 0))
 	);
 	var $news_types = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
@@ -145,8 +146,8 @@ class IrcubeSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'author_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10, 'key' => 'index'),
 		'channel' => array('type' => 'string', 'null' => true, 'default' => NULL),
-		'titre' => array('type' => 'string', 'null' => true, 'default' => NULL),
-		'texte' => array('type' => 'binary', 'null' => true, 'default' => NULL),
+		'title' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'content' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'user_profile_id' => array('column' => 'author_id', 'unique' => 0))
 	);
 	var $user_groups = array(
@@ -183,6 +184,7 @@ class IrcubeSchema extends CakeSchema {
 		'lastseen' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'birthday' => array('type' => 'date', 'null' => false, 'default' => '0000-00-00'),
 		'sex' => array('type' => 'string', 'null' => false, 'default' => 'u', 'length' => 1),
+		'comment_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'user_id' => array('column' => 'user_id', 'unique' => 1), 'user_group_id' => array('column' => 'user_group_id', 'unique' => 0))
 	);
 	var $users = array(

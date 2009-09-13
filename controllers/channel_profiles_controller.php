@@ -99,7 +99,7 @@ class ChannelProfilesController extends AppController {
 		}
 		/* Access check up */
 		if(empty($c['Access'])) {
-			$this->authDeny();
+			$this->__authDeny();
 			return;
 		}
 		$this->set('channel', $channel);

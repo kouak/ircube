@@ -27,7 +27,7 @@ $javascript->link(array('actualites-corners'), false);
 	</div>
 	<div class="clear"></div>
 	<div class="news_author"><span class="fleft;"><?php
-		echo $html->link(sprintf(__('%d Commentaire' . (($news['News']['news_comment_count'] > 1) ? 's' : ''), true), $news['News']['news_comment_count']),
+		echo $html->link(sprintf(__('%d Commentaire' . (($news['News']['comment_count'] > 1) ? 's' : ''), true), $news['News']['comment_count']),
 			array(
 		    'controller' => 'news',
 		    'action' => 'view',

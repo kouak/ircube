@@ -1,10 +1,10 @@
 <?php
-class NewsCommentsController extends AppController {
+class CommentsController extends AppController {
 
-	var $name = 'NewsComments';
+	var $name = 'Comments';
 	var $helpers = array('Form', 'Paginator', 'Time', 'Tinymce', 'Javascript', 'Gravatar', 'ProfileHelper');
 	var $components = array('RequestHandler');
-	var $uses = array('News', 'NewsComment', 'NewsType');
+	var $uses = array('News', 'Comment', 'NewsType');
 
 	function admin_index() {
 		$this->placename = 'lastcomments';
@@ -12,14 +12,11 @@ class NewsCommentsController extends AppController {
 			$this->paginate = array(
 				'limit' => 10,
 				'order' => array(
-					'NewsComment.created' => 'desc'
+					'Comment.created' => 'desc'
 					),
-				'contain' =>  array(
-					'News' => array('fields' => array('id', 'permalink')),
-					'Author' => array('Avatar', 'fields' => array('username', 'mail', 'active', 'user_id'))
-					),
+				'recursive' => 0,
 				);
-			$this->set('news_comments', $this->paginate('NewsComment'));
+			$this->set('comments', $this->paginate('Comment'));
 			Configure::write('debug', 0);
 			$this->render('ajax/admin_index', 'ajax');
 		}
@@ -36,18 +33,20 @@ class NewsCommentsController extends AppController {
 	function add() {
 		if($this->RequestHandler->isAjax()) {
 			if(!empty($this->data)) {
-				Configure::write('debug', 0);
-				$this->data['NewsComment']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
+				//Configure::write('debug', 0);
+				$this->data['Comment']['author_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
 				/* TODO : read from configuration */
-				$this->data['NewsComment']['published'] = 1;
+				$this->data['Comment']['status'] = 1;
 				App::import('Sanitize'); /* Data sanitization */
-				$this->data['NewsComment']['content'] = Sanitize::html($this->data['NewsComment']['content']);
-				if($this->NewsComment->save($this->data, array('fieldList' => array('user_profile_id', 'content', 'news_id', 'published')))) {
-					$this->NewsComment->recursive = -1;
-					$this->set('comment', $this->NewsComment->read());
+				$this->data['Comment']['content'] = Sanitize::html($this->data['Comment']['content']);
+				if($this->Comment->save($this->data, array('fieldList' => array('model', 'author_id', 'content', 'model_id', 'status')))) {
+					$this->Comment->recursive = 0;
+					$this->set('comment', $this->Comment->read());
 					$this->render('ajax/add_comment_success', 'ajax');
 				}
 				else {
+					$this->set('model', $this->data['Comment']['model']);
+					$this->set('model_id', $this->data['Comment']['model_id']);
 					$this->render('ajax/add_comment_fail', 'ajax');
 				}
 			}
@@ -56,11 +55,11 @@ class NewsCommentsController extends AppController {
 
 	function delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for NewsComment', true));
+			$this->Session->setFlash(__('Invalid id for Comment', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->NewsComment->del($id)) {
-			$this->Session->setFlash(__('NewsComment deleted', true));
+		if ($this->Comment->del($id)) {
+			$this->Session->setFlash(__('Comment deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
 	}
@@ -88,7 +87,7 @@ class NewsCommentsController extends AppController {
 
 	function admin_delete($id = null) {
 		if($id) {
-			if ($this->NewsComment->del($id)) {
+			if ($this->Comment->del($id)) {
 				if($this->RequestHandler->isAjax()) {
 					Configure::write('debug', 0);
 					$this->render('ajax/admin_delete', 'ajax');
@@ -103,7 +102,7 @@ class NewsCommentsController extends AppController {
 	
 	function admin_publish($id = null) {
 		if($id) {
-			$this->NewsComment->publish($id);
+			$this->Comment->publish($id);
 			if($this->RequestHandler->isAjax()) {
 				Configure::write('debug', 0);
 				$this->render('ajax/admin_delete', 'ajax');
@@ -115,7 +114,7 @@ class NewsCommentsController extends AppController {
 	
 	function admin_unpublish($id = null) {
 		if($id) {
-			$this->NewsComment->unpublish($id);
+			$this->Comment->unpublish($id);
 			if($this->RequestHandler->isAjax()) {
 				Configure::write('debug', 0);
 				$this->render('ajax/admin_delete', 'ajax');

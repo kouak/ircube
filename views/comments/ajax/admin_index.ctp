@@ -9,8 +9,8 @@
 <ol class="commentlist" id="commentlist">
 	<?php
 	$i = 1;
-	foreach ($news_comments as $newsComment) {
-		echo $this->element('admin/comment', array('i' => $i, 'comment' => am($newsComment['NewsComment'], array('Author' => $newsComment['Author']))));
+	foreach ($comments as $comment) {
+		echo $this->element('admin/comment', array('i' => $i, 'comment' => am($comment['Comment'], array('Author' => $comment['Author']))));
 		$i++;
 	}
 	?>

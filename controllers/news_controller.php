@@ -4,7 +4,7 @@ class NewsController extends AppController {
 	var $name = 'News';
 	var $helpers = array('Form', 'Paginator', 'Time', 'Tinymce', 'Javascript', 'Gravatar', 'ProfileHelper');
 	var $components = array('RequestHandler');
-	var $uses = array('News', 'NewsComment', 'NewsType');
+	var $uses = array('News', 'Comment', 'NewsType');
 
 	var $paginate = array(
 		'limit' => 1,
@@ -61,8 +61,7 @@ class NewsController extends AppController {
 		}
 	}
 	
-	function index($c = null)
-	{
+	function index($c = null) {
 		$this->placename = 'news';
 		$this->paginate = array(
 			'limit' => 3,
@@ -110,82 +109,6 @@ class NewsController extends AppController {
 		$this->set('news', $this->paginate('News'));
 	}
 	
-	/* AJAX handler to generate month list */
-	function getNewsByMonth($year = null, $month = null, $newstype = null)
-	{
-		Configure::write('debug', 0);
-		if(!(is_numeric($year) && is_numeric($month))) /* TODO : add conditions in route */
-		{
-			return;
-		}
-		
-		$a = array(	'order' => array(
-						'News.created' => 'desc'
-						),
-					'conditions' => 	array(	'date_format(News.created, \'%Y\')' => $year,
-												'date_format(News.created, \'%m\')' => $month)
-					);
-		if(is_numeric($newstype)) /* Let's find out if this newstype exists */
-		{
-			$this->News->NewsType->contain(array());
-			$cat = $this->News->NewsType->findById($newstype);
-			
-		}
-		
-		if(!empty($cat)) /* Newstype seems fine, add filtering condition */
-		{
-			$a['conditions'] = array('AND' => array ($a['conditions'],
-													'News.newstype_id' => $cat['NewsType']['id']
-													)
-				);
-		}
-		$this->News->contain(array()); /* Limit sql JOINs */
- 		/* Find all news in selected month */
-		$news = $this->News->find('all', $a);
-		
-		/* Let's go find neighboring months */
-		$ts = date('U', strtotime($year.$month.'01')); /* $ts = unixtimestamp starting current month */
-		
-		$p = array(			'limit' => 1,
-							'order' => 'News.created DESC',
-							'fields' => array('date_format(News.created, \'%Y\') as Year',
-												'date_format(News.created, \'%m\') as Month'),
-							'conditions' => array('News.created <' => date ('Y-m-d H:i:s', $ts)),
-							'contain' => array()
-							
-							);
-		$n = array(			'limit' => 1,
-							'order' => 'News.created ASC',
-							'fields' => array('date_format(News.created, \'%Y\') as Year',
-												'date_format(News.created, \'%m\') as Month'),
-							'conditions' => array('News.created >' => date ('Y-m-d H:i:s', strtotime('+1 month', $ts))),
-							'contain' => array()
-							);
-						
-		if(!empty($cat)) /* Filter with newstype */
-		{
-			$p['conditions'] = array('AND' => array ($p['conditions'],
-													'News.newstype_id' => $cat['NewsType']['id']
-													)
-				);
-			$n['conditions'] = array('AND' => array ($n['conditions'],
-													'News.newstype_id' => $cat['NewsType']['id']
-													)
-				);
-		}
-		$prev = $this->News->find('all', $p);
-		$next = $this->News->find('all', $n);
-		/* Build up a nice array for navigation data */
-		$r = array( 'cur' => array('Year' => $year, 'Month' => $month), 
-					'prev' => (!empty($prev[0][0])) ? $prev[0][0] : null,
-					'next' => (!empty($next[0][0])) ? $next[0][0] : null,
-					'NewsType' => (!empty($cat)) ? $cat['NewsType'] : null);
-		$this->set('nav', $r); /* Navigation values */
-		$this->set('news', $news);
-		$this->render(null, 'ajax', '/elements/news_monthlist');
-		return;
-	}
-
 	function home() 
 	{
 		if(stristr($this->params['url']['url'], $this->name)) /* Lien vers le controleur => redirect vers / */
@@ -195,7 +118,6 @@ class NewsController extends AppController {
 		}
 		
 		$this->placename = 'accueil';
-		
 		
 		$this->News->contain(array('NewsType',
 									//'NewsComment', /* Remove if countCache fails */
@@ -212,7 +134,6 @@ class NewsController extends AppController {
 												)
 									);
 		
-		//$this->NewsComment->updateCache();
 		$this->set('news', $n);
 	}
 
@@ -221,10 +142,9 @@ class NewsController extends AppController {
 		if ($id == null || $permalink == null) {
 			$this->redirect(array('action'=>'index'), 301);
 		}
-		
 		$this->News->contain(array('NewsType',
-									'NewsComment' => array(
-										'conditions'=> array('NewsComment.published' => 1),
+									'Comment' => array(
+										'conditions'=> array('Comment.model' => 'News', 'Comment.status' => 1),
 										'Author' => array('Avatar', 'fields' => array('username', 'mail', 'active', 'user_id'))
 										),
 									'Author' => array(

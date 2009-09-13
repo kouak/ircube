@@ -2,6 +2,7 @@
 class NewsComment extends AppModel {
 	var $name = 'NewsComment';
 	var $actsAs = array('Containable');
+	var $useTable = false;
 
 	var $belongsTo = array(
 			'Author' => array('className' => 'UserProfile', /* Comment author */
@@ -39,7 +40,7 @@ class NewsComment extends AppModel {
 						),
 					'user_profile_id' => array(
 						'notEmpty' => array(
-							'rule' => 'numeric', /* We want a numeric newstype */
+							'rule' => 'numeric', /* We want a numeric author */
 							'message' => 'Wrong user_id',
 							'required' => true,
 							),
@@ -51,7 +52,7 @@ class NewsComment extends AppModel {
 					'content' => array(
 						'notEmpty' => array(
 							'rule' => 'validateNotBlank',
-							'message' => 'Impossible d\'ajouter une news vide !',
+							'message' => 'Impossible d\'ajouter un commentaire vide !',
 							'required' => true
 							),
 						),

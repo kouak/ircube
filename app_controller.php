@@ -101,7 +101,7 @@ class AppController extends Controller {
     }
 	
 	/* Wrapper to manually deny access to some page, even if Acl says go */
-	function authDeny() {
+	function __authDeny() {
 		$this->Session->setFlash($this->Auth->authError, 'default', array(), 'auth');
 		$this->redirect($this->referer(), null, true);
 	}

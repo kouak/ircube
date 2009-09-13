@@ -1,5 +1,5 @@
 <?php
-if(isset($comment['published']) && $comment['published'] == true) {
+if(isset($comment['status']) && $comment['status'] == 1) {
 	$published = true;
 }
 else {
@@ -76,7 +76,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-<li id="comment-<?php echo $comment['id']; ?>" <?php if($published === false) { echo "class=\"unpublished\""; }?>>
+<li id="comment-<?php echo $comment['id']; ?>" <?php if($published == false) { echo "class=\"unpublished\""; }?>>
 	<div class="comment-number">
 		<span class="permlink">#<?php echo $comment['id']; ?></span>
 		<?php

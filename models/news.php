@@ -6,29 +6,30 @@ class News extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $belongsTo = array(
-			'NewsType' => array('className' => 'NewsType',
-								'foreignKey' => 'newstype_id',
-								'conditions' => '',
-								'fields' => '',
-								'order' => ''
+			'NewsType' => array(
+				'className' => 'NewsType',
+				'foreignKey' => 'newstype_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => ''
 			),
-			'Author' => array('className' => 'UserProfile',
-								'foreignKey' => 'user_profile_id',
-								'conditions' => '',
-								'fields' => '',
-								'order' => ''
+			'Author' => array(
+				'className' => 'UserProfile',
+				'foreignKey' => 'user_profile_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => ''
 			)
 	);
 	
 	var $hasMany = array(
-			'NewsComment' => array('className' => 'NewsComment',
-									'foreignKey' => 'news_id',
-									'conditions' => '',
-									'fields' => '',
-									'order' => 'NewsComment.created ASC', /* New comments at the bottom */
-									'dependant' => true /* Delete comments when we delete a news */
-									)
-						);
+			'Comment' => array(
+				'className' => 'Comment',
+				'dependant' => true,
+				'conditions' => array('Comment.model' => 'News'),
+				'order' => 'Comment.created ASC',
+			),
+	);
 						
 	/* Errors messages are handled in here thanks to the fix in app_model */
 	var $validate = array(

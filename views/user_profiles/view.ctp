@@ -1,5 +1,5 @@
 <?php
-echo $html->css(array('ircube-boxes'), null, array(), false);
+echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 ?>
 <div id="avatar" class="span-6 prepend-1 ircube-box">
 	<h1 class="blue"><?php echo $userProfiles['UserProfile']['username']; ?></h1>
@@ -48,3 +48,33 @@ echo $html->css(array('ircube-boxes'), null, array(), false);
 		</ul>
 	</div>
 </div>
+<div class="clear"></div>
+<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), count($userProfiles['Comment'])); ?></h2>
+<div class="clear"></div>
+<ol class="commentlist" id="commentlist">
+<?php
+$i = 1;
+$javascript->link(array('jquery/jquery-form'), false);
+foreach($userProfiles['Comment'] as $comment) {
+	echo $this->element('comment', array('i' => $i, 'comment' => $comment));
+	$i++;
+}
+if(isset($AuthUser['id']) && $AuthUser['id'] > 0) {
+?>
+<div class="clear"></div>
+<div id="comment_form">
+<?php
+echo $this->element('comment_form', array('model_id' => $userProfiles['UserProfile']['id'], 'model' => 'UserProfile'));
+?>
+</div>
+<?php
+}
+else {
+?>
+<h2>Laisser un commentaire</h2>
+<p>Vous devez être identifiés pour laisser un commentaire</p>
+<?php
+}
+?>
+</ol>
+<div class="clear"></div>

@@ -16,6 +16,7 @@ class UserProfilesController extends AppController {
 	function autoComplete() {
 		Configure::write('debug', 0);
 		$this->layout = 'ajax';
+		$this->UserProfile->recursive = -1;
 		$user_profiles = $this->UserProfile->find('all', array(
 		 'conditions'=>array('UserProfile.username LIKE'=>$this->params['url']['query'].'%'),
 		 'fields'=>array('username', 'id')));
@@ -146,7 +147,7 @@ class UserProfilesController extends AppController {
 		if($username == null) {
 			$this->redirect(array('action'=>'index'), 301);
 		}
-		$this->UserProfile->contain(array('Avatar', 'Channel' => array('id', 'channel')));
+		$this->UserProfile->contain(array('Avatar', 'Channel' => array('id', 'channel'), 'Comment' => array('Author')));
 		$userProfile = $this->UserProfile->find('first', array('conditions' => array('UserProfile.active' => 1, 'UserProfile.username' => $username)));
 		if(empty($userProfile)) {
 			$this->Session->setFlash(__('Cet utilisateur n\'existe pas', true), 'messages/failure');

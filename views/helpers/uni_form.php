@@ -15,6 +15,9 @@ class UniFormHelper extends FormHelper
 	}
 	
 	function input($fieldName, $options = array()) {
+		if(isset($options['type']) && $options['type'] == 'hidden') {
+			return parent::input($fieldName, $options);
+		}
 		return $this->divWrap(parent::input($fieldName, $options));
 	}
 	

@@ -19,8 +19,8 @@ $(function() {
  		<legend><?php __('Add Quote');?></legend>
 	<?php
 		echo $uniForm->input('channel');
-		echo $uniForm->input('titre');
-		echo $uniForm->input('texte');
+		echo $uniForm->input('title');
+		echo $uniForm->input('content');
 	?>
 	</fieldset>
 <?php echo $uniForm->end('Submit');?>

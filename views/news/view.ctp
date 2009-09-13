@@ -9,22 +9,22 @@ $html->css(array('comments', 'ircube-boxes'), null, array(), false);
 	?>
 </div>
 <div class="clear"></div>
-<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), count($news['NewsComment'])); ?></h2>
+<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), count($news['Comment'])); ?></h2>
 <div class="clear"></div>
 <ol class="commentlist" id="commentlist">
 <?php
 $i = 1;
 $javascript->link(array('jquery/jquery-form'), false);
-foreach($news['NewsComment'] as $newsComment) {
+foreach($news['Comment'] as $newsComment) {
 	echo $this->element('comment', array('i' => $i, 'comment' => $newsComment));
 	$i++;
 }
 if(isset($AuthUser['id']) && $AuthUser['id'] > 0) {
 ?>
 <div class="clear"></div>
-<div id="news_comment_form">
+<div id="comment_form">
 <?php
-echo $this->element('news/news_comment_form', array('news_id' => $news['News']['id']));
+echo $this->element('comment_form', array('model_id' => $news['News']['id'], 'model' => 'News'));
 ?>
 </div>
 <?php

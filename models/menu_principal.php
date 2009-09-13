@@ -6,7 +6,6 @@ class MenuPrincipal extends AppModel {
 	function __xmlToMenu($xml, $actual = '') {
 		$menu = $xml->toArray();
 		$menu = Set::extract('/Menu/Topitem', $menu);
-		debug($menu);
 		/* Add actual key */
 		foreach($menu as $key => $value) {
 			if(low($actual) == low($value['Topitem']['label'])) {

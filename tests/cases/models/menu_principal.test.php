@@ -1,7 +1,6 @@
 <?php
 /* MenuPrincipal Test cases generated on: 2009-09-12 18:09:05 : 1252773965*/
 App::import('Model', 'MenuPrincipal');
-App::import('Core', 'Xml');
 
 class MenuPrincipalTestCase extends CakeTestCase {
 	var $fixtures = array();
@@ -18,9 +17,7 @@ class MenuPrincipalTestCase extends CakeTestCase {
 	}
 
 	function test__xmlToMenu() {
-		$source = '
-			<?xml version="1.0" encoding="utf-8"?>
-			<menu>
+		$source = '<menu>
 				<Topitem>
 					<title>Accueil</title>
 					<Url>/</Url>
@@ -90,6 +87,7 @@ class MenuPrincipalTestCase extends CakeTestCase {
 				),
 			),
 		);
+		App::import('Xml');
 		$xml = new Xml($source);
 		$this->assertEqual($expected, $this->MenuPrincipal->__xmlToMenu($xml));
 		

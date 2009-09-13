@@ -5,18 +5,19 @@ class MenuPrincipal extends AppModel {
 	
 	function __xmlToMenu($xml, $actual = '') {
 		$menu = $xml->toArray();
-		$menu = Set::extract('Menu.Topitem', $menu);
+		$menu = Set::extract('/Menu/Topitem', $menu);
+		debug($menu);
 		/* Add actual key */
 		foreach($menu as $key => $value) {
-			if(low($actual) == low($value['label'])) {
-				$menu[$key]['actual'] = 1;
+			if(low($actual) == low($value['Topitem']['label'])) {
+				$menu[$key]['Topitem']['actual'] = 1;
 				break;
 			}
-			if(isset($value['Subitem']) && !empty($value['Subitem'])) {
-				foreach($value['Subitem'] as $k => $v) {
+			if(isset($value['Topitem']['Subitem']) && !empty($value['Topitem']['Subitem'])) {
+				foreach($value['Topitem']['Subitem'] as $k => $v) {
 					if(low($actual) == $v['label']) {
-						$menu[$key]['actual'] = 1;
-						$menu[$key]['Subitem'][$k]['actual'] = 1;
+						$menu[$key]['Topitem']['actual'] = 1;
+						$menu[$key]['Topitem']['Subitem'][$k]['actual'] = 1;
 						break;
 					}
 				}

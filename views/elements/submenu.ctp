@@ -3,11 +3,11 @@ $subMenus = array();
 $i = 1;
 $actual = 0;
 foreach($menuPrincipal as $nom => $valeur) {
-	if (isset($valeur['Subitem'])) { /* C'est un item à sous menu */
-		if(isset($valeur['actual'])) {
+	if (isset($valeur['Topitem']['Subitem'])) { /* C'est un item à sous menu */
+		if(isset($valeur['Topitem']['actual'])) {
 			$actual = $i;
 		}
-		$subMenus[$i] = $valeur['Subitem'];
+		$subMenus[$i] = $valeur['Topitem']['Subitem'];
 		$i++;
 	}
 }

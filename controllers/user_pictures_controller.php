@@ -1,28 +1,16 @@
 <?php
 class UserPicturesController extends AppController {
 	var $name = 'UserPictures';
-	var $helpers = array('Cropimage', 'Gravatar');
-	var $components = array('SwfUpload');
-	var $uses = array('UserPicture', 'UserProfile');
+	var $helpers = array('Cropimage', 'Gravatar', 'Session');
+	var $components = array('YuiUpload');
+	var $uses = array('UserProfile', 'Image', 'UserProfile');
 	
 	function beforeFilter() {
-		if ($this->action == 'upload') {
-			/* SWFUpload hack */
-			if(isset($this->params['url']['PHPSESSID'])) {
-				$this->Session->id($this->params['url']['PHPSESSID']);
-	            $this->Session->start();
-			}
-			elseif(isset($this->params['form']['PHPSESSID'])) {
-				$this->Session->id($this->params['form']['PHPSESSID']);
-	            $this->Session->start();
-			}
-
-        }
-        
-        parent::beforeFilter();
-        
-    }
-	
+		if(isset($this->params['form'][Configure::read('Session.cookie')])) {
+			$this->Session->id($this->params['form'][Configure::read('Session.cookie')]);
+		}
+		parent::beforeFilter();
+	}
 	function admin_index() {
 		$this->paginate = array(
 			'limit' => 30,
@@ -38,67 +26,52 @@ class UserPicturesController extends AppController {
 	
 	function upload() {
 		if (isset($this->params['form']['Filedata'])) { 
-            // upload the file 
-            // use these to configure the upload path, web path, and overwrite settings if necessary 
-            $this->SwfUpload->uploadpath = 'img' . DS . 'upload' . DS; 
-            $this->SwfUpload->webpath = DS . 'img' . DS . 'upload' . DS;
-            // $this->SwfUpload->overwrite = true;  //by default, SwfUploadComponent does NOT overwrite files 
-            // 
-			Configure::write('debug', 0);
-            if ($this->SwfUpload->upload(array('img'))) { 
-                // save the file to the db, or do whatever you want to do with the data 
-                $this->params['form']['Filedata']['name'] = $this->SwfUpload->filename; 
-                $this->params['form']['Filedata']['path'] = $this->SwfUpload->webpath; 
-                $this->params['form']['Filedata']['fspath'] = $this->SwfUpload->uploadpath . $this->SwfUpload->filename; 
-				$this->params['form']['Filedata']['type'] = $this->SwfUpload->mimetype;
-                $this->data['UserPicture'] = $this->params['form']['Filedata'];
-				
-				if(!($filename = $this->UserPicture->resizeAndThumb($this->params['form']['Filedata']['fspath']))) {
-					$this->set('ajaxMessage', 'ERROR:' . reset($this->UserPicture->getPhpThumbErrors()));
-					return $this->render(null, 'ajax', '/ajaxempty');
-				}
-				$this->data['UserPicture']['filename'] = basename($filename);
-				$this->data['UserPicture']['user_profile_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
-				
-				
-                if (!($UserPicture = $this->UserPicture->save($this->data))){ 
-                    $this->set('ajaxMessage', 'ERROR:Database save failed');
-                } else {
-					$this->log($UserPicture['UserPicture']);
-                    $this->set('ajaxMessage', 'FILENAME:' . 'thmb/' . $UserPicture['UserPicture']['filename'] . ';'.$this->UserPicture->getLastInsertID()); 
-                } 
-            } else {
-                $this->set('ajaxMessage', 'ERROR:' . $this->SwfUpload->errorMessage); 
-            }
-
-        }
+			$this->data['Image']['filename'] = $this->params['form']['Filedata'];	
+		}
+		$this->data['Image']['user_profile_id'] = $this->Auth->user('id');
+		if(!($image = $this->UserProfile->Image->save(array('Image' => $this->data['Image'])))) {
+			$this->log($this->UserProfile->Image->invalidFields());
+			$this->set('ajaxMessage', 'ERROR:' . reset($this->UserProfile->Image->invalidFields()));
+		} else {
+			App::import('Helper', 'Javascript');
+			$a =& new JavascriptHelper();
+			/* JSon */
+			$image['Image']['id'] = $this->Image->getLastInsertID();
+			$this->set('ajaxMessage', 'SUCCESS:' . $a->object($image));
+		}
+		Configure::write('debug', 0);
 		$this->render(null, 'ajax', '/ajaxempty');
+		return;	 
 	}
 	
 	function edit() {
-		$this->UserProfile->contain('Picture');
+		$this->UserProfile->contain('Image');
 		$userProfile = $this->UserProfile->findById($this->Auth->user('id'));
 		if(empty($userProfile)) {
 			$this->redirect('/'); /* Should never happen (Acl magic !) */
 		}
 		
-		$this->set($userProfile);
+		$this->set('userProfile', $userProfile);
 		
 	}
 	
 	function delete() {
 		if($this->RequestHandler->isAjax()) {
-			Configure::write('debug', 0);
+			//Configure::write('debug', 0);
 			if(isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id'])) {
-				$this->UserPicture->id = $id;
-				$this->UserPicture->read();
-				if($this->Auth->user('id') == $this->UserPicture->data['UserPicture']['user_profile_id']) {
-					$this->UserPicture->delete();
+				$this->Image->id = $id;
+				$this->Image->read();
+				if($this->Auth->user('id') == $this->Image->data['Image']['user_profile_id']) {
+					$this->Image->delete();
+				} else {
+					/* Security blackhole */
 				}
 				$this->set('ajaxMessage', 'success');
 				$this->render(null, 'ajax', '/ajaxempty');
 			}
 		}
+		$this->set('ajaxMessage', 'success');
+		$this->render(null, 'ajax', '/ajaxempty');
 	}
 	
 	function admin_delete() {

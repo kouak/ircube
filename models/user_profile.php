@@ -42,8 +42,8 @@ class UserProfile extends AppModel {
 				'order' => 'Comment.created ASC',
 				'dependant' => true,
 			),
-			'Picture' => array(
-				'className' => 'UserPicture',
+			'Image' => array(
+				'className' => 'Image',
 				'foreignKey' => 'user_profile_id',
 			),
 			'Quotes' => array(

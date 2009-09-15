@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Ircube schema generated on: 2009-09-13 22:09:51 : 1252874751*/
+/* Ircube schema generated on: 2009-09-15 03:09:48 : 1252978008*/
 class IrcubeSchema extends CakeSchema {
 	var $name = 'Ircube';
 
@@ -108,6 +108,17 @@ class IrcubeSchema extends CakeSchema {
 		'sender' => array('type' => 'string', 'null' => false, 'length' => 30),
 		'object_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'raison' => array('type' => 'string', 'null' => false, 'length' => 300),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
+	);
+	var $images = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8, 'key' => 'primary'),
+		'filename' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'dir' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'mimetype' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'filesize' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'user_profile_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
 	);
 	var $memos = array(

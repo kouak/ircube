@@ -8,19 +8,21 @@ Spécifications site IRCube
 			Sexe (*)
 			Localisation (google maps API)
 			Salons favoris (*)
-			Commentaires (repomper le code des news)
+			Commentaires (*)
 		Photos
 			Avatar (Gravatar / Avatarify, mettre en forme, revoir l'helper gravatar)
 		Amis
 	- News
 		Catégorie (*)
-		Commentaires (* manque report utilisateurs/calcul spam, manque message annonçant modération du commentaire : non visible de suite)
+		Commentaires (* manque report utilisateurs/calcul spam)
 		Archives (* manque cosmétique)
 	- Quotes
 		Catégorie
 		Score
 		Auteur
 		Salon lié
+	- Salons
+		Profil (à creuser)
 
 * Administration
 	- Utilisateurs

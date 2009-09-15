@@ -885,16 +885,14 @@ var $_imageTypes = array('image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 
  * @author Vinicius Mendes
  */
 	function _fixName($fieldName, $checkFile = true) {
-		// TODO : random generated filenames */
 		// updates the filename removing the keywords thumb and default name for the field.
 		list ($filename, $ext) = $this->_splitFilenameAndExt($this->__model->data[$this->__model->name][$fieldName]['name']);
-		$filename = str_replace($this->patterns, $this->replacements, $filename);
-		$filename = Inflector::slug($filename);
-		$i = 0;
-		$newFilename = $filename;
+		
+		$newFilename = md5(rand() . $filename);
+		
 		if ($checkFile) {
 			while (file_exists($this->__fields[$fieldName]['dir'] . DS . $newFilename . '.' . $ext)) {
-				$newFilename = $filename . $i++;
+				$newFilename = md5(rand() . $newFilename);
 			}
 		}
 		$this->__model->data[$this->__model->name][$fieldName]['name'] = $newFilename . '.' . $ext;

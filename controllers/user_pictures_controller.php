@@ -2,7 +2,6 @@
 class UserPicturesController extends AppController {
 	var $name = 'UserPictures';
 	var $helpers = array('Cropimage', 'Gravatar', 'Session');
-	var $components = array('YuiUpload');
 	var $uses = array('UserProfile', 'Image', 'UserProfile');
 	
 	function beforeFilter() {

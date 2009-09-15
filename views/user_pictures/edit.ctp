@@ -52,6 +52,7 @@ function loadImage(r) {
 	
 	image = image.replace('%DIR%', json['Image']['dir']).replace('%FILENAME%', json['Image']['filename']).replace('%ID%', json['Image']['id']);
 	$('#thumbnails').append(image);
+	$('#noImgInGallery').remove();
 }
 
 function upError(a,b,c,d) {
@@ -88,15 +89,6 @@ function upComplete(event,ID,fileObj,response,data) {
 	<form>
 			<input id="fileInput" name="fileInput" type="file" />
 	</form>
-	
-<?php
-echo $form->create('Image', array('type' => 'file', 'controller' => 'user_pictures', 'url' => '/user_pictures/upload'));
-echo $form->input('filename', array('type' => 'file'));
-echo $form->input('dir', array('type' => 'hidden'));
-echo $form->input('mimetype', array('type' => 'hidden'));
-echo $form->input('filesize', array('type' => 'hidden'));
-echo $form->end('Submit');
-?>
 	<div class="clear"></div>
 	<div id="thumbnails">
 	<?php

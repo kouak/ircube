@@ -1,16 +1,65 @@
 <?php
-
+echo $javascript->link('http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js', false);
+echo $html->css(array('hot-sneaks/jquery-ui-1.7.2.custom'), null, array(), false);
 ?>
 <script type="text/javascript">
 $(function() {
-
+	$('#gallery > div.thumbnail').draggable({'revert': true});
+	$('div.avatar').droppable({
+		tolerance: 'pointer',
+		activate: function(event, ui) {
+			$(this).effect('highlight', {}, 2000);
+		},
+		drop: function(event, ui) {
+			swapImages(ui.draggable, $(this));
+			return true;
+		},
+	});
+	
+	function swapImages(n, old) {
+		var avatar = n.find('img');
+		var avatar_id = avatar.attr('alt');
+		var avatar_src = avatar.attr('src');
+		var old_avatar = old.find('img');
+		var old_avatar_id = old_avatar.attr('alt');
+		var old_avatar_src = old_avatar.attr('src');
+		$.post("<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'avatarify')); ?>", {id : avatar_id}, function(data) {
+			$('#dialog > p').html(data);
+		});
+		
+		/* swap images */
+		avatar.attr('alt', old_avatar_id);
+		avatar.attr('src', old_avatar_src);
+		old_avatar.attr('alt', avatar_id);
+		old_avatar.attr('src', avatar_src);
+	}
+	
+	$('#gallery > div.thumbnail a').click(function() {
+		swapImages($(this).parents('div.thumbnail'), $('div.avatar'));
+		return false;
+	});
 });
 </script>
-<h1><?php echo __('Choisissez l\'image pour construire votre avatar', true); ?></h1>
+<div id="dialog" title="Basic dialog">
+	<p></p>
+</div>
+<h1><?php __('Votre avatar :'); ?></h1>
+<?php
+/* TODO : javascript drag & drop */
+if(!empty($userProfile['Avatar'])) {
+	$a = $userProfile['Avatar'];
+	echo $ircube->thumbnailWrap($html->image($medium->webroot('filter' . DS . 's' . DS . $a['dirname'] . DS . $a['basename']), array('alt' => $a['id'])), 'thumbnail avatar');
+}
+else {
+	__('Pas d\'avatar !');
+}
+?>
+<div class="clear"></div>
+<h1><?php __('Choisissez l\'image pour construire votre avatar'); ?></h1>
 <div id="gallery">
 <?php
-foreach($picture as $i) {
-	echo $ircube->thumbnailWrap($html->image('upload' . DS . 'thmb' . DS . $i['filename'], array('alt' => $i['id'], 'url' => array('action' => 'avatarify', 'id' => $i['id']))));
+foreach($userProfile['Attachment'] as $i) {
+	echo $ircube->thumbnailWrap($html->image($medium->webroot('filter' . DS . 's' . DS . $i['dirname'] . DS . $i['basename']), array('alt' => $i['id'], 'url' => array('action' => 'avatarify', 'id' => $i['id']))));
 }
 ?>
 </div>

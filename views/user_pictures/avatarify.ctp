@@ -29,22 +29,22 @@ $(window).load(function () {
 $html->css(array('user_pictures/avatarify'), null, array(), false);
 $javascript->link('jquery/jquery.imgareaselect.js', false);
 echo $form->create(null, array('url' => $this->here));
-echo $form->hidden('x1', array("value" => "0", "id"=>"x1"));
-echo $form->hidden('y1', array("value" => "0", "id"=>"y1"));
-echo $form->hidden('w', array("value" => "0", "id"=>"w"));
-echo $form->hidden('h', array("value" => "0", "id"=>"h"));
+echo $form->hidden('Avatar.x1', array("value" => "0", "id"=>"x1"));
+echo $form->hidden('Avatar.y1', array("value" => "0", "id"=>"y1"));
+echo $form->hidden('Avatar.w', array("value" => "0", "id"=>"w"));
+echo $form->hidden('Avatar.h', array("value" => "0", "id"=>"h"));
 ?>
 <div id="avatarareaselect" class="span-14 push-1">
 				<h1>Sélectionnez une partie de votre image</h1>
 				<div class="box">
-					<?php echo $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . $UserPicture['UserPicture']['filename']), array('id' => 'fullsize'));?>
+					<?php echo $html->image($medium->webroot('filter' . DS . 'l' . DS . $Attachment['Attachment']['dirname'] . DS . $Attachment['Attachment']['basename']), array('id' => 'fullsize'));?>
 				</div>
 </div>
 <div id="avatarvalidation" class="span-6 push-1">
 	<h1>Créez votre avatar</h1>
 	<div class="box">
 		<?php
-			echo $ircube->thumbnailWrap($html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . $UserPicture['UserPicture']['filename'])));
+			echo $ircube->thumbnailWrap($html->image($medium->webroot('filter' . DS . 'l' . DS . $Attachment['Attachment']['dirname'] . DS . $Attachment['Attachment']['basename'])));
 			echo $form->submit('Done', array("id"=>"save_thumb"));
 		?>
 	</div>

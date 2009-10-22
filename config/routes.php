@@ -70,6 +70,8 @@
 	Router::connect('/editprofile', array('controller' => 'user_profiles', 'action' => 'edit'));
 	Router::connect('/dashboard', array('controller' => 'user_profiles', 'action' => 'dashboard'));
 	
+	Router::connect('/avatarify/:id', array('controller' => 'user_pictures', 'action' => 'avatarify'), array('pass' => array('id')));
+	
 	/* Admin routing */
 	Router::connect('/login', array('controller' => 'user_profiles', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'user_profiles', 'action' => 'logout'));

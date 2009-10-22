@@ -6,8 +6,8 @@
 <?php echo $html->css(array('blueprint/screen.css', 'blueprint/ircube.css')); ?>
 <!--[if lt IE 8]><?php echo $html->css(array('blueprint/ie.css')); ?><![endif]-->
 <?php echo $html->css(array('uni-form/uni-form.css')); ?>
-<?php echo $html->css(array('pagination', 'noscript'));?>
-<?php echo $javascript->link(array('jquery/jquery', 'jquery/jquery.uni-form', 'jquery/jquery.corners.min', 'menu_principal'));?>
+<?php echo $html->css(array('pagination', 'noscript', 'ircube-boxes'));?>
+<?php echo $javascript->link(array('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', 'jquery/jquery.uni-form', 'jquery/jquery.corners.min', 'menu_principal'));?>
 <?php echo $scripts_for_layout; ?>
 
 <script type="text/javascript">
@@ -83,13 +83,14 @@ $(function() {
 				if ($session->check('Message.auth')) 
 					$session->flash('auth');
  				if ($session->check('Message.flash')) {
-			    	$session->flash();
+			    	//$session->flash();
 				}
+				echo @$message;
 			?>
 			<div class="clear"></div>
 			<?php
 				//La page
-				echo $content_for_layout
+				echo $content_for_layout;
 			?>
 			<div class="clear"></div>
 			<div id="footer" class="span-24 last">

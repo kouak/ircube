@@ -48,11 +48,10 @@ function loadDelete() {
 
 function loadImage(r) {
 	var json = eval('(' + r + ')');
-	var image = <?php echo "'" . $ircube->image($html->webroot('%DIR%' . DS . 'thumb' . DS . 'small' . DS . '%FILENAME%'), array('alt' => '%ID%')) . "'"; ?>;
-	
-	image = image.replace('%DIR%', json['Image']['dir']).replace('%FILENAME%', json['Image']['filename']).replace('%ID%', json['Image']['id']);
-	$('#thumbnails').append(image);
-	$('#noImgInGallery').remove();
+	$.get('<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'getImageDiv')); ?>' + '/' + json['Attachment']['id'], function(data) {
+		$(data).appendTo('#thumbnails').hide().fadeIn();
+		$('#noImgInGallery').remove();
+	});
 }
 
 function upError(a,b,c,d) {
@@ -66,6 +65,7 @@ function fancyError(ID, message) {
 
 function upComplete(event,ID,fileObj,response,data) {
 	var status, a, r;
+	console.log(response);
 	a = response.split(':');
 	status = a.shift();
 	r = a.join(':');
@@ -92,13 +92,13 @@ function upComplete(event,ID,fileObj,response,data) {
 	<div class="clear"></div>
 	<div id="thumbnails">
 	<?php
-		if(empty($userProfile['Image'])) {
+		if(empty($userProfile['Attachment'])) {
 			echo '<p id="noImgInGallery">';
 			__('Oops ! Il n\'y a pas encore d\'image dans votre gallerie. Dépêchez vous d\'en ajouter !');
 			echo '</p>';
 		} else {
-			foreach($userProfile['Image'] as $pic) {
-				echo $ircube->image($html->webroot($pic['dir'] . DS . 'thumb' . DS . 'small' . DS . $pic['filename']), array('alt' => $pic['id']));
+			foreach($userProfile['Attachment'] as $pic) {
+				echo $ircube->image($medium->webroot('filter' . DS . 's' . DS . $pic['dirname'] . DS . $pic['basename']), array('alt' => $pic['id']));
 			}
 		}
 	?>

@@ -9,7 +9,7 @@
 			<Url>
 				<controller>news</controller>
 				<action>index</action>
-				<admin />
+				<admin>true</admin>
 			</Url>
 		</Subitem>
 		<Subitem>
@@ -18,7 +18,7 @@
 			<Url>
 				<controller>news</controller>
 				<action>edit</action>
-				<admin />
+				<admin>true</admin>
 			</Url>
 		</Subitem>
 	</Topitem>
@@ -31,7 +31,7 @@
 			<Url>
 				<controller>user_pictures</controller>
 				<action>index</action>
-				<admin />
+				<admin>true</admin>
 			</Url>
 		</Subitem>
 		<Subitem>
@@ -40,7 +40,7 @@
 			<Url>
 				<controller>user_profiles</controller>
 				<action>index</action>
-				<admin />
+				<admin>true</admin>
 			</Url>
 		</Subitem>
 	</Topitem>
@@ -50,7 +50,7 @@
 		<Url>
 			<controller>comments</controller>
 			<action>index</action>
-			<admin />
+			<admin>true</admin>
 		</Url>
 	</Topitem>
 </menu>

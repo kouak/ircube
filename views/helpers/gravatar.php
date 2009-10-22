@@ -41,16 +41,19 @@ class GravatarHelper extends AppHelper {
 
 	function image($email, $options = array()) {
 		$options = $this->__cleanOptions(am($this->__default, $options));
-
-		$ext = $options['ext'];
-		unset($options['ext']);
-
-		$imageUrl = $this->__url . $this->__emailHash($email, $this->__hashType) . ($ext ? '.jpg' : '') . $this->__buildOptions($options);
-		unset($options['default'], $options['size'], $options['rating']);
+		
+		$imageUrl = $this->imageUrl($email, $options);
+		unset($options['default'], $options['size'], $options['rating'], $options['ext']);
 
 		return $this->Html->image(
 			$imageUrl,
 			$options);
+	}
+	
+	function imageUrl($email, $options = array()) {
+		$ext = $options['ext'];
+		unset($options['ext']);
+		return $this->__url . $this->__emailHash($email, $this->__hashType) . ($ext ? '.jpg' : '') . $this->__buildOptions($options);
 	}
 
 	function __cleanOptions($options) {

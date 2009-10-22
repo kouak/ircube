@@ -47,9 +47,7 @@ $mod = 4;
 <div id="thumbnails">
 	<?php
 	foreach($user_pictures as $i) {
-		$UserPicture = $i['UserPicture'];
-		echo $ircube->thumbnailWrap($html->image('upload' . DS . 'thmb' . DS . $UserPicture['filename'], array('alt' => $UserPicture['id'])));
-
+		echo $ircube->image($medium->webroot('filter' . DS . 's' . DS . $i['Attachment']['dirname'] . DS . $i['Attachment']['basename']), array('alt' => $i['Attachment']['id']));
 	}
 	?>
 </div>

@@ -58,6 +58,8 @@ function cleanChannelName($channel, $options = array()) {
 	
 	return $channel;
 }
+        
+require APP . 'plugins' . DS . 'media' . DS . 'config' . DS . 'core.php';
 
 //EOF
 ?>

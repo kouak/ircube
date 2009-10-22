@@ -19,30 +19,36 @@ if(!file_exists(IMAGES . DS . 'upload' . DS . 'avatar' . DS . ($avatar = low($Au
 } else {
 	$content = $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . 'avatar' . DS . $avatar));
 }
-echo $this->element('ircube-box', array('options' => array('id' => 'avatar', 'span' => 'span-6', 'color' => 'blue', 'header' => 'h3'), 'title' => sprintf(__('Bienvenue %s !', true), $AuthUser['username']), 'content' => $ircube->thumbnailCenterWrap($content)));
+$ircube->startBox(array('id' => 'avatar', 'span' => 'span-6', 'color' => 'blue', 'header' => 'h3'));
+$ircube->boxTitle(sprintf(__('Bienvenue %s !', true), $AuthUser['username']));
+$ircube->startBoxContent();
+echo $ircube->thumbnailCenterWrap($content);
+$ircube->endBox();
 
-$content = $uniForm->create(null, array('url' => false, 'type' => 'get', 'id' => 'chatform', 'action' => false, 'class' => 'chatform')) . "\n";
-$content .= $uniForm->input('Pseudo', array('type' => 'text', 'length' => 10, 'maxLength' => 20)) . "\n";
-$content .= $uniForm->fieldset(array('blockLabels' => true)) . "\n";
-$content .= '
+$ircube->startBox(array('color' => 'orange', 'id' => 'chatform', 'span' => 'span-10 push-1 last'));
+$ircube->boxTitle(__('Tchattez sur IRCube !', true));
+$ircube->startBoxContent();
+echo $uniForm->create(null, array('url' => false, 'type' => 'get', 'id' => 'chatform', 'action' => false, 'class' => 'chatform')) . "\n";
+echo $uniForm->input('Pseudo', array('type' => 'text', 'length' => 10, 'maxLength' => 20)) . "\n";
+echo $uniForm->fieldset(array('blockLabels' => true)) . "\n";
+?>
 			<div class="ctrlHolder">
 				<p class="label">Salons</p>
 				<div class="multiField">
-';
+<?php
 foreach($homeChans as $chan) {
 	$checked = ($chan['checked'] === true) ? 'checked' : '';
-	$content .= <<<EOF
+	echo <<<EOF
 							<div class="chans"><label for=Salons${chan['name']}" class="inlineLabel"><input type="checkbox" name="Salons[]" $checked value="${chan['name']}" id="Salons${chan['name']}" />${chan['name']} ({$chan['users']})</label></div>
 EOF;
 }
-$content .= '
+?>
 				</div>
 			</div>
-';
-$content .= $uniForm->submit(__('Tchattez !', true));
-$content .= $uniForm->end();
-echo $this->element('ircube-box', array('options' => array('color' => 'orange', 'id' => 'chatform', 'span' => 'span-10 push-1 last'), 'title' => 'Tchattez sur IRCube !', 'content' => $content));
-
+<?php
+echo $uniForm->submit(__('Tchattez !', true));
+echo $uniForm->end();
+$ircube->endBox();
 ?>
 <div class="clear"></div>
 <?php

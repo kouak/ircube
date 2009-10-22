@@ -19,13 +19,19 @@ class UserProfile extends AppModel {
 				'order' => '',
 				'counterCache' => '',
 			),
-			'Avatar' => array(
-				'className' => 'UserPicture',
-				'foreignKey' => 'avatar_id',
-				'conditions' => array('Avatar.is_avatar' => true),
-			),
 		);
 
+	var $hasOne = array(
+		'Avatar' => array(
+			'className' => 'Media.Attachment',
+			'foreignKey' => 'foreign_key',
+			'conditions' => array(
+				'Avatar.model' => 'UserProfile',
+				'Avatar.group <=>' => 'avatar',
+			),
+			'dependant' => true,
+		),
+	);
 	var $hasMany = array(
 			'News' => array(
 				'className' => 'News',
@@ -42,9 +48,16 @@ class UserProfile extends AppModel {
 				'order' => 'Comment.created ASC',
 				'dependant' => true,
 			),
-			'Image' => array(
-				'className' => 'Image',
-				'foreignKey' => 'user_profile_id',
+			'Attachment' => array(
+				'className' => 'Media.Attachment',
+				'foreignKey' => 'foreign_key',
+				'conditions' => array(
+					'Attachment.model' => 'UserProfile',
+					'NOT' => array(
+						'Attachment.group <=>' => 'avatar',
+					),
+				),
+				'dependent' => true,
 			),
 			'Quotes' => array(
 				'className' => 'Quote',

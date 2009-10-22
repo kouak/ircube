@@ -4,25 +4,30 @@ Spécifications site IRCube
 	- Utilisateurs
 		Compte Z lié (*)
 		Fiche trombinoscope
-			Age (* manque traduction)
+			Age (* manque traduction formulaire)
 			Sexe (*)
 			Localisation (google maps API)
 			Salons favoris (*)
 			Commentaires (*)
 		Photos
-			Avatar (Gravatar / Avatarify, mettre en forme, revoir l'helper gravatar)
+			Avatar (Ne plus utiliser gravatar, revoir avatarify, revoir les associations, mettre en forme)
 		Amis
 	- News
 		Catégorie (*)
 		Commentaires (* manque report utilisateurs/calcul spam)
 		Archives (* manque cosmétique)
 	- Quotes
-		Catégorie
+		Catégorie (à voir ?)
 		Score
-		Auteur
-		Salon lié
+		Auteur (*)
+		Salon lié (*)
+		
 	- Salons
 		Profil (à creuser)
+			* Quotes du salon
+			* Qui fréquente le salon ? (access + tags déja en place)
+	- Reports (polymorphic : sender_id, model, model_id)
+	- Moderation (groupe moderateurs : panneau de modération)
 
 * Administration
 	- Utilisateurs
@@ -44,4 +49,11 @@ Spécifications site IRCube
 		
 	- Quotes
 		Dernières quotes
+		
+* Optimisations :
+	- Créer des INDEX SQL
+
+* Bugs relevés :
+
+admin/news_index : publish/unpublish, soucis de catégorie et de classe css
 		

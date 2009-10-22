@@ -1,0 +1,9 @@
+[submodule "plugins/uploadpack"]
+	path = plugins/uploadpack
+	url = git://github.com/szajbus/uploadpack.git
+[submodule "plugins"]
+	path = plugins
+	url = git://github.com/szajbus/uploadpack.git
+[submodule "plugins/media"]
+	path = plugins/media
+	url = git://github.com/davidpersson/media.git

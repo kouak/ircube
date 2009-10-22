@@ -72,7 +72,6 @@ class MenuPrincipal extends AppModel {
 				}
 			}
 		}
-		debug($menu);
 		return $menu;
 	}
 }

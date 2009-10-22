@@ -7,7 +7,7 @@ $content = <<<EOF
 		<div class="avatar">
 			
 EOF;
-$content .= $gravatar->image($comment['Author']['mail']);
+$content .= $html->image(Router::url(array('controller' => 'user_pictures', 'action' => 'avatar', 's', $comment['Author']['username'])));
 $content .= '
 		</div>
 		<div class="comment">

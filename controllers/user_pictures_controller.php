@@ -1,8 +1,8 @@
 <?php
 class UserPicturesController extends AppController {
 	var $name = 'UserPictures';
-	var $helpers = array('Cropimage', 'Gravatar', 'Session');
-	var $uses = array('UserProfile', 'Image', 'UserProfile');
+	var $helpers = array('Cropimage', 'Gravatar', 'Session', 'Media.Medium', 'Cache');
+	var $uses = array('UserProfile', 'Media.Attachment');
 	
 	function beforeFilter() {
 		if(isset($this->params['form'][Configure::read('Session.cookie')])) {
@@ -14,37 +14,44 @@ class UserPicturesController extends AppController {
 		$this->paginate = array(
 			'limit' => 30,
 			'order' => array(
-				'UserPicture.created' => 'desc'
+				'Attachment.created' => 'desc'
+				),
+			'conditions' => array(
+				'Attachment.model' => 'UserProfile',
 				),
 			'contain' =>  array(
-				'UserProfile',
+				'UserProfile' => array('id', 'username'),
 				),
 			);
-		$this->set('user_pictures', $this->paginate('UserPicture'));
+		$this->set('user_pictures', $this->paginate('Attachment'));
 	}
 	
 	function upload() {
 		if (isset($this->params['form']['Filedata'])) { 
-			$this->data['Image']['filename'] = $this->params['form']['Filedata'];	
+			$this->data['UserProfile']['Attachment']['file'] = $this->params['form']['Filedata'];
 		}
-		$this->data['Image']['user_profile_id'] = $this->Auth->user('id');
-		if(!($image = $this->UserProfile->Image->save(array('Image' => $this->data['Image'])))) {
-			$this->log($this->UserProfile->Image->invalidFields());
-			$this->set('ajaxMessage', 'ERROR:' . reset($this->UserProfile->Image->invalidFields()));
+		$this->data['UserProfile']['Attachment']['foreign_key'] = $this->Auth->user('id');
+		$this->data['UserProfile']['Attachment']['model'] = 'UserProfile';
+		Configure::write('debug', 0);
+		$this->log($this->data['UserProfile']['Attachment']);
+		if(!($attachment = $this->UserProfile->Attachment->save(array('Attachment' => $this->data['UserProfile']['Attachment'])))) {
+			$this->log($this->UserProfile->Attachment->invalidFields());
+			$this->set('ajaxMessage', 'ERROR:' . reset($this->UserProfile->Attachment->invalidFields()));
 		} else {
 			App::import('Helper', 'Javascript');
 			$a =& new JavascriptHelper();
 			/* JSon */
-			$image['Image']['id'] = $this->Image->getLastInsertID();
-			$this->set('ajaxMessage', 'SUCCESS:' . $a->object($image));
+			$attachment['Attachment']['id'] = $this->UserProfile->Attachment->getLastInsertID();
+			$this->log($a->object($attachment));
+			$this->set('ajaxMessage', 'SUCCESS:' . $a->object($attachment));
 		}
-		Configure::write('debug', 0);
+		
 		$this->render(null, 'ajax', '/ajaxempty');
 		return;	 
 	}
 	
 	function edit() {
-		$this->UserProfile->contain('Image');
+		$this->UserProfile->contain('Attachment');
 		$userProfile = $this->UserProfile->findById($this->Auth->user('id'));
 		if(empty($userProfile)) {
 			$this->redirect('/'); /* Should never happen (Acl magic !) */
@@ -54,14 +61,27 @@ class UserPicturesController extends AppController {
 		
 	}
 	
+	function getImageDiv($id = null) {
+		if($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
+			if(is_numeric($id) || (isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id']))) {
+				$this->UserProfile->Attachment->id = $id;
+				$this->UserProfile->Attachment->read();
+				$this->layout = 'ajax';
+				$this->set('attachment', $this->UserProfile->Attachment->data);
+				$this->render('ajax/singleimage');
+			}
+		}
+	}
+	
 	function delete() {
 		if($this->RequestHandler->isAjax()) {
-			//Configure::write('debug', 0);
+			Configure::write('debug', 0);
 			if(isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id'])) {
-				$this->Image->id = $id;
-				$this->Image->read();
-				if($this->Auth->user('id') == $this->Image->data['Image']['user_profile_id']) {
-					$this->Image->delete();
+				$this->UserProfile->Attachment->id = $id;
+				$this->UserProfile->Attachment->read();
+				if($this->UserProfile->Attachment->data['Attachment']['model'] == 'UserProfile' && $this->Auth->user('id') == $this->UserProfile->Attachment->data['Attachment']['foreign_key']) {
+					$this->UserProfile->Attachment->delete();
 				} else {
 					/* Security blackhole */
 				}
@@ -77,93 +97,157 @@ class UserPicturesController extends AppController {
 		if($this->RequestHandler->isAjax()) {
 			Configure::write('debug', 0);
 			if(isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id'])) {
-				$this->UserPicture->id = $id;
-				$this->UserPicture->read();
-				$this->UserPicture->delete();
+				$this->UserProfile->Attachment->id = $id;
+				$this->UserProfile->Attachment->read();
+				$this->UserProfile->Attachment->delete();
 				$this->set('ajaxMessage', 'success');
 				$this->render(null, 'ajax', '/ajaxempty');
 			}
 		}
 	}
 	
-    function avatarify($id=null) {
-		if($id == null) {
-			$this->redirect('/');
+	function avatarify($id=null) {
+		if(!$this->__isLoggedIn()) {
+			$this->__authDeny();
 		}
 		
-		/* Check if supplied image id belongs to Authed user */
-		
-		$this->UserPicture->contain();
-		$UserPicture = $this->UserPicture->findById($id);
-		
-		if(empty($UserPicture)) {
-			$this->redirect('/');
-		}
-		
-		if($UserPicture['UserPicture']['user_profile_id'] != $this->Auth->user('id')) {
-			$this->deny();
-		}
-		if (!empty($this->data)) {
-			$settings = array(
-				'sx' => intval($this->data['UserPicture']['x1']),
-				'sy' => intval($this->data['UserPicture']['y1']),
-				'sw' => intval($this->data['UserPicture']['w']),
-				'sh' => intval($this->data['UserPicture']['h']),
-				'output' => $this->UserPicture->avatarPath(low($this->Auth->user('username')) . '.png'),
-			);
-			
-			if(!$this->UserPicture->createAvatar($this->UserPicture->uploadPath($UserPicture['UserPicture']['filename']), $settings)) {
-				$this->Session->setFlash(__('Oops ! Quelque chose s\'est mal passé pendant la création de votre avatar !', true), 'messages/failure');
-			} else {
-				$this->Session->setFlash(__('Admirez votre superbe nouvel avatar !', true), 'messages/success');
-				$this->UserPicture->save(array('UserPicture' => array('id' => $UserPicture['UserPicture']['id'], 'is_avatar' => true)), false, array('id', 'is_avatar'));
-				$this->redirect(array('controller' => 'home', 'action' => 'index'));
-			}
-		}
-		
-		$this->set('UserPicture', $UserPicture);
-	}
-	
-	function avatar() {
-		if($this->Auth->user('id') >= 0) {
-			$this->UserProfile->contain(array('Picture', 'Avatar'));
-			if(empty($this->data)) {
-				$this->set('userProfile', $this->UserProfile->findById($this->Auth->user('id')));
-			}
-		}
-		else {
-			$this->deny();
-		}
-	}
-	
-	function use_gravatar() {
 		if($this->RequestHandler->isAjax()) {
 			Configure::write('debug', 0);
-			$this->set('ajaxMessage', 'success');
-			if($this->Auth->user('id') > 0) {
-				if($this->UserPicture->removeAvatar($this->Auth->user('username'))) {
-					$this->set('ajaxMessage', 'success');
+		}
+		
+		$message = __('Admirez votre nouvel avatar !', true);
+		$error = false;
+		
+		
+		if(is_numeric($id) || (isset($this->params['form']['id']) && is_numeric($id = $this->params['form']['id']))) {
+			
+			$this->UserProfile->Attachment->id = $id;
+			$this->UserProfile->Attachment->read();
+			$attachment = $this->UserProfile->Attachment->data;
+			
+			if(empty($attachment) || $attachment['Attachment']['model'] != 'UserProfile' || $attachment['Attachment']['foreign_key'] != $this->Auth->user('id')) { /* Security failure ? */
+				$this->__authDeny();
+			}
+			/* Find current avatar and remove it */
+			$this->UserProfile->contain('Avatar');
+			$up = $this->UserProfile->findById($this->Auth->user('id'));
+			if(!empty($up['Avatar'])) {
+				/* Remove current avatar */
+				if(!$this->UserProfile->Avatar->updateAll(array('Avatar.group' => null), array('Avatar.model' => 'UserProfile', 'Avatar.foreign_key' => $this->Auth->user('id')))) {
+					$message = __('failed to remove old avatar', true);
+					$error = true;
 				}
 			}
-			$this->render(null, 'ajax', '/ajaxempty');
+			if($error === false) {
+				$this->UserProfile->Avatar->id = $id;
+				if(!$this->UserProfile->Avatar->saveField('group', 'avatar')) {
+					$message = __('failed to save new avatar', true);
+					$error = true;
+				}
+			}
 		}
-		else {
+
+		if($this->RequestHandler->isAjax()) {
+			if($error === true) {
+				$this->set('ajaxMessage', 'ERROR:' . $message);
+			} else {
+				$this->set('ajaxMessage', 'success');
+			}
+			$this->render(null, 'ajax', '/ajaxempty');
+			return;
+		} else {
+			if($error === true) {
+				$this->Session->setFlash(__('Une erreur s\'est produite : ', true) . $message, 'messages/failure');
+			} else {
+				$this->Session->setFlash($message, 'messages/success');
+			}
 			$this->redirect('/');
 		}
+	}
+	
+	/* Typical call :
+		avatar/xs/username.jpg
+		or avatar/username.jpg
+	*/
+	function avatar($size = null, $username = null) {
+		$this->Auth->allow();
+		$this->cacheAction = '1 hour';
+		
+		$sizes = array( /* Sizing correspondance media plugin <=> gravatar */
+			'xxs' => '16x16',
+			'xs' => '32x32',
+			's' => '100x100',
+			'm' => '300x300',
+			'l' => '450x450',
+			'xl' => '680x440'
+		);
+		
+		/* serves an avatar, with the correct size, use gravatar ? */
+		if($size == null && $username == null) {
+			/* 404 error */
+			$this->cakeError('error404');
+		}
+		if($username == null) {
+			$username = $size;
+			unset($size);
+		}
+		if(!isset($size) || !array_key_exists($size, $sizes)) {
+			$size = 's'; /* Default size */
+		}
+		/* Remove file extension from username */
+		if(strchr($username, '.')) {
+			$username = implode('.', explode('.', $username, -1));
+		}
+		$this->UserProfile->contain('Avatar');
+		$UserProfile = $this->UserProfile->findByUsername($username);
+		if(empty($UserProfile['UserProfile'])) {
+			/* 404 error */
+			$this->cakeError('error404');
+		}
+		if(empty($UserProfile['Avatar']['id'])) {
+			/* Serve gravatar ? */
+			App::import('Helper', 'Gravatar');
+			$gravatar = new GravatarHelper();
+			$url = $gravatar->imageUrl($UserProfile['UserProfile']['mail'], array('ext' => 'jpg', 'size' => $sizes[$size]));
+			$this->redirect($url);
+		}
+		
+		
+		/* Serve avatar */
+		
+		$file = MEDIA_FILTER . $size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename'];
+		
+		App::import('Helper', 'Media.Medium');
+		
+		$medium = new MediumHelper();
+		
+		$fullPath = $medium->file($size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename']); /* Build full path TODO : put path generation logic in model */
+		list($filename, $path) = array(basename($fullPath), dirname($fullPath) . DS);
+		
+		$this->view = 'Media'; /* Serve image */
+		$params = array(
+			'id' => $filename,
+			'name' => $username,
+			'download' => false,
+			'extension' => 'png',
+			'path' => $path,
+			'cache' => 3600*24*7,
+			);
+		$this->set($params);
 	}
 	
 	function avatar_from_gallery() {
 		$id = $this->Auth->user('id');
 		if($id <= 0) {
-			$this->deny();
+			$this->_authDeny();
 		}
-		$this->UserProfile->contain(array('Picture'));
+		$this->UserProfile->contain(array('Attachment', 'Avatar'));
 		$bla = $this->UserProfile->findById($id);
-		$this->set($bla);
+		$this->set('userProfile', $bla);
 	}
 	
 	function index() {
-		$images = $this->UserPicture->find('all');
+		$images = $this->Image->find('all');
 		$this->set('images', $images);
 	}
 	
@@ -171,13 +255,13 @@ class UserPicturesController extends AppController {
 		if($id == null) {
 			$this->redirect('/');
 		}
-		$this->UserProfile->contain(array('Picture'));
+		$this->UserProfile->contain(array('Attachment', 'Avatar'));
 		$bla = $this->UserProfile->findByUsername($id);
 		if(empty($bla)) {
 			$this->Session->setFlash(__('Cet utilisateur n\'existe pas', true), 'message/failure');
 			$this->redirect('/');
 		}
-		$this->set($bla);
+		$this->set('userProfile', $bla);
 	}
 	
 }

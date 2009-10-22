@@ -13,7 +13,7 @@ class AppController extends Controller {
 			$placename = strtolower($this->name);
 		}
 
-		$admin = Configure::read('Routing.admin');
+		$admin = current(Configure::read('Routing.prefixes')); /* TODO fix this */
 		if (isset($this->params[$admin]) && $this->params[$admin]) {
 			$this->set('adminPanel', true);
 			$this->layout = 'admin';
@@ -104,6 +104,13 @@ class AppController extends Controller {
 	function __authDeny() {
 		$this->Session->setFlash($this->Auth->authError, 'default', array(), 'auth');
 		$this->redirect($this->referer(), null, true);
+	}
+	
+	function __isLoggedIn() {
+		if(!isset($this->Auth)) {
+			return false;
+		}
+		return (is_numeric($this->Auth->user('id')) && $this->Auth->user('id') > 0);
 	}
 
 }

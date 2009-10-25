@@ -100,6 +100,47 @@ class CommentsController extends AppController {
 		}
 	}
 	
+	function viewcomment($id = null) {
+		$this->Comment->contain(array('Author' => array('fields' => array('user_id', 'active', 'username'))));
+		//$this->Comment->recursive = 1;
+		if($id === null) {
+			$this->cakeError('error404');
+			return;
+		}
+		$comment = $this->Comment->findById($id);
+		if(empty($comment)) {
+			$this->cakeError('error404');
+			return;
+		}
+		$this->set('comment', $comment);
+	}
+	
+	function display($model = null, $id = null) {
+		if($model === null || $id === null) {
+			$this->cakeError('error404');
+			return;
+		}
+		
+		Configure::write('debug', 0);
+		$model = Inflector::camelize((string) $model);
+		$id = (integer) $id;
+		
+		$this->paginate = array(
+			'conditions' => array(
+				'Comment.model' => $model,
+				'Comment.model_id' => $id,
+				'Comment.status' => 1, /* published status */
+			),
+			'contain' => array('Author' => array('fields' => array('active', 'username', 'user_id'))),
+			'limit' => 3,
+		);
+		
+		$this->set('comments', $this->paginate('Comment'));
+		if($this->RequestHandler->isAjax()) {
+			$this->render('ajax/display', 'ajax');
+		}
+	}
+	
 	function admin_publish($id = null) {
 		if($id) {
 			$this->Comment->publish($id);

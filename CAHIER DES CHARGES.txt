@@ -2,7 +2,7 @@ Spécifications site IRCube
 
 * Backbone
 	- Utilisateurs
-		Compte Z lié (*)
+		Compte Z lié (* manque register)
 		Fiche trombinoscope
 			Age (* manque traduction formulaire)
 			Sexe (*)
@@ -10,7 +10,7 @@ Spécifications site IRCube
 			Salons favoris (*)
 			Commentaires (*)
 		Photos
-			Avatar (Ne plus utiliser gravatar, revoir avatarify, revoir les associations, mettre en forme)
+			Avatar (manque cosmétique et création avatar)
 		Amis
 	- News
 		Catégorie (*)

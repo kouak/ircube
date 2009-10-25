@@ -1,5 +1,4 @@
 <?php
-/* SHOULD NOT BE USED */
 /**
  * Attachment Model File
  *
@@ -25,17 +24,21 @@
  * @package    media
  * @subpackage media.models
  */
-class Image extends AppModel {
+class Attachment extends AppModel {
 /**
  * Name of model
  *
  * @var string
  * @access public
  */
-	var $name = 'Image';
-	
-	var $useTable = false;
-	
+	var $name = 'Attachment';
+/**
+ * Name of table to use
+ *
+ * @var mixed
+ * @access public
+ */
+	var $useTable = 'attachments';
 /**
  * actsAs property
  *
@@ -49,7 +52,7 @@ class Image extends AppModel {
 		),
 		'Media.Transfer' => array(
 			'trustClient'     => false,
-			'destinationFile' => ':Medium.short::DS::Source.basename:',
+			'destinationFile' => ':Medium.short::DS::uuid:.:Source.extension:',
 			'baseDirectory'   => MEDIA_TRANSFER,
 			'createDirectory' => true,
 			'alternativeFile' => 100
@@ -82,11 +85,11 @@ class Image extends AppModel {
 			'resource'   => array('rule' => 'checkResource'),
 			'access'     => array('rule' => 'checkAccess'),
 			'location'   => array('rule' => array('checkLocation', array(
-				MEDIA_TRANSFER, '/tmp/'
+				MEDIA_TRANSFER, '/tmp/', '/temp/', 'http://www.gravatar.com/avatar/'
 			))),
 			'permission' => array('rule' => array('checkPermission', '*')),
 			'size'       => array('rule' => array('checkSize', '5M')),
-			'pixels'     => array('rule' => array('checkPixels', '1600x1600')),
+			'pixels'     => array('rule' => array('checkPixels', '5000x5000')),
 			'extension'  => array('rule' => array('checkExtension', false, array(
 				'jpg', 'jpeg', 'png', 'tif', 'tiff', 'gif', 'pdf', 'tmp'
 			))),
@@ -99,6 +102,15 @@ class Image extends AppModel {
 			'required'   => false,
 			'allowEmpty' => true,
 		));
+		
+	var $belongsTo = array(
+		'UserProfile' => array(
+			'foreignKey' => 'foreign_key',
+			'conditions' => array(
+				'Attachment.model' => 'UserProfile',
+			),
+		),
+	);
 /**
  * beforeMake Callback
  *
@@ -118,103 +130,8 @@ class Image extends AppModel {
  * 	false or null signals that the behavior should process the file
  */
 	function beforeMake($file, $process) {
+		
 	}
-
-	var $belongsTo = array(
-		'UserProfile'
-	);
-
-	function beforeValidate() {
-		$this->log($this->data);
-		return true;
-	}
-
-	function findAvatar($user_id) {
-		return $this->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				$this->alias . '.user_profile_id' => $user_id,
-				$this->alias . '.is_avatar', true)
-			)
-		);
-	}
-
-	function createAvatar($image_id, $options = array()) {
-		$image = $this->find('first',
-			array(
-				'conditions' => array(
-					$this->alias . '.id' => $image_id,
-					$this->alias . '.is_avatar' => false,
-				),
-				'recursive' => -1,
-			)
-		);
-		if(empty($image)) {
-			return false;
-		}
-
-		$image = $image[$this->alias]; /* Found image to avatarify */
-
-		$defaults = array(
-			'sx' => 0, /* Left side of selected rectangle */
-			'sy' => 0, /* Top side of selected rectangle */
-			'sw' => 0, /* Selected rectangle width */
-			'sh' => 0, /* Selected rectangle height */
-			'aoe' => true, /* Allow zooming */
-			'f' => 'png', /* Output format */
-		);
-
-		$options = am($defaults, $options);
-
-		$filepath = $image['dir'] . DS . $image['filename'];
-
-		App::import('Vendor', 'phpThumb', array('file' => 'phpThumb'.DS.'phpthumb.class.php'));
-
-		$phpThumb =& new phpThumb();
-		$phpThumb->setSourceFilename($filepath);
-
-		if(!(0 == $options['sx'] && 0 == $options['sy'] && 0 == $options['sw'] && 0 == $options['sh'])) {
-			$phpThumb->setParameter('sx', $options['sx']);
-			$phpThumb->setParameter('sy', $options['sy']);
-			$phpThumb->setParameter('sw', $options['sw']);
-			$phpThumb->setParameter('sh', $options['sh']);
-			if($options['aoe']) {
-				$phpThumb->setParameter('aoe', 1);
-			}
-		}
-
-		if(!$phpThumb->generateThumbnail()) { /* Woopsy, the image couldn't be resized */
-			$this->log(__('PhpThumb behavior : le fichier ', true) . $filepath . __(' n\'a pas pu être resizé', true));
-			$this->log($phpThumb->debugmessages);
-			return false;
-		}
-		$output = tempnam(sys_get_temp_dir(), 'Avatar');
-		if(!$phpThumb->RenderToFile($output)) { /* File couldn't be created */
-			$this->log(__('PhpThumb behavior : le fichier ', true) . $settings['folder'] . $settings['output'] . __(' n\'a pas pu être créé', true));
-			$this->log($phpThumb->debugmessages);
-			return false;
-		}
-
-		$avatar = $this->findAvatar($image['user_profile_id']);
-		if(!empty($avatar)) {
-			/* Delete avatar */
-			$this->delete($avatar[$this->alias]['id']);
-		}
-
-		$image = array(
-			'Image' => array(
-				'filename' => array(
-					'name' => $image['filename'],
-					'type' => 'application/octet-stream', /* Let Meio find out the type */
-					'tmp_name' => $output,
-					'error' => 0,
-					'size' => filesize($output),
-				),
-				'user_profile_id' => $image['user_profile_id'],
-				'is_avatar' => true,
-			)
-		);
-		return $this->save($image);
-	}
+	
 }
 ?>

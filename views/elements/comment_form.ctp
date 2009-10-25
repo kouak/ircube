@@ -1,10 +1,14 @@
+<?php 
+echo $this->Javascript->link(array('jquery/jquery-form'), false);
+?>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#CommentAddForm').submit(function() {
 		$(this).ajaxSubmit({
 			dataType: "html",
 			success: function(responseText) {
-				$('#comment_form').html(responseText);
+				$('#comment_form').remove();
+				$('div#comments > ol#commentlist').append(responseText);
 				$('div.ircube-box > h1, div.ircube-box > h2, div.ircube-box > h3').corners("10px top");
 				$('div.ircube-box > div.noheader').corners("10px");
 				$('div.ircube-box > div.box').corners("10px bottom");

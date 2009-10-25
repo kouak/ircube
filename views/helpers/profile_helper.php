@@ -16,6 +16,6 @@ class ProfileHelperHelper extends AppHelper
 			return $this->Html->link(($title === null) ? $UserProfile['username'] : $title, array('controller' => 'user_profiles', 'action' => 'view', $UserProfile['username']), $htmlAttributes);
 		}
 		return $UserProfile['username'];
-    }  
+    }
 }
 ?>

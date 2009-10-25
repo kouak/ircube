@@ -9,21 +9,27 @@ $html->css(array('comments', 'ircube-boxes'), null, array(), false);
 	?>
 </div>
 <div class="clear"></div>
-<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), count($news['Comment'])); ?></h2>
+<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), $news['News']['comment_count']); ?></h2>
 <div class="clear"></div>
-<ol class="commentlist" id="commentlist">
+<script type="text/javascript">
+$(document).ready(function() {
+	$('div#comments > ol#commentlist').load('<?php echo Router::url(array('controller' => 'comments', 'action' => 'display', 'sort' => 'created', 'direction' => 'asc', 'news', $news['News']['id'])); ?>');
+});
+</script>
+<div id="comments">
+	<div id="loader" style="width:100%;text-align:center;" class="clear"> 
+	    <?php echo $this->Html->image('ajax-loader.gif'); ?> 
+	</div>
+	<ol class="commentlist" id="commentlist">
+	</ol>
+</div>
+<div class="clear"></div>
 <?php
-$i = 1;
-$javascript->link(array('jquery/jquery-form'), false);
-foreach($news['Comment'] as $newsComment) {
-	echo $this->element('comment', array('i' => $i, 'comment' => $newsComment));
-	$i++;
-}
 if(isset($AuthUser['id']) && $AuthUser['id'] > 0) {
 ?>
-<div class="clear"></div>
 <div id="comment_form">
 <?php
+echo $this->Javascript->link(array('jquery/jquery-form'), false);
 echo $this->element('comment_form', array('model_id' => $news['News']['id'], 'model' => 'News'));
 ?>
 </div>
@@ -36,5 +42,5 @@ else {
 <?php
 }
 ?>
-</ol>
+
 <div class="clear"></div>

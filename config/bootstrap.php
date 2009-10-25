@@ -59,7 +59,9 @@ function cleanChannelName($channel, $options = array()) {
 	return $channel;
 }
         
-require APP . 'plugins' . DS . 'media' . DS . 'config' . DS . 'core.php';
+require APP . 'plugins' . DS . 'media' . DS . 'config' . DS . 'core.php'; /* MEDIA constants */
+
+setlocale(LC_TIME, 'fr_FR'); /* Dates and time */
 
 //EOF
 ?>

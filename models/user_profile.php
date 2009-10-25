@@ -23,7 +23,7 @@ class UserProfile extends AppModel {
 
 	var $hasOne = array(
 		'Avatar' => array(
-			'className' => 'Media.Attachment',
+			'className' => 'Attachment',
 			'foreignKey' => 'foreign_key',
 			'conditions' => array(
 				'Avatar.model' => 'UserProfile',
@@ -49,7 +49,7 @@ class UserProfile extends AppModel {
 				'dependant' => true,
 			),
 			'Attachment' => array(
-				'className' => 'Media.Attachment',
+				'className' => 'Attachment',
 				'foreignKey' => 'foreign_key',
 				'conditions' => array(
 					'Attachment.model' => 'UserProfile',

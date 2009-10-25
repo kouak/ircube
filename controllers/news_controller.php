@@ -24,6 +24,7 @@ class NewsController extends AppController {
 	function admin_publish($id = null) {
 		$this->News->publish($id);
 		if($this->RequestHandler->isAjax()) {
+			$this->News->contain('NewsType', 'Author');
 			$this->set('news', $this->News->findById($id));
 			Configure::write('debug', 0);
 			$this->render('ajax/publish', 'ajax');
@@ -35,6 +36,7 @@ class NewsController extends AppController {
 	function admin_unpublish($id = null) {
 		$this->News->unpublish($id);
 		if($this->RequestHandler->isAjax()) {
+			$this->News->contain('NewsType', 'Author');
 			$this->set('news', $this->News->findById($id));
 			Configure::write('debug', 0);
 			$this->render('ajax/publish', 'ajax');

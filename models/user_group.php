@@ -5,16 +5,17 @@ class UserGroup extends AppModel {
 
 
 	var $hasMany = array(
-			'UserProfile' => array('className' => 'User',
-								'foreignKey' => 'user_group_id',
-								'conditions' => '',
-								'fields' => '',
-								'order' => '',
-			)
-		);
+		'UserProfile' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_group_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+		)
+	);
 	
 	
-	function parentNode(){
+	function parentNode() {
 		
 		if (!$this->id) {
 			return null;

@@ -1,5 +1,5 @@
 <?php
-if($news) {
+if(!empty($news)) {
 	echo $this->element('admin/news/news', array('news' => $news));
 }
 else {

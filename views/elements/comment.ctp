@@ -1,23 +1,31 @@
 <li id="#comment-<?php echo $i?>">	
 <?php
+
+if(isset($comment['Comment'])) {
+	$author = $comment['Author'];
+	$comment = $comment['Comment'];
+	$comment['Author'] = $author;
+	unset($author);
+}
+
 $content = <<<EOF
 		<div class="comment-number">
-			<span class="permlink"><a name="comment-$i" href="#comment-$i" title="Lien vers ce commentaire">#$i</a></span>
+			<span class="permlink"><a name="comment-$i" href="#comment-$i" title="Lien vers ce commentaire">#</a></span>
 		</div>
 		<div class="avatar">
 			
 EOF;
-$content .= $html->image(Router::url(array('controller' => 'user_pictures', 'action' => 'avatar', 's', $comment['Author']['username'])));
+$content .= $this->Html->image($this->Ircube->avatar($comment['Author']['username']));
 $content .= '
 		</div>
 		<div class="comment">
 			<cite class="meta"> 
 					<span class="author">
 						';
-$content .= $profileHelper->link($comment['Author']['username'], $comment['Author']);
+$content .= $this->Ircube->link(array('UserProfile' => $comment['Author']));
 $content .= '
 					</span> 
-					<span class="date">' . $time->niceShort($comment['created']) . '</span> 
+					<span class="date">' . $this->Time->niceShort($comment['created']) . '</span> 
 			</cite>
 			<p class="comment-inside">' . $comment['content'] . '</p>
 		</div>
@@ -28,6 +36,9 @@ $content .= '
 	if($i % 2 == 0) {
 		$color = 'orange';
 	}
-	echo $this->element('ircube-box', array('options' => array('header' => false, 'color' => $color), 'content' => $content));
+	echo $this->Ircube->startBox(array('header' => false, 'color' => $color));
+	echo $this->Ircube->startBoxContent();
+	echo $content;
+	echo $this->Ircube->endBox();
 ?>
 </li>

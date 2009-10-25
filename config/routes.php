@@ -67,7 +67,7 @@
 	Router::connect('/trombinoscope/:filter', array('controller' => 'user_profiles', 'action' => 'index'), array('pass' => array('filter')));
 	Router::connect('/viewgallery/:username', array('controller' => 'user_pictures', 'action' => 'gallery'), array('pass' => array('username')));
 	Router::connect('/viewprofile/:username', array('controller' => 'user_profiles', 'action' => 'view'), array('pass' => array('username')));
-	Router::connect('/editprofile', array('controller' => 'user_profiles', 'action' => 'edit'));
+	Router::connect('/editprofile', array('controller' => 'user_profiles', 'action' => 'editprofile'));
 	Router::connect('/dashboard', array('controller' => 'user_profiles', 'action' => 'dashboard'));
 	
 	Router::connect('/avatarify/:id', array('controller' => 'user_pictures', 'action' => 'avatarify'), array('pass' => array('id')));

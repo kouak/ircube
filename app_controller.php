@@ -27,8 +27,7 @@ class AppController extends Controller {
 		return true;
 	}
 
-    function beforeFilter() {
-	
+	function beforeFilter() {
 		$this->Auth->userModel = 'UserProfile';
 		$this->Auth->fields = array(
 			'username' => 'username', 

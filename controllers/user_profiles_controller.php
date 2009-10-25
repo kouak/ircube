@@ -4,7 +4,7 @@ class UserProfilesController extends AppController {
 	var $name = 'UserProfiles';
 	var $uses = array('UserProfile', 'User');
 	var $components = array('Security');
-	var $helpers = array('Cropimage', 'Gravatar');
+	var $helpers = array('Cropimage', 'Gravatar', 'Paginator', 'Js' => array('jquery'));
 	
 	function beforeFilter() {
 		$this->Auth->allow('login', 'logout', 'autoComplete');
@@ -147,11 +147,21 @@ class UserProfilesController extends AppController {
 		if($username == null) {
 			$this->redirect(array('action'=>'index'), 301);
 		}
-		$this->UserProfile->contain(array('Avatar', 'Channel' => array('id', 'channel'), 'Comment' => array('Author')));
+		$this->UserProfile->contain(
+			array(
+				'User' => array('fields' => 'created'),
+				'Avatar',
+				'Channel' => array('fields' => array('id', 'channel')),
+				'Comment' => array('Author' => array('fields' => array('username', 'active', 'user_id')))
+				)
+		);
 		$userProfile = $this->UserProfile->find('first', array('conditions' => array('UserProfile.active' => 1, 'UserProfile.username' => $username)));
 		if(empty($userProfile)) {
 			$this->Session->setFlash(__('Cet utilisateur n\'existe pas', true), 'messages/failure');
 			$this->redirect(array('action' => 'index'), 303);
+		}
+		if($this->Auth->user('id') == $userProfile['UserProfile']['id']) {
+			$this->set('canEdit', true);
 		}
 		$this->set('userProfiles', $userProfile);
 	}
@@ -185,7 +195,7 @@ class UserProfilesController extends AppController {
 		}
 	}
 	
-	function edit() {
+	function editprofile() {
 		$id = $this->Auth->user('id');
 		if($id > 0) {
 			if (!empty($this->data)) {
@@ -195,15 +205,17 @@ class UserProfilesController extends AppController {
 					$this->Session->setFlash(__('Votre fiche a été sauvegardée', true), 'messages/success');
 					$this->redirect(array('controller' => 'user_profiles', 'action'=>'view', 'username' => $this->Auth->user('username')));
 				}
+				unset($this->data['UserProfile']['id']); /* Form helper fuck up */
 			}
 			else {
 				/* Fill up edit form */
 				$this->UserProfile->contain(array('Channel' => array('id', 'channel')));
 				$this->data = $this->UserProfile->read(null, $id);
+				unset($this->data['UserProfile']['id']); /* Form helper fuck up */
 			}
 		}
 		else {
-			echo "CACA ?";
+			$this->__authDeny();
 			/* Auth error */
 		}
 		

@@ -6,9 +6,10 @@ class UserPicturesController extends AppController {
 	
 	function beforeFilter() {
 		if(isset($this->params['form'][Configure::read('Session.cookie')])) {
-			$this->Session->id($this->params['form'][Configure::read('Session.cookie')]);
+			$this->Session->id($this->params['form'][Configure::read('Session.cookie')]); /* Swfupload session hack */
 		}
 		parent::beforeFilter();
+		$this->Auth->allow('avatar');
 	}
 	function admin_index() {
 		$this->paginate = array(
@@ -170,7 +171,6 @@ class UserPicturesController extends AppController {
 		or avatar/username.jpg
 	*/
 	function avatar($size = null, $username = null) {
-		$this->Auth->allow();
 		$this->cacheAction = '1 hour';
 		
 		$sizes = array( /* Sizing correspondance media plugin <=> gravatar */

@@ -1,4 +1,7 @@
 <div class="clear"></div>
+<?php
+$this->log($news);
+?>
 <div class="container news <?php 
 	if($news['News']['published'] == 0) {
 		echo "unpublished";
@@ -57,7 +60,7 @@
 		<?php echo $news['News']['content']; ?>
 		<div class="clear"></div>
 		<div class="news_author"><span class="fleft;"><?php
-			echo (($news['News']['news_comment_count'] > 0) ? $news['News']['news_comment_count'] : __('Aucun', true)) . ' ' . (($news['News']['news_comment_count'] > 1) ? Inflector::pluralize(__('Commentaire', true)) : __('Commentaire', true));
+			echo (($news['News']['comment_count'] > 0) ? $news['News']['comment_count'] : __('Aucun', true)) . ' ' . (($news['News']['comment_count'] > 1) ? Inflector::pluralize(__('Commentaire', true)) : __('Commentaire', true));
 			echo ' - ';
 			echo $html->link(__('Permalien', true),
 												array(
@@ -65,7 +68,7 @@
 											    'action' => 'view',
 											    'id' => $news['News']['id'],
 											    'slug' => $news['News']['permalink'],
-											)); ?> - <?php echo __('Posté par ', true) . $profileHelper->link(null, $news['Author']); ?>
+											)); ?> - <?php echo __('Posté par ', true) . $this->Ircube->link(array('UserProfile' => $news['Author'])); ?>
 		</div>
 		</div>
 </div>

@@ -20,8 +20,7 @@ $mod = 4;
 <div class="clear"></div>
 <div id="news_bloc">
 	<?php
-	foreach ($news as $news)
-	{
+	foreach ($news as $news) {
 		echo $this->element('news/news', array('news' => $news));	
 	}
 	?>

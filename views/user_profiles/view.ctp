@@ -13,7 +13,7 @@ echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 		?>
 		<span style="float: right;">
 			<?php
-				echo $this->Html->link(__('Editer', true), array('action' => 'edit'));
+				echo $this->Html->link(__('Editer', true), array('action' => 'editprofile'));
 			?>
 		</span>
 		<?php
@@ -36,7 +36,7 @@ echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 		</tr>
 		<tr>
 			<td><?php __('Site :'); ?></td>
-			<td><?php echo $userProfiles['UserProfile']['url']; ?></td>
+			<td><?php echo $this->Html->link($userProfiles['UserProfile']['url']); ?></td>
 		</tr>
 		<tr>
 			<td><?php __('Date de naissance :'); ?></td>
@@ -48,7 +48,13 @@ echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 		</tr>
 		<tr>
 			<td><?php __('Dernière visite :'); ?></td>
-			<td><?php echo $this->Time->timeAgoInWords($userProfiles['UserProfile']['lastseen']); ?></td>
+			<td><?php 
+			if($this->Time->wasWithinLast('5 minutes', $userProfiles['UserProfile']['lastseen'])) {
+				echo '<strong>' . __('En ligne', true) . '</strong>';
+			} else {
+				echo $this->Time->timeAgoInWords($userProfiles['UserProfile']['lastseen']);
+			}
+			?></td>
 		</tr>
 	</table>
 </div>
@@ -66,7 +72,7 @@ echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 	</div>
 </div>
 <div class="clear"></div>
-<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), count($userProfiles['Comment'])); ?></h2>
+<a name="comments"></a><h2><?php printf(__('Commentaires (%d)', true), $userProfiles['UserProfile']['comment_count']); ?></h2>
 <div class="clear"></div>
 <script type="text/javascript">
 $(document).ready(function() {

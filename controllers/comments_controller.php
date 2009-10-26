@@ -113,7 +113,7 @@ class CommentsController extends AppController {
 			return;
 		}
 		
-		//Configure::write('debug', 0);
+		Configure::write('debug', 0);
 		$model = Inflector::camelize((string) $model);
 		$id = (integer) $id;
 		

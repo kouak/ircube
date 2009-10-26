@@ -107,7 +107,7 @@ class UserProfilesController extends AppController {
 				}
 			}
 			
-			debug($this->data);
+			//debug($this->data);
 			
 			if($this->UserProfile->createProfile($this->data['UserProfile'], $user['User'])) {
 				$userProfile = $this->UserProfile->findById($this->UserProfile->id);
@@ -152,7 +152,7 @@ class UserProfilesController extends AppController {
 				'User' => array('fields' => 'created'),
 				'Avatar',
 				'Channel' => array('fields' => array('id', 'channel')),
-				'Comment' => array('Author' => array('fields' => array('username', 'active', 'user_id')))
+				//'Comment' => array('Author' => array('fields' => array('username', 'active', 'user_id')))
 				)
 		);
 		$userProfile = $this->UserProfile->find('first', array('conditions' => array('UserProfile.active' => 1, 'UserProfile.username' => $username)));

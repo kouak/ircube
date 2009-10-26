@@ -328,7 +328,7 @@ class UserProfile extends AppModel {
 		return false;
 	}
 
-	public function equalsPassword($data, $field = '') {
+	function equalsPassword($data, $field = '') {
 		$key = key($data);
 		$value = current($data);
 		$value = $this->hashPassword($value);
@@ -379,6 +379,13 @@ class UserProfile extends AppModel {
 			$h[0] = '';
 		}
 	    return $sign . $h;
+	}
+	
+	function beforeSave() {
+		if(isset($this->data[$this->alias]['url']) && strncasecmp($this->data[$this->alias]['url'], 'http://', 7)) {
+			$this->data[$this->alias]['url'] = 'http://' . $this->data[$this->alias]['url'];
+		}
+		return true;
 	}
 
 	function W2CRegister($data) {

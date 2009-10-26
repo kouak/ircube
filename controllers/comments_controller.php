@@ -22,18 +22,10 @@ class CommentsController extends AppController {
 		}
 	}
 
-	function view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid NewsComment.', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->set('newsComment', $this->NewsComment->read(null, $id));
-	}
-	
 	function add() {
 		if($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
 			if(!empty($this->data)) {
-				//Configure::write('debug', 0);
 				$this->data['Comment']['author_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
 				/* TODO : read from configuration */
 				$this->data['Comment']['status'] = 1;
@@ -100,7 +92,7 @@ class CommentsController extends AppController {
 		}
 	}
 	
-	function viewcomment($id = null) {
+	function view($id = null) {
 		$this->Comment->contain(array('Author' => array('fields' => array('user_id', 'active', 'username'))));
 		//$this->Comment->recursive = 1;
 		if($id === null) {
@@ -121,7 +113,7 @@ class CommentsController extends AppController {
 			return;
 		}
 		
-		Configure::write('debug', 0);
+		//Configure::write('debug', 0);
 		$model = Inflector::camelize((string) $model);
 		$id = (integer) $id;
 		
@@ -131,6 +123,7 @@ class CommentsController extends AppController {
 				'Comment.model_id' => $id,
 				'Comment.status' => 1, /* published status */
 			),
+			'order' => array('Comment.created' => 'asc'), /* Default order : last => new */
 			'contain' => array('Author' => array('fields' => array('active', 'username', 'user_id'))),
 			'limit' => 3,
 		);

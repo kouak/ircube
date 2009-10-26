@@ -29,9 +29,13 @@ $(document).ready(function() {
 	echo $this->Paginator->next(' >>', array('class' => 'right'), ' >>', array('class'=>'disabled')); 
 ?>
 	</div>
-	<div class="selectfilter">
+	<div style="float: right;">
 	<?php
-	echo $this->Paginator->sort('Ordre', 'created');
+	$ordre = $this->Html->image('icons/arrow_up.png');
+	if($this->Paginator->sortDir() == 'desc') {
+		$ordre = $this->Html->image('icons/arrow_down.png');
+	}
+	echo $this->Paginator->sort($ordre, 'created', array('escape' => false, 'url' => array('page' => 1)));
 	/* TODO : CSS : add space below paginator */
 	?>
 	</div>

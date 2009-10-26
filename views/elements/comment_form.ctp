@@ -19,11 +19,14 @@ $(document).ready(function() {
 });
 </script>
 <?php
-$content = $uniForm->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'fieldset' => array('blockLabels' => false)));
-$content.= $uniForm->input('Comment.model_id', array('type' => 'hidden', 'value' => $model_id));
-$content.= $uniForm->input('Comment.model', array('type' => 'hidden', 'value' => $model));
-$content.= $uniForm->input('Comment.content', array('label' => __('Commentaire', true)));
-$content.= $uniForm->submit();
-$content.= $uniForm->end();
-echo $this->element('ircube-box', array('options' => array('header' => 'h2'), 'title' => __('Laisser un commentaire', true), 'content' => $content));
+echo $this->Ircube->startBox(array('header' => 'h2'));
+echo $this->Ircube->boxTitle(__('Laisser un commentaire', true));
+echo $this->Ircube->startBoxContent();
+echo $this->UniForm->create('Comment', array('url' => array('controller' => 'comments', 'action' => 'add'), 'fieldset' => array('blockLabels' => false)));
+echo $this->UniForm->input('Comment.model_id', array('type' => 'hidden', 'value' => $model_id));
+echo $this->UniForm->input('Comment.model', array('type' => 'hidden', 'value' => $model));
+echo $this->UniForm->input('Comment.content', array('label' => __('Commentaire', true)));
+echo $this->UniForm->submit();
+echo $this->UniForm->end();
+echo $this->Ircube->endBox();
 ?>

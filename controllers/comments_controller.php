@@ -2,7 +2,7 @@
 class CommentsController extends AppController {
 
 	var $name = 'Comments';
-	var $helpers = array('Form', 'Paginator', 'Time', 'Tinymce', 'Javascript', 'Gravatar', 'ProfileHelper');
+	var $helpers = array('Form', 'Paginator', 'Time', 'Ircube', 'Bbcode', 'Tinymce', 'Javascript', 'Gravatar', 'ProfileHelper');
 	var $components = array('RequestHandler');
 	var $uses = array('News', 'Comment', 'NewsType');
 
@@ -37,8 +37,8 @@ class CommentsController extends AppController {
 				$this->data['Comment']['author_id'] = $this->Auth->user('id') ? $this->Auth->user('id') : 0;
 				/* TODO : read from configuration */
 				$this->data['Comment']['status'] = 1;
-				App::import('Sanitize'); /* Data sanitization */
-				$this->data['Comment']['content'] = Sanitize::html($this->data['Comment']['content']);
+				//App::import('Sanitize'); /* Data sanitization (should be done in view) */
+				//$this->data['Comment']['content'] = Sanitize::html($this->data['Comment']['content']);
 				if($this->Comment->save($this->data, array('fieldList' => array('model', 'author_id', 'content', 'model_id', 'status')))) {
 					$this->Comment->recursive = 0;
 					$this->set('comment', $this->Comment->read());

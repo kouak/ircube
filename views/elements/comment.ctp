@@ -1,6 +1,6 @@
 <li id="#comment-<?php echo $i?>">	
 <?php
-
+App::import('Sanitize');
 if(isset($comment['Comment'])) {
 	$author = $comment['Author'];
 	$comment = $comment['Comment'];
@@ -27,7 +27,7 @@ $content .= '
 					</span> 
 					<span class="date">' . $this->Time->niceShort($comment['created']) . '</span> 
 			</cite>
-			<p class="comment-inside">' . $comment['content'] . '</p>
+			<p class="comment-inside">' . $this->Bbcode->parse(Sanitize::html($comment['content'])) . '</p>
 		</div>
 ';
 ?>

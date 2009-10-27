@@ -9,9 +9,6 @@ if(isset($comment['Comment'])) {
 }
 
 $content = <<<EOF
-		<div class="comment-number">
-			<span class="permlink"><a name="comment-$i" href="#comment-$i" title="Lien vers ce commentaire">#</a></span>
-		</div>
 		<div class="avatar">
 			
 EOF;
@@ -19,13 +16,18 @@ $content .= $this->Html->image($this->Ircube->avatar($comment['Author']['usernam
 $content .= '
 		</div>
 		<div class="comment">
-			<cite class="meta"> 
-					<span class="author">
-						';
+			<cite class="meta">
+				<span class="perlink">
+					';
+$content .= $this->Html->link('#', array('controller' => 'comments', 'action' => 'view', $comment['id']));
+$content .= '
+				</span>
+				<span class="author">
+					';
 $content .= $this->Ircube->link(array('UserProfile' => $comment['Author']));
 $content .= '
-					</span> 
-					<span class="date">' . $this->Time->niceShort($comment['created']) . '</span> 
+				</span> 
+				<span class="date">' . $this->Time->niceShort($comment['created']) . '</span> 
 			</cite>
 			<p class="comment-inside">' . $this->Bbcode->parse(Sanitize::html($comment['content'])) . '</p>
 		</div>

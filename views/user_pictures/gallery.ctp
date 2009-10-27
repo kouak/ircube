@@ -16,23 +16,27 @@ $(function() {
 	});
 });
 </script>
-<h1><?php echo __('Gallery de ', true) . $userProfile['UserProfile']['username']; ?></h1>
+<h1><?php echo $this->Ircube->link(array('UserProfile' => $userProfile['UserProfile'])); ?></h1>
+<div id="avatar" class="span-5">
 	<?php
-	if(!empty($userProfile['Avatar'])) {
-		$content = $ircube->image($medium->webroot('filter' . DS . 's' . DS . $userProfile['Avatar']['dirname'] . DS . $userProfile['Avatar']['basename']), array('alt' => $userProfile['UserProfile']['username']));
-	} else {
-		$content = $ircube->thumbnailCenterWrap($gravatar->image($userProfile['UserProfile']['mail']));
-	}
-	echo $this->element('ircube-box', array('options' => array('id' => 'avatar', 'span' => 'span-6', 'color' => 'blue', 'header' => 'h3'), 'title' => sprintf(__('Avatar de %s', true), $userProfile['UserProfile']['username']), 'content' => $content));
+		echo $this->Ircube->thumbnailWrap($this->Html->image($this->Ircube->avatar($userProfile['UserProfile'])));
 	?>
 </div>
+<div class="clear"></div>
 <div id="gallery">
 <?php
 foreach($userProfile['Attachment'] as $i) {
-	echo $ircube->thumbnailWrap($html->link($html->image($medium->webroot('filter' . DS . 's' . DS . $i['dirname'] . DS . $i['basename']), array('alt' => $i['id'])),
-					$medium->webroot('filter' . DS . 'xl' . DS .$i['dirname'] . DS . $i['basename']),
-					array('escape' => false,)
-					));
+	echo 
+		$ircube->thumbnailWrap(
+			$html->link(
+				$html->image(
+					$medium->webroot('filter' . DS . 's' . DS . $i['dirname'] . DS . $i['basename']),
+					array('alt' => $i['id'])
+				),
+				$medium->webroot('filter' . DS . 'xl' . DS .$i['dirname'] . DS . $i['basename']),
+				array('escape' => false,)
+			)
+		);
 }
 ?>
 </div>

@@ -64,7 +64,7 @@ $content .= '<li>' . $html->link(__('Voir ma gallerie', true), array('controller
 $content .= '<li>' . $html->link(__('Modifier ma gallerie', true), array('controller' => 'user_pictures', 'action' => 'edit')) . '</li>';
 $content .= '<li>' . $html->link(__('Voir ma fiche', true), array('controller' => 'user_profiles', 'action' => 'view', 'username' => $AuthUser['username'])) . '</li>';
 $content .= '<li>' . $html->link(__('Modifier ma fiche', true), array('controller' => 'user_profiles', 'action' => 'edit')) . '</li>';
-$content .= '<li>' . $html->link(__('Modifier mon avatar', true), array('controller' => 'user_pictures', 'action' => 'avatar')) . '</li>';
+$content .= '<li>' . $html->link(__('Modifier mon avatar', true), array('controller' => 'user_pictures', 'action' => 'avatar_from_gallery')) . '</li>';
 $content .= '</ul>';
 echo $content;
 echo $this->Ircube->endBox();

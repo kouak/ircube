@@ -4,7 +4,13 @@ echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 <h1><?php echo $this->Ircube->link(array('UserProfile' => $userProfiles['UserProfile'])); ?></h1>
 <div id="avatar" class="span-5">
 	<?php
-		echo $this->Ircube->thumbnailWrap($this->Html->image($this->Ircube->avatar($userProfiles['UserProfile'])));
+		$seeMore = '';
+		if($userProfiles['UserProfile']['attachment_count'] > 0) {
+			$seeMore = '<div class="clear"></div>' . 
+			$this->Html->link('Album (' . $userProfiles['UserProfile']['attachment_count'] . __n(' photo', ' photos', $userProfiles['UserProfile']['attachment_count'], true) . ')',
+							  array('controller' => 'user_pictures', 'action' => 'gallery', $userProfiles['UserProfile']['username']));
+		}
+		echo $this->Ircube->thumbnailWrap($this->Html->image($this->Ircube->avatar($userProfiles['UserProfile'])) . $seeMore);
 	?>
 </div>
 <div id="user-informations" class="span-12 prepend-2 last box">
@@ -59,6 +65,16 @@ echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
 	</table>
 </div>
 <div class="clear"></div>
+<?php
+echo $this->Ircube->startBox(array('span' => 'span-6', 'color' => 'blue', 'header' => 'h3'));
+echo $this->Ircube->boxTitle(__('Ses amis', true));
+echo $this->Ircube->startBoxContent();
+for($i=0;$i<4;$i++) {
+	echo $this->Html->image($this->Ircube->avatar($userProfiles['UserProfile'], array('size' => 'xs')));
+}
+echo $this->Ircube->endBox();
+?>
+
 <div id="user-informations" class="span-12 prepend-2 ircube-box last">
 	<h2 class="orange">Salons fréquentés</h2>
 	<div class="box orange">

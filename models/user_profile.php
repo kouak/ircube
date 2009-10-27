@@ -382,7 +382,7 @@ class UserProfile extends AppModel {
 	}
 	
 	function beforeSave() {
-		if(isset($this->data[$this->alias]['url']) && strncasecmp($this->data[$this->alias]['url'], 'http://', 7)) {
+		if(isset($this->data[$this->alias]['url']) && strncasecmp($this->data[$this->alias]['url'], 'http://', 7)) { /* Url reformatting tweak */
 			$this->data[$this->alias]['url'] = 'http://' . $this->data[$this->alias]['url'];
 		}
 		return true;

@@ -109,6 +109,13 @@ class Attachment extends AppModel {
 			'conditions' => array(
 				'Attachment.model' => 'UserProfile',
 			),
+			'counterCache' => true, /* Cache attachment_count, remove avatar from gallery */
+			'counterScope' => array(
+				'Attachment.model' => 'UserProfile',
+				'NOT' => array(
+					'Attachment.group <=>' => 'avatar',
+				),
+			)
 		),
 	);
 /**

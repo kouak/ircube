@@ -22,7 +22,11 @@ class IrcubeHelper extends AppHelper {
 		return !empty($UserProfile);
 	}
 	
-	function avatar($UserProfile) {
+	function avatar($UserProfile, $options = array()) {
+		$defaults = array(
+			'size' => 's',
+		);
+		$options = array_merge($defaults, $options);
 		if(is_string($UserProfile)) {
 			$username = $UserProfile;
 		} elseif(isset($UserProfile['username'])) {
@@ -30,7 +34,7 @@ class IrcubeHelper extends AppHelper {
 		} elseif(isset($UserProfile['UserProfile']['username'])) {
 			$username = $UserProfile['UserProfile']['username'];
 		}
-		return Router::url(array('controller' => 'user_pictures', 'action' => 'avatar', 's', $username . '.jpg'));
+		return Router::url(array('controller' => 'user_pictures', 'action' => 'avatar', $options['size'], $username . '.jpg'));
 	}
 
 	function link($options = array(), $htmlAttributes = array()) {

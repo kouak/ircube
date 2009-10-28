@@ -1,5 +1,5 @@
 <?php
-echo $html->css(array('news/latest', 'ircube-boxes'), null, array(), false);
+echo $html->css(array('news/latest', 'ircube-boxes'), null, array('inline' => false));
 ?>
 <div id="latestNews" class="ircube-box <?php echo $span; ?>">
 				<h2 class="<?php echo $class; ?>"><?php echo $html->link(__('Dernières nouvelles', true), array('controller' => 'news', 'action' => 'index')); ?></h2>

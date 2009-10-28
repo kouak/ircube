@@ -1,5 +1,5 @@
 <?php
-echo $html->css(array('ircube-boxes'), null, array(), false);
+echo $html->css(array('ircube-boxes'), null, array('inline' => false));
 $defaults = array(
 	'header' => 'h1', /* false, h1, h2, h3 */
 	'color' => '', /* Blue, orange, green */

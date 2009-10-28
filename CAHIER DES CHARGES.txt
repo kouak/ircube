@@ -12,6 +12,7 @@ Spécifications site IRCube
 		Photos
 			Avatar (manque cosmétique et création avatar)
 		Amis
+		Notifications à la StackOverflow (plugin ?)
 	- News
 		Catégorie (*)
 		Commentaires (* manque report utilisateurs/calcul spam)
@@ -52,6 +53,7 @@ Spécifications site IRCube
 		
 * Optimisations :
 	- Créer des INDEX SQL
+	- SEO (titre, headers, liens)
 
 * Bugs relevés :
 

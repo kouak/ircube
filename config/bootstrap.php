@@ -61,6 +61,8 @@ function cleanChannelName($channel, $options = array()) {
         
 require APP . 'plugins' . DS . 'media' . DS . 'config' . DS . 'core.php'; /* MEDIA constants */
 
+require_once(CONFIGS . DS . 'ircube.php');
+
 setlocale(LC_TIME, 'fr_FR'); /* Dates and time */
 
 //EOF

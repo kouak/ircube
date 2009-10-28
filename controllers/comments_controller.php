@@ -117,15 +117,23 @@ class CommentsController extends AppController {
 		$model = Inflector::camelize((string) $model);
 		$id = (integer) $id;
 		
+		/* Retrieve order and limit from config file */
+		$fallback = array( /* This array should never be used */
+			'order' => array('Comment.created' => 'desc'),
+			'limit' => 40,
+		);
+		
+		$params = array_merge($fallback, (array) Configure::read('Comments.default'), (array) Configure::read('Comments.' . $model)); /* Merge arrays */
+		
 		$this->paginate = array(
 			'conditions' => array(
 				'Comment.model' => $model,
 				'Comment.model_id' => $id,
 				'Comment.status' => 1, /* published status */
 			),
-			'order' => array('Comment.created' => 'asc'), /* Default order : last => new */
+			'order' => $params['order'],
 			'contain' => array('Author' => array('fields' => array('active', 'username', 'user_id'))),
-			'limit' => 3,
+			'limit' => $params['limit'],
 		);
 		
 		$this->set('comments', $this->paginate('Comment'));

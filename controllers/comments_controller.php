@@ -92,6 +92,7 @@ class CommentsController extends AppController {
 		}
 	}
 	
+	/* View one comment */
 	function view($id = null) {
 		$this->Comment->contain(array('Author' => array('fields' => array('user_id', 'active', 'username'))));
 		//$this->Comment->recursive = 1;
@@ -107,6 +108,8 @@ class CommentsController extends AppController {
 		$this->set('comment', $comment);
 	}
 	
+	/* Display paginated comments */
+	/* TODO : configuration, number of comments, default order */
 	function display($model = null, $id = null) {
 		if($model === null || $id === null) {
 			$this->cakeError('error404');
@@ -117,15 +120,18 @@ class CommentsController extends AppController {
 		$model = Inflector::camelize((string) $model);
 		$id = (integer) $id;
 		
+		if(!($c = Configure::read('Comments.' . $model))) { /* Read paginator options from config */
+			$c = Configure::read('Comments.default');
+		}
 		$this->paginate = array(
 			'conditions' => array(
 				'Comment.model' => $model,
 				'Comment.model_id' => $id,
 				'Comment.status' => 1, /* published status */
 			),
-			'order' => array('Comment.created' => 'asc'), /* Default order : last => new */
+			'order' => $c['order'],
 			'contain' => array('Author' => array('fields' => array('active', 'username', 'user_id'))),
-			'limit' => 3,
+			'limit' => $c['limit'],
 		);
 		
 		$this->set('comments', $this->paginate('Comment'));

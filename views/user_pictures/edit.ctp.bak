@@ -1,7 +1,7 @@
 <?php
 $javascript->link('swfupload/swfupload', false);
 $javascript->link('user_pictures/add', false);
-$html->css(array('swfupload'), null, array(), false);
+$html->css(array('swfupload'), null, array('inline' => false));
 ?>
 <script type="text/javascript">
 var swfu;

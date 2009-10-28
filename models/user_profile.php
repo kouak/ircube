@@ -66,10 +66,22 @@ class UserProfile extends AppModel {
 		);
 
 	var $hasAndBelongsToMany = array(
-			'Channel' => array(
-				'joinTable' => 'channels_user_profiles',
-			),
-		);
+		'Channel' => array(
+			'joinTable' => 'channels_user_profiles',
+		),
+		'Friend' => array(
+			'className' => 'UserProfile',
+			'joinTable' => 'user_profiles_friends', 
+			'foreignKey' => 'admirer_id', 
+			'associationForeignKey' => 'friend_id'
+		),
+		'Admirer' => array(
+			'className' => 'UserProfile',
+			'joinTable' => 'user_profiles_friends', 
+			'foreignKey' => 'friend_id', 
+			'associationForeignKey' => 'admirer_id'
+		),
+	);
 
 	var $validate = array(
 			'username' => array(
@@ -167,7 +179,33 @@ class UserProfile extends AppModel {
 			'foreign_key' => $object['UserProfile']['user_group_id']
 			);
 	}
-
+	
+	/* FriendShip management */
+	
+	function addFriend($admirer_id, $friend_id) {
+		$data = array(
+			'UserProfile' => array(
+				'id' => $admirer_id,
+			),
+			'Friend' => array(
+				'id' => $friend_id,
+			)
+		);
+		
+		return $this->saveAll($data);
+	}
+	
+	function deleteFriend($admirer_id, $friend_id) {
+		if($admirer_id > 0 && $friend_id > 0) {
+			$conditions = array(
+				'UserProfilesFriend.admirer_id' => $admirer_id,
+				'UserProfilesFriend.friend_id' => $friend_id,
+			);
+			$this->UserProfilesFriend->deleteAll($conditions);
+		}
+		return false;
+	}
+	
 	/* 
 	 * Use $options['letter'] to filter results 
 	 * Use $options['output'] to set parent::find() type (default : all)

@@ -143,6 +143,18 @@ class UserProfilesController extends AppController {
 		}
 	}
 	
+	/* View friends */
+	function friends() {
+		$this->UserProfile->contain('Admirer', 'Friend');
+		$this->UserProfile->addFriend('1', '3');
+		$this->UserProfile->addFriend('1', '2');
+		debug($this->UserProfile->findById('1'));
+		
+		$this->UserProfile->deleteFriend('1', '3');
+		$this->UserProfile->contain('Admirer', 'Friend');
+		debug($this->UserProfile->findById('1'));
+	}
+	
 	function view($username=null) {
 		if($username == null) {
 			$this->redirect(array('action'=>'index'), 301);

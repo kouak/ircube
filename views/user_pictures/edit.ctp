@@ -1,6 +1,6 @@
 <?php
 echo $html->script(array('uploadify/jquery.uploadify', 'uploadify/swfobject.js'), array('once' => true, 'inline' => false));
-echo $html->css(array('uploadify/uploadify'), null, array(), false);
+echo $html->css(array('uploadify/uploadify'), null, array('inline' => false));
 ?>
 <script type="text/javascript">// <![CDATA[
 $(document).ready(function() {

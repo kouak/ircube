@@ -1,6 +1,6 @@
 <?php
 $javascript->link('jquery/jquery.lightbox', false);
-$html->css(array('jquery.lightbox'), null, array(), false);
+$html->css(array('jquery.lightbox'), null, array('inline' => false));
 ?>
 <script type="text/javascript">
 $(function() {

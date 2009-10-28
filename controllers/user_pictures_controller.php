@@ -9,7 +9,6 @@ class UserPicturesController extends AppController {
 			$this->Session->id($this->params['form'][Configure::read('Session.cookie')]); /* Swfupload session hack */
 		}
 		parent::beforeFilter();
-		$this->Auth->allow('avatar');
 	}
 	function admin_index() {
 		$this->paginate = array(
@@ -115,7 +114,7 @@ class UserPicturesController extends AppController {
 		if($this->RequestHandler->isAjax()) {
 			Configure::write('debug', 0);
 		}
-		$this->__clearAvatarCache($up['UserProfile']['username']);
+		$this->__clearAvatarCache($this->Auth->user('username'));
 		/* Remove current avatar */
 		if(!$this->UserProfile->Avatar->updateAll(array('Avatar.group' => null), array('Avatar.model' => 'UserProfile', 'Avatar.foreign_key' => $this->Auth->user('id')))) {
 			$this->set('ajaxMessage', 'ERROR:' . __('Unable to remove current avatar', true));

@@ -1,6 +1,6 @@
 <?php
 $javascript->link(array('jquery/jquery-cakephp-pagination'), false);
-$html->css(array('admin/comments', 'loading'), null, array(), false);
+$html->css(array('admin/comments', 'loading'), null, array('inline' => 'false'));
 ?>
 <script type="text/javascript">
 $(document).ready(function() {

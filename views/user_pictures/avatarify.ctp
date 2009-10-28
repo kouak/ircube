@@ -26,7 +26,7 @@ $(window).load(function () {
 });
 </script>
 <?php
-$html->css(array('user_pictures/avatarify'), null, array(), false);
+$html->css(array('user_pictures/avatarify'), null, array('inline' => false));
 $javascript->link('jquery/jquery.imgareaselect.js', false);
 echo $form->create(null, array('url' => $this->here));
 echo $form->hidden('Avatar.x1', array("value" => "0", "id"=>"x1"));

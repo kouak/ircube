@@ -1,6 +1,6 @@
 <?php
 /* A news without comments */
-$html->css(array('actualites'), null, array(), false);
+$html->css(array('actualites'), null, array('inline' => false));
 $javascript->link(array('actualites-corners'), false);
 ?>
 <div class="clear"></div>

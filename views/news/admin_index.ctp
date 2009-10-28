@@ -1,6 +1,6 @@
 <?php
 $javascript->link(array('jquery/jquery-cakephp-pagination', 'actualites-corners'), false);
-$html->css(array('actualites', 'loading'), null, array(), false);
+$html->css(array('actualites', 'loading'), null, array('inline' => false));
 /* Set modulus here */
 ?>
 <script type="text/javascript">

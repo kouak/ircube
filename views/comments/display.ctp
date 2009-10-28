@@ -13,7 +13,7 @@ $this->Paginator->options(
 
 /* Modulus */
 $mod = 4;
-echo $this->Html->css(array('comments'), null, array(), false);
+echo $this->html->css(array('comments'), null, array('inline' => false));
 ?>
 <script type="text/javascript">
 $(document).ready(function() {

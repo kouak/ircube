@@ -38,7 +38,7 @@ $(function() {
 	<div class="container">
 		<div id="header" class="span-24 last">
 			<div id="header-logo" class="span-16">
-				<?php echo $html->link($html->image('ircube-logo.png', array('alt' => 'IRCube, R&eacute;seau IRC francophone')), '/', array(), false, false); ?>
+				<?php echo $html->link($html->image('ircube-logo.png', array('alt' => 'IRCube, R&eacute;seau IRC francophone')), '/', array('escape' => false)); ?>
 			</div>
 			<div id="loginbar" class="span-8 last">
 				<div id="search">

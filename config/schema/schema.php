@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Ircube schema generated on: 2009-10-28 23:10:39 : 1256769639*/
+/* Ircube schema generated on: 2009-10-29 00:10:18 : 1256771658*/
 class IrcubeSchema extends CakeSchema {
 	var $name = 'Ircube';
 
@@ -205,6 +205,13 @@ class IrcubeSchema extends CakeSchema {
 		'comment_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
 		'attachment_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'user_id' => array('column' => 'user_id', 'unique' => 1), 'user_group_id' => array('column' => 'user_group_id', 'unique' => 0)),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
+	);
+	var $user_profiles_friends = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'admirer_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'key' => 'index', 'comment' => 'Possesseur de la liste d\'amis'),
+		'friend_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'comment' => 'Membre de la liste d\'amis'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'admirer_id' => array('column' => array('admirer_id', 'friend_id'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 	var $users = array(

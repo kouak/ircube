@@ -1,6 +1,6 @@
 <?php
 $javascript->link(array('chat'), false);
-$html->css(array('pages/home'), null, array('inline' => false));
+$html->css(array('pages/home'), null, array(), false);
 
 $homeChans = array(
 	/* 8 Maximum, sinon layout foiré */

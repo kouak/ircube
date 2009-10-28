@@ -1,5 +1,5 @@
 <?php
-$html->css(array('dashboard/avatar'), null, array(), false);
+$html->css(array('dashboard/avatar'), null, array('inline' => false));
 ?>
 <script type="text/javascript">
 $(function() {

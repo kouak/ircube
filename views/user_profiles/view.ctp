@@ -1,5 +1,5 @@
 <?php
-echo $html->css(array('ircube-boxes', 'comments'), null, array(), false);
+echo $html->css(array('ircube-boxes', 'comments'), null, array('inline' => false));
 ?>
 <h1><?php echo $this->Ircube->link(array('UserProfile' => $userProfiles['UserProfile'])); ?></h1>
 <div id="avatar" class="span-5">

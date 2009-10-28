@@ -1,6 +1,6 @@
 <?php
 $javascript->link(array('jquery/jquery.fcbkcomplete'), false);
-$html->css(array('jquery/fcbkcomplete'), null, array(), false);
+$html->css(array('jquery/fcbkcomplete'), null, array('inline' => false));
 ?>
 <script type="text/javascript">
 /*

@@ -1,5 +1,5 @@
 ﻿<?php
-$html->css(array('pages/home'), null, array(), false);
+$html->css(array('pages/home'), null, array('inline' => false));
 $javascript->link(array('chat'), false);
 
 $homeChans = array(

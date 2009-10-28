@@ -1,6 +1,6 @@
 <?php
 $javascript->link('statistiques', false);
-$html->css(array('statistiques'), null, array(), false);
+$html->css(array('statistiques'), null, array('inline' => false));
 ?>
 <h1>Statistiques du r&eacute;seau</h1>
 <a href="#" id="refresh-stats">Rafraîchir</a>

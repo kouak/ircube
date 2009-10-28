@@ -1,10 +1,10 @@
 <?php
 echo $javascript->link('http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js', false);
-echo $html->css(array('hot-sneaks/jquery-ui-1.7.2.custom'), null, array(), false);
+echo $html->css(array('hot-sneaks/jquery-ui-1.7.2.custom'), null, array('inline' => false));
 ?>
 <script type="text/javascript">
 $(function() {
-	/* TODO : Gravatar case ! */
+	/* TODO : Design ? */
 	function swapImages(n, old) {
 		var avatar = n.find('img');
 		var avatar_id = avatar.attr('alt');
@@ -62,7 +62,7 @@ else {
 }
 ?>
 <div class="clear"></div>
-<h1><?php __('Choisissez l\'image pour construire votre avatar'); ?></h1>
+<h1><?php __('Choisissez votre avatar'); ?></h1>
 <div id="gallery">
 <?php
 foreach($userProfile['Attachment'] as $i) {

@@ -1,5 +1,5 @@
 <?php
-echo $html->script(array('uploadify/jquery.uploadify', 'uploadify/swfobject.js'), array('once' => true, 'inline' => false));
+echo $html->script(array('uploadify/jquery.uploadify', 'uploadify/swfobject.js', 'jquery/jquery.blockUi'), array('once' => true, 'inline' => false));
 echo $html->css(array('uploadify/uploadify'), null, array('inline' => false));
 ?>
 <script type="text/javascript">// <![CDATA[
@@ -9,8 +9,9 @@ $(document).ready(function() {
 		'script'    : '/user_pictures/upload/',
 		'cancelImg' : '/img/delete.png',
 		'auto'      : true,
+		'multi'     : true,
 		'folder'    : '/uploads',
-		'scriptData': {'<?php echo Configure::read('Session.cookie'); ?>' : '<?php echo $session->id(); ?>'},
+		'scriptData': {'<?php echo Configure::read('Session.cookie'); ?>' : '<?php echo $this->Session->id(); ?>'},
 		'onError' : upError,
 		'onComplete' : upComplete,
 	});
@@ -18,13 +19,16 @@ $(document).ready(function() {
 });
 
 function loadDelete() {
+	/* deal with thumbnails */
 	$('#thumbnails div.thumbnail').hover(function() {
+		var parent_div = $(this);
 		var id = $(this).find('img').attr('alt');
 		$('<a href="#" id="delete-img" rel="3" style="position:absolute; top:5px; right:5px;"><img src="/img/delete.png" alt="Supprimez cette image" /></a>')
 		.prependTo($(this))
 		.click(function() {
-			$('#delete-img img').attr('src', '/img/ajax-loader-tiny.gif');
-			$('#delete-img').attr('id', 'loading-img');
+			$('#delete-img').remove();
+			/* Block ui on this element */
+			parent_div.block({message: '<img src="/img/ajax-loader-tiny.gif" alt="loading ..."/>'});
 			$.ajax({
 				type: "POST",
 				url: "<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'delete')); ?>",
@@ -40,10 +44,25 @@ function loadDelete() {
 			});
 			return false;
 		});
-	}, function() {
+	}, function() { /* UnHover */ 
 		var id = $(this).find('img').attr('alt');
 		$('#delete-img').remove();
 	});
+	
+	/* deal with avatar */
+	$('div.#avatar > div > div.thumbnail-center > span').hover(function() {
+		$('<a href="#" id="delete-img" style="position:absolute; top:5px; right:5px;"><img src="/img/delete.png" alt="Supprimez votre avatar" /></a>'
+		+ <?php echo '\'' . 
+		$this->Html->link(
+			'<img src="/img/edit.png" alt="Modifiez votre avatar" />', 
+			array('controller' => 'user_pictures', 'action' => 'avatar_from_gallery'),
+			array('escape' => false, 'id' => 'modify-img', 'style' => 'position:absolute; top: 5px; right: 25px;')
+		) . '\''; ?>)
+		.prependTo($(this));
+	}, function() {
+		$('#delete-img, #modify-img').remove();
+	});
+	
 }
 
 function loadImage(r) {
@@ -51,6 +70,7 @@ function loadImage(r) {
 	$.get('<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'getImageDiv')); ?>' + '/' + json['Attachment']['id'], function(data) {
 		$(data).appendTo('#thumbnails').hide().fadeIn();
 		$('#noImgInGallery').remove();
+		loadDelete(); /* When image is added, load delete button */
 	});
 }
 
@@ -78,7 +98,6 @@ function upComplete(event,ID,fileObj,response,data) {
 	else if(status == 'SUCCESS') {
 		// Do fancy stuff here, (add image to gallery)
 		loadImage(r);
-		loadDelete();
 		return true;
 	}
 	return false;
@@ -86,9 +105,27 @@ function upComplete(event,ID,fileObj,response,data) {
 
 // ]]></script>
 	<h1>Modifiez votre gallerie !</h1>
-	<form>
-			<input id="fileInput" name="fileInput" type="file" />
-	</form>
+	<div class="span-12 box">
+		<form>
+				<input id="fileInput" name="fileInput" type="file" />
+		</form>
+	</div>
+	<?php
+	echo $this->Ircube->startBox(array('id' => 'avatar', 'span' => 'span-6 prepend-4', 'color' => 'blue', 'header' => 'h3'));
+	echo $this->Ircube->boxTitle(sprintf(__('Votre avatar', true), $AuthUser['username']));
+	echo $this->Ircube->startBoxContent();
+	$seeMore = '';
+	if(!empty($userProfile['UserProfile']['Avatar']['id'])) {
+		$seeMore = '<div class="clear"></div>' . 
+		$this->Html->link(
+			'Supprimer cet avatar',
+			array('controller' => 'user_pictures', 'action' => 'gallery', $userProfile['UserProfile']['username'])
+		);
+	}
+	echo $this->Ircube->thumbnailCenterWrap($this->Html->image($this->Ircube->avatar($userProfile['UserProfile'])) . $seeMore, array('style' => 'position:relative;'));
+	/* This position: relative; is needed for the hover delete and modify images */
+	echo $this->Ircube->endBox();
+	?>
 	<div class="clear"></div>
 	<div id="thumbnails">
 	<?php

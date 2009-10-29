@@ -52,7 +52,7 @@ class UserPicturesController extends AppController {
 	}
 	
 	function edit() {
-		$this->UserProfile->contain('Attachment');
+		$this->UserProfile->contain('Attachment', 'Avatar');
 		$userProfile = $this->UserProfile->findById($this->Auth->user('id'));
 		if(empty($userProfile)) {
 			$this->redirect('/'); /* Should never happen (Acl magic !) */
@@ -218,23 +218,9 @@ class UserPicturesController extends AppController {
 		
 		Configure::write('debug', 0); /* Debug messages don't look good in jpeg */
 		
-		$sizesTmp = $this->__getMediaConfig(); /* Get informations from Media plugin */
-		$sizesKeys = $this->__getMediaSizes($sizesTmp);
+		/* Get informations from Media plugin */
+		$sizes = $this->__getMediaSizes();
 		
-		$sizes = array();
-		
-		foreach($sizesKeys as $s) {
-			if(isset($sizesTmp[$s]['fit'])) {
-				$square = $sizesTmp[$s]['fit'];
-			} elseif(isset($sizesTmp[$s]['fitCrop'])) {
-				$square = $sizesTmp[$s]['fitCrop'];
-			} elseif(isset($sizesTmp[$s]['zoomCrop'])) {
-				$square = $sizesTmp[$s]['zoomCrop'];
-			}
-			if(is_array($square) && is_numeric($square[0]) && is_numeric($square[1])) {
-				$sizes[$s] = $square[0] . 'x' . $square[1];
-			}
-		}
 		
 		if($size == null && $username == null) {
 			/* 404 error */
@@ -244,14 +230,10 @@ class UserPicturesController extends AppController {
 			$username = $size;
 			unset($size);
 		}
-		if(!isset($size) || !array_key_exists($size, $sizes)) {
+		
+		if(!isset($size) || !array_key_exists(($size = low($size)), $sizes)) {
 			/* Fallback to default size */
 			$size = 's'; /* Default size */
-			if(!array_key_exists($size, $sizes)) { /* Houston, we've got a problem, fallback to gravatar only and log error */
-				$this->log('Avatar size not found : ' . $size . ', falling back to gravatar only mode');
-				$sizes = array('s' => '100x100');
-				$gravatarOnly = true;
-			}
 		}
 		
 		/* Remove file extension from username */
@@ -266,49 +248,34 @@ class UserPicturesController extends AppController {
 		if(empty($avatar)) { /* If cache is empty, query database */
 			$this->UserProfile->contain('Avatar');
 			$UserProfile = $this->UserProfile->findByUsername($username);
-			if(empty($UserProfile['UserProfile'])) {
-				/* We should fall back to some basic image to preserve layout here (after some user closed his account for instance) */
-				/* 404 error */
-				$this->cakeError('error404');
+			if(empty($UserProfile['UserProfile']) || empty($UserProfile['Avatar']['id'])) {
+				/* User not registered or no avatar with this user */
+				$file = $size . DS . 'static' . DS . 'img' . DS . 'no_avatar.png';
+			} else { /* Attachment found, serve avatar */
+				$file = $size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename'];
 			}
-			if(empty($UserProfile['Avatar']['id']) || isset($gravatarOnly)) {
-				/* Serve gravatar ! */
-				App::import('Helper', 'Gravatar');
-				$gravatar = new GravatarHelper();
-				$url = $gravatar->imageUrl($UserProfile['UserProfile']['mail'], array('ext' => 'jpg', 'size' => $sizes[$size]));
-				$avatar = array(
-					'gravatar' => true,
-					'url' => $url
-				);
-			} else { /* Attachment found, serve media view */
-				$file = MEDIA_FILTER . $size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename'];
-				
-				App::import('Helper', 'Media.Medium');
-				$medium = new MediumHelper();
-				$fullPath = $medium->file($size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename']); /* Build full path TODO : put path generation logic in model */
-				list($filename, $path) = array(basename($fullPath), dirname($fullPath) . DS);
-
-				$avatar = array(
-					'media' => true,
-					'params' => array(
-						'id' => $filename,
-						'name' => $username,
-						'download' => false,
-						'extension' => 'png',
-						'path' => $path,
-						'cache' => 3600*24*7,
-					),
-				);
-			}
+			App::import('Helper', 'Media.Medium');
+			$medium = new MediumHelper();
+			$fullPath = $medium->file($file); /* Build full path TODO : put path generation logic in model */
+			list($filename, $path) = array(basename($fullPath), dirname($fullPath) . DS);
+			$avatar = array(
+				'params' => array(
+					'id' => $filename,
+					'name' => $username,
+					'download' => false,
+					'extension' => 'png',
+					'path' => $path,
+				),
+			);
 			/* Write cache */
 			Cache::write($cacheId, $avatar, 'short');
 		}
 		/* Serve avatar */
-		if(!empty($avatar['gravatar']) && !empty($avatar['url'])) { /* Serve gravatar */
-			$this->redirect($avatar['url']);
-		} elseif(!empty($avatar['media']) && is_array($avatar['params'])) { /* Serve MediaView */
+		if(is_array($avatar['params'])) { /* Serve MediaView */
+			//debug($avatar);
 			$this->view = 'Media';
-			$this->set('params', $avatar['params']);
+			$this->set($avatar['params']);
+			$this->render();
 		} else {
 			/* Should never happen */
 		}

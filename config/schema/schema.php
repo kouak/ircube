@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Ircube schema generated on: 2009-10-29 02:10:45 : 1256781585*/
+/* Ircube schema generated on: 2009-10-29 23:10:27 : 1256853627*/
 class IrcubeSchema extends CakeSchema {
 	var $name = 'Ircube';
 
@@ -194,7 +194,6 @@ class IrcubeSchema extends CakeSchema {
 		'url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 300, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'unique'),
 		'user_group_id' => array('type' => 'integer', 'null' => false, 'default' => '2', 'key' => 'index'),
-		'avatar_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20),
 		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 30, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 16, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'mail' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 70, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),

@@ -192,8 +192,9 @@ class AclExtrasShell extends Shell {
 	
 	/* user_pictures */
 	$this->Acl->deny('Guest', 'UserPictures');
-	$this->Acl->allow('Guest', 'UserPictures/gallery');
 	$this->Acl->allow('Membre', 'UserPictures');
+	$this->Acl->allow('Guest', 'UserPictures/gallery');
+	$this->Acl->allow('Guest', 'UserPictures/avatar');
 	
 	/* Admin panel */
 	$this->Acl->deny('Guest', 'news/admin_index');

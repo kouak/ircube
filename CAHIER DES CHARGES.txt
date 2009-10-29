@@ -1,6 +1,7 @@
 Spécifications site IRCube
 
 * Backbone
+	- Acl à enlever ? (usine à gaz, trop lourd à gérer => intégrer au controller, par actions)
 	- Utilisateurs
 		Compte Z lié (* manque register)
 		Fiche trombinoscope

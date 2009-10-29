@@ -12,7 +12,6 @@ class AppController extends Controller {
 		} else {
 			$placename = strtolower($this->name);
 		}
-
 		$admin = current(Configure::read('Routing.prefixes')); /* TODO fix this */
 		if (isset($this->params[$admin]) && $this->params[$admin]) {
 			$this->set('adminPanel', true);
@@ -27,6 +26,10 @@ class AppController extends Controller {
 		return true;
 	}
 
+	function isAuthorized() {
+		return true;
+	}
+	
 	function beforeFilter() {
 		$this->Auth->userModel = 'UserProfile';
 		$this->Auth->fields = array(
@@ -42,6 +45,7 @@ class AppController extends Controller {
 		$this->Auth->loginRedirect = array('controller'=>'news', 'action'=>'home');
 		$this->Auth->userScope = array('UserProfile.active' => 1);
 		$this->Auth->autoRedirect = false;
+		
 		
 		if(!$this->Auth->user()) { /* User not logged in, consider as a Guest */
 			if ($this->Acl->check("Guest", $this->Auth->action())) {
@@ -92,8 +96,8 @@ class AppController extends Controller {
 
 			$this->UserProfile->id = $userProfile['UserProfile']['id'];
 			$this->UserProfile->save(array('UserProfile' => array('lastseen' => date('Y-m-d H:i:s'), 'modified' => $userProfile['UserProfile']['modified'])));
-			
-			$this->set('AuthUser', reset($this->Auth->user()));
+			$up = $this->Auth->user();
+			$this->set('AuthUser', $up['UserProfile']);
 
 		}
 

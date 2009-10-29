@@ -6,7 +6,7 @@ class UserGroup extends AppModel {
 
 	var $hasMany = array(
 		'UserProfile' => array(
-			'className' => 'User',
+			'className' => 'UserProfile',
 			'foreignKey' => 'user_group_id',
 			'conditions' => '',
 			'fields' => '',
@@ -16,7 +16,6 @@ class UserGroup extends AppModel {
 	
 	
 	function parentNode() {
-		
 		if (!$this->id) {
 			return null;
 		}

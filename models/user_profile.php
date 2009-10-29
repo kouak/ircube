@@ -1,7 +1,10 @@
 <?php
 class UserProfile extends AppModel {
 	var $name = 'UserProfile';
-	var $actsAs = array('Containable', 'Acl' => 'requester');
+	var $actsAs = array(
+		'Containable',
+		'Acl' => 'requester',
+	);
 
 	var $belongsTo = array(
 			'User' => array(
@@ -66,10 +69,30 @@ class UserProfile extends AppModel {
 		);
 
 	var $hasAndBelongsToMany = array(
-			'Channel' => array(
-				'joinTable' => 'channels_user_profiles',
+		'Friend' => array(
+			'className' => 'UserProfile',
+			'joinTable' => 'user_profiles_friends',
+			'foreignKey' => 'admirer_id',
+			'associationForeignKey' => 'friend_id',
+			'conditions' => array(
+				'Friend.active' => 1
 			),
-		);
+			'unique' => false,
+		),
+		'Admirer' => array(
+			'className' => 'UserProfile',
+			'joinTable' => 'user_profiles_friends',
+			'foreignKey' => 'friend_id',
+			'associationForeignKey' => 'admirer_id',
+			'conditions' => array(
+				'Admirer.active' => 1
+			),
+			'unique' => false,
+		),
+		'Channel' => array(
+			'joinTable' => 'channels_user_profiles',
+		),
+	);
 
 	var $validate = array(
 			'username' => array(
@@ -155,16 +178,25 @@ class UserProfile extends AppModel {
 		);
 	/* ACL */
 
-	function parentNode()
-	{
-		return null;
+	function parentNode() {
+		if (!$this->id && empty($this->data)) {
+			return null;
+		}
+		$data = $this->data;
+		if (empty($this->data['UserProfile']['user_group_id'])) {
+			$data = $this->read();
+		}
+		if (!$data['UserProfile']['user_group_id']) {
+			return null;
+		} else {
+			return array('UserGroup' => array('id' => $data['UserProfile']['user_group_id']));
+		}
 	}
 
-	function bindNode($object)
-	{
+	function bindNode($object) {
 		return array(
 			'model' => 'UserGroup',
-			'foreign_key' => $object['UserProfile']['user_group_id']
+			'foreign_key' => $object[$this->alias]['user_group_id']
 			);
 	}
 

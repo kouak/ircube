@@ -9,11 +9,12 @@ $(document).ready(function() {
 		'script'    : '/user_pictures/upload/',
 		'cancelImg' : '/img/delete.png',
 		'auto'      : true,
-		'multi'     : true,
 		'folder'    : '/uploads',
 		'scriptData': {'<?php echo Configure::read('Session.cookie'); ?>' : '<?php echo $this->Session->id(); ?>'},
-		'onError' : upError,
-		'onComplete' : upComplete,
+		'onError'   : upError,
+		'onComplete': upComplete,
+		'onProgress': upProgress,
+		'buttonText': 'Ajouter',
 	});
 	loadDelete();
 });
@@ -28,7 +29,8 @@ function loadDelete() {
 		.click(function() {
 			$('#delete-img').remove();
 			/* Block ui on this element */
-			parent_div.block({message: '<img src="/img/ajax-loader-tiny.gif" alt="loading ..."/>'});
+			parent_div.block({message: '<img src="/img/ajax-loader-tiny.gif" alt="loading ..."/>'}); /* visually block this image */
+			parent_div.unbind('mouseenter').unbind('mouseleave'); /* unbind .hover to avoid delete-img apparition */
 			$.ajax({
 				type: "POST",
 				url: "<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'delete')); ?>",
@@ -67,29 +69,39 @@ function loadDelete() {
 
 function loadImage(r) {
 	var json = eval('(' + r + ')');
-	$.get('<?php echo Router::url(array('controller' => 'user_pictures', 'action' => 'getImageDiv')); ?>' + '/' + json['Attachment']['id'], function(data) {
+	$.get('<?php 
+	echo Router::url(array('controller' => 'user_pictures', 'action' => 'getImageDiv'));
+	/* See view/user_pictures/ajax/singleimage.ctp */
+	?>' + '/' + json['Attachment']['id'], function(data) {
 		$(data).appendTo('#thumbnails').hide().fadeIn();
 		$('#noImgInGallery').remove();
 		loadDelete(); /* When image is added, load delete button */
 	});
 }
 
+function upProgress(event, queueID, fileObj, data) {
+	if(data["percentage"] == 100) {
+		$("#fileInput"  + queueID + " .percentage").text(' - Création des miniatures ...');
+	}
+	return true;
+}
+
 function upError(a,b,c,d) {
-	fancyError(b, d.info);
+	return fancyError(b, d.info);
 }
 
 function fancyError(ID, message) {
+	$('#fileInput' + ID).addClass('uploadifyError');
 	$("#fileInput"  + ID + " .percentage").text(' - ' + message);
-	alert("Une erreur s'est produite :\n" + message);
+	return false;
 }
 
 function upComplete(event,ID,fileObj,response,data) {
 	var status, a, r;
-	console.log(response);
+	/* Process data */
 	a = response.split(':');
 	status = a.shift();
 	r = a.join(':');
-	
 	
 	if(status == 'ERROR') {
 		fancyError(ID, r);

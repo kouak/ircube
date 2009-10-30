@@ -82,20 +82,45 @@ class Attachment extends AppModel {
  */
 	var $validate = array(
 		'file' => array(
-			'resource'   => array('rule' => 'checkResource'),
-			'access'     => array('rule' => 'checkAccess'),
-			'location'   => array('rule' => array('checkLocation', array(
-				MEDIA_TRANSFER, '/tmp/', '/temp/', 'http://www.gravatar.com/avatar/'
-			))),
-			'permission' => array('rule' => array('checkPermission', '*')),
-			'size'       => array('rule' => array('checkSize', '5M')),
-			'pixels'     => array('rule' => array('checkPixels', '5000x5000')),
-			'extension'  => array('rule' => array('checkExtension', false, array(
-				'jpg', 'jpeg', 'png', 'tif', 'tiff', 'gif', 'pdf', 'tmp'
-			))),
-			'mimeType'   => array('rule' => array('checkMimeType', false, array(
-				'image/jpeg', 'image/png', 'image/tiff', 'image/gif', 'application/pdf'
-		)))),
+			'resource'   => array(
+				'rule' => 'checkResource',
+				'message' => 'Erreur de données postées', /* data posted is wrong */
+			),
+			'access'     => array(
+				'rule' => 'checkAccess',
+				'message' => 'Le repertoire de destination ne peut être écrit'
+			),
+			'location'   => array(
+				'rule' => array('checkLocation', array(MEDIA_TRANSFER, '/tmp/', '/temp/')),
+				'message' => 'Cette source de fichiers est interdite',
+			),
+			'permission' => array(
+				'rule' => array('checkPermission', '*'),
+				'message' => 'Erreur de permission',
+			),
+			'size'       => array(
+				'rule' => array('checkSize', '5M'),
+				'message' => 'Le fichier est trop gros (5M au maximum)',
+			),
+			'pixels'     => array(
+				'rule' => array('checkPixels', '5000x5000'),
+				'message' => 'Cette image est trop grande (5000x5000 pixels au maximum)',
+			),
+			'extension'  => array(
+				'rule' => array('checkExtension', false, array('jpg', 'jpeg', 'png', 'tif', 'tiff', 'gif', 'pdf', 'tmp')),
+				'message' => 'L\'extension du fichier est invalide',
+			),
+			'mimeType'   => array(
+				'rule' => array('checkMimeType', false, array('image/jpeg', 'image/png', 'image/tiff', 'image/gif', 'application/pdf')),
+				'message' => 'Le fichier n\'est pas une image',
+			),
+		),
+		'model' => array(
+			'maxAttachments' => array(
+				'rule' => 'checkMaxAttachments',
+				'message' => 'Vous avez atteint la limite du nombre d\'images enregistrables',
+			),
+		),
 		'alternative' => array(
 			'rule'       => 'checkRepresent',
 			'on'         => 'create',
@@ -138,6 +163,22 @@ class Attachment extends AppModel {
  */
 	function beforeMake($file, $process) {
 		
+	}
+	
+	/* Check if the user has reached the maximum number of attachments */
+	function checkMaxAttachments($data) {
+		if($this->data[$this->alias]['model'] != 'UserProfile') { /* Should never happen (for now) */
+			return true;
+		}
+		return 
+			$this->find('count', 
+				array(
+					'conditions' => array(
+						$this->alias . '.model' => 'UserProfile',
+						$this->alias . '.foreign_key' => $this->data[$this->alias]['foreign_key'],
+					),
+				)
+			) <= Configure::read('UserPictures.maxpictures');
 	}
 	
 }

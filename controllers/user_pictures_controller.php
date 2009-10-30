@@ -28,13 +28,12 @@ class UserPicturesController extends AppController {
 	}
 	
 	function upload() {
+		Configure::write('debug', 0);
 		if (isset($this->params['form']['Filedata'])) { 
 			$this->data['UserProfile']['Attachment']['file'] = $this->params['form']['Filedata'];
 		}
 		$this->data['UserProfile']['Attachment']['foreign_key'] = $this->Auth->user('id');
 		$this->data['UserProfile']['Attachment']['model'] = 'UserProfile';
-		Configure::write('debug', 0);
-		$this->log($this->data['UserProfile']['Attachment']);
 		if(!($attachment = $this->UserProfile->Attachment->save(array('Attachment' => $this->data['UserProfile']['Attachment'])))) {
 			$this->log($this->UserProfile->Attachment->invalidFields());
 			$this->set('ajaxMessage', 'ERROR:' . reset($this->UserProfile->Attachment->invalidFields()));
@@ -43,7 +42,6 @@ class UserPicturesController extends AppController {
 			$a =& new JavascriptHelper();
 			/* JSon */
 			$attachment['Attachment']['id'] = $this->UserProfile->Attachment->getLastInsertID();
-			$this->log($a->object($attachment));
 			$this->set('ajaxMessage', 'SUCCESS:' . $a->object($attachment));
 		}
 		
@@ -210,6 +208,7 @@ class UserPicturesController extends AppController {
 		}
 		return true;
 	}
+	
 	/* Typical call :
 		avatar/xs/username.jpg
 		or avatar/username.jpg
@@ -233,7 +232,7 @@ class UserPicturesController extends AppController {
 		
 		if(!isset($size) || !array_key_exists(($size = low($size)), $sizes)) {
 			/* Fallback to default size */
-			$size = 's'; /* Default size */
+			$size = Configure::read('UserPictures.defaultsize'); /* Default size */
 		}
 		
 		/* Remove file extension from username */
@@ -265,6 +264,7 @@ class UserPicturesController extends AppController {
 					'download' => false,
 					'extension' => 'png',
 					'path' => $path,
+					'cache' => 3600, /* Allow browser to cache it for one hour */
 				),
 			);
 			/* Write cache */

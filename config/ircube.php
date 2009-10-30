@@ -15,4 +15,11 @@ Configure::write('Comments.UserProfile', array(
 	)
 );
 
+/* UserPictures configuration */
+
+/* See plugins/media configuration file */
+Configure::write('UserPictures.defaultsize', 's');
+
+Configure::write('UserPictures.maxpictures', 3);
+
 ?>

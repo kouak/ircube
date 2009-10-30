@@ -8,6 +8,7 @@ class IrcubeHelper extends AppHelper {
 		'header' => 'h1', /* false, h1, h2, h3 */
 		'color' => '', /* Blue, orange, green */
 		'span' => '', /* blueprint class */
+		'style' => false, /* style="" */
 		'id' => false, /* maindiv id */
 	);
 	
@@ -73,12 +74,25 @@ class IrcubeHelper extends AppHelper {
 		return $this->thumbnailWrap($this->Html->image($url, $options));
 	}
 
-	function thumbnailWrap($str, $class='thumbnail') {
-		return '<div class="'.$class.'"><span>' . $str . '</span></div>';
+	function thumbnailWrap($str, $htmlAttributes = array()) {
+		$defaults = array(
+			'class' => 'thumbnail',
+		);
+		$htmlAttributes = array_merge($defaults, $htmlAttributes);
+		$class = $htmlAttributes['class'];
+		unset($htmlAttributes['class']);
+		
+		return $this->Html->div($class, '<span>' . $str . '</span>', $htmlAttributes, false);
 	}
 	
-	function thumbnailCenterWrap($str) {
-		return $this->thumbnailWrap($str, 'thumbnail-center');
+	function thumbnailCenterWrap($str, $htmlAttributes = array()) { /* We want it to be centered, add thumbnail-center class */
+		$class = 'thumbnail-center';
+		if(!empty($htmlAttributes['class'])) {
+			$class .= ' '. $htmlAttributes['class'];
+		}
+		$htmlAttributes['class'] = $class;
+		
+		return $this->thumbnailWrap($str, $htmlAttributes);
 	}
 	
 	function channelProfileUrl($channel) {
@@ -98,6 +112,9 @@ class IrcubeHelper extends AppHelper {
 		if($this->__boxCurrent['id'] != false) { 
 			$return .= ' id="' . $this->__boxCurrent['id'] . '"'; 
 		} 
+		if($this->__boxCurrent['style'] !== false) {
+			$return .= ' style="' . $this->__boxCurrent['style'] . '"';
+		}
 		$return .= ' class="';
 		$return .= $this->__boxCurrent['span'];
 		$return .= ' ircube-box">' . "\n";

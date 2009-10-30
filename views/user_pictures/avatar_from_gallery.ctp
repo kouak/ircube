@@ -52,14 +52,7 @@ $(function() {
 <h1><?php __('Votre avatar :'); ?></h1>
 <?php
 /* TODO : javascript drag & drop */
-if(!empty($userProfile['Avatar']['id'])) {
-	$a = $userProfile['Avatar'];
-	echo $ircube->thumbnailWrap($html->image($medium->webroot('filter' . DS . 's' . DS . $a['dirname'] . DS . $a['basename']), array('alt' => $a['id'])), 'thumbnail avatar');
-}
-else {
-	$toAppend = '<div class="clear"></div>' . __('Cet avatar a été généré avec Gravatar', true);
-	echo $this->Ircube->thumbnailWrap($this->Html->image($this->Ircube->avatar($userProfile)) . $toAppend, 'thumbnail gravatar');
-}
+	echo $ircube->thumbnailWrap($this->Html->image($this->Ircube->avatar($userProfile['UserProfile']['username'])), array('class' => 'thumbnail avatar'));
 ?>
 <div class="clear"></div>
 <h1><?php __('Choisissez votre avatar'); ?></h1>

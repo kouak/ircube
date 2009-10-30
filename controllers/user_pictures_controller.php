@@ -247,16 +247,20 @@ class UserPicturesController extends AppController {
 		if(empty($avatar)) { /* If cache is empty, query database */
 			$this->UserProfile->contain('Avatar');
 			$UserProfile = $this->UserProfile->findByUsername($username);
-			if(empty($UserProfile['UserProfile']) || empty($UserProfile['Avatar']['id'])) {
-				/* User not registered or no avatar with this user */
-				$file = $size . DS . 'static' . DS . 'img' . DS . 'no_avatar.png';
-			} else { /* Attachment found, serve avatar */
+			
+			App::import('Helper', 'Media.Medium'); /* Import medium helper to generate full path */
+			$medium = new MediumHelper();
+			
+			$fallback = $file = $size . DS . 'static' . DS . 'img' . DS . 'no_avatar.png';
+			if(!empty($UserProfile['UserProfile']) && !empty($UserProfile['Avatar']['id'])) {
+ 				/* Attachment found, serve avatar */
 				$file = $size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename'];
 			}
 			
-			App::import('Helper', 'Media.Medium');
-			$medium = new MediumHelper();
 			$fullPath = $medium->file($file); /* Build full path */
+			if(!is_file($fullPath)) { /* WTF ? Serve fallback anyway ... */
+				$fullPath = $medium->file($fallback);
+			}
 			list($filename, $path) = array(basename($fullPath), dirname($fullPath) . DS);
 			$avatar = array(
 				'params' => array(

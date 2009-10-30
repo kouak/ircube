@@ -13,12 +13,7 @@ $homeChans = array(
 	array('name' => 'IRCube', 'checked' => true, 'users' => 39),
 	array('name' => 'Poudlard', 'checked' => false, 'users' => 20),
 	);
-
-if(!file_exists(IMAGES . DS . 'upload' . DS . 'avatar' . DS . ($avatar = low($AuthUser['username']) . '.png'))) {
-	$content = $gravatar->image($AuthUser['mail']);
-} else {
-	$content = $html->image($html->webroot(IMAGES_URL . DS . 'upload' . DS . 'avatar' . DS . $avatar));
-}
+$content = $this->Html->image($this->Ircube->avatar($AuthUser));
 echo $this->Ircube->startBox(array('id' => 'avatar', 'span' => 'span-6', 'color' => 'blue', 'header' => 'h3'));
 echo $this->Ircube->boxTitle(sprintf(__('Bienvenue %s !', true), $AuthUser['username']));
 echo $this->Ircube->startBoxContent();

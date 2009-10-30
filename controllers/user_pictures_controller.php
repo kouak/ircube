@@ -230,7 +230,7 @@ class UserPicturesController extends AppController {
 			unset($size);
 		}
 		
-		if(!isset($size) || !array_key_exists(($size = low($size)), $sizes)) {
+		if(!isset($size) || !in_array(($size = low($size)), $sizes)) {
 			/* Fallback to default size */
 			$size = Configure::read('UserPictures.defaultsize'); /* Default size */
 		}
@@ -253,9 +253,10 @@ class UserPicturesController extends AppController {
 			} else { /* Attachment found, serve avatar */
 				$file = $size . DS . $UserProfile['Avatar']['dirname'] . DS . $UserProfile['Avatar']['basename'];
 			}
+			
 			App::import('Helper', 'Media.Medium');
 			$medium = new MediumHelper();
-			$fullPath = $medium->file($file); /* Build full path TODO : put path generation logic in model */
+			$fullPath = $medium->file($file); /* Build full path */
 			list($filename, $path) = array(basename($fullPath), dirname($fullPath) . DS);
 			$avatar = array(
 				'params' => array(
@@ -264,7 +265,7 @@ class UserPicturesController extends AppController {
 					'download' => false,
 					'extension' => 'png',
 					'path' => $path,
-					'cache' => 3600, /* Allow browser to cache it for one hour */
+					'cache' => false, /* Allow browser to cache it for one hour */
 				),
 			);
 			/* Write cache */

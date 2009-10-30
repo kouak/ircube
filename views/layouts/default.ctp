@@ -77,7 +77,6 @@ $(function() {
 <div id="background">
 	<div class="container">
 		<div id="page" class="span-24 last">
-			
 			<div class="clear"></div>
 			<?php
 				if ($session->check('Message.auth')) 
@@ -85,10 +84,10 @@ $(function() {
  				if ($session->check('Message.flash')) {
 			    	//$session->flash();
 				}
-				echo @$message;
-			?>
-			<div class="clear"></div>
-			<?php
+				if(isset($message)) {
+					echo $message;
+					echo '<div class="clear"></div>';
+				}
 				//La page
 				echo $content_for_layout;
 			?>

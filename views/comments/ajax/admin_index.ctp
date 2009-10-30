@@ -6,7 +6,7 @@
 	?>
 </div>
 <div class="clear"></div>
-<ol class="commentlist" id="commentlist">
+<ol class="comments" id="commentlist">
 	<?php
 	$i = 1;
 	foreach ($comments as $comment) {

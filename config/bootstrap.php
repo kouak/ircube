@@ -63,7 +63,7 @@ require APP . 'plugins' . DS . 'media' . DS . 'config' . DS . 'core.php'; /* MED
 
 require_once(CONFIGS . DS . 'ircube.php');
 
-setlocale(LC_TIME, 'fr_FR'); /* Dates and time */
+setlocale(LC_ALL, 'fr_FR'); /* Dates and time */
 
 
 //EOF

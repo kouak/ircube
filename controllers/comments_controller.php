@@ -121,6 +121,7 @@ class CommentsController extends AppController {
 		$fallback = array( /* This array should never be used */
 			'order' => array('Comment.created' => 'desc'),
 			'limit' => 40,
+			'page' => null,
 		);
 		
 		$params = array_merge($fallback, (array) Configure::read('Comments.default'), (array) Configure::read('Comments.' . $model)); /* Merge arrays */
@@ -132,10 +133,10 @@ class CommentsController extends AppController {
 				'Comment.status' => 1, /* published status */
 			),
 			'order' => $params['order'],
+			'page' => $params['page'],
 			'contain' => array('Author' => array('fields' => array('active', 'username', 'user_id'))),
 			'limit' => $params['limit'],
 		);
-		
 		$this->set('comments', $this->paginate('Comment'));
 		if($this->RequestHandler->isAjax()) {
 			$this->render('ajax/display', 'ajax');

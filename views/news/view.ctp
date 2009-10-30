@@ -13,14 +13,14 @@ $html->css(array('comments', 'ircube-boxes'), null, array('inline' => false));
 <div class="clear"></div>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('div#comments > ol#commentlist').load('<?php echo Router::url(array('controller' => 'comments', 'action' => 'display', 'sort' => 'created', 'direction' => 'asc', 'news', $news['News']['id'])); ?>');
+	$('div#comments > ol#commentlist').load('<?php echo Router::url(array('controller' => 'comments', 'action' => 'display', 'news', $news['News']['id'])); ?>');
 });
 </script>
 <div id="comments">
 	<div id="loader" style="width:100%;text-align:center;" class="clear"> 
 	    <?php echo $this->Html->image('ajax-loader.gif'); ?> 
 	</div>
-	<ol class="commentlist" id="commentlist">
+	<ol class="comments" id="commentlist">
 	</ol>
 </div>
 <div class="clear"></div>

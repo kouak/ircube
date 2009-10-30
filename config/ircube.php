@@ -9,8 +9,15 @@ Configure::write('Comments.default', array(
 	)
 );
 
+Configure::write('Comments.News', array(
+	//'limit' => 3,
+	'order' => array('Comment.created' => 'asc'), /* New comments at the end, but show last page */
+	'page' => 'last',
+	)
+);
+
 Configure::write('Comments.UserProfile', array(
-	'limit' => 3,
+	//'limit' => 3,
 	'order' => array('Comment.created' => 'desc'),
 	)
 );

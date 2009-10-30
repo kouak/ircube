@@ -26,7 +26,7 @@ $(document).ready(function() {
 <?php
 	echo $this->Paginator->prev('<< ', array('class' => 'left'), '<< ', array('class'=>'disabled'));
 	echo $this->Paginator->numbers(array('modulus' => $mod, 'separator' => '', 'first' => 1, 'last' => 1));
-	echo $this->Paginator->next(' >>', array('class' => 'right'), ' >>', array('class'=>'disabled')); 
+	echo $this->Paginator->next(' >>', array('class' => 'right'), ' >>', array('class'=>'disabled'));
 ?>
 	</div>
 	<div style="float: right;">

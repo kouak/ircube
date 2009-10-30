@@ -29,7 +29,7 @@ $(document).ready(function() {
 	$('ol#commentlist').show();
 });
 </script>
-<ol class="commentlist" id="commentlist">
+<ol class="comments" id="commentlist">
 <div class="paging">
 	<div class="pages">
 <?php

@@ -298,11 +298,6 @@ class UserPicturesController extends AppController {
 		$this->set('userProfile', $bla);
 	}
 	
-	function index() {
-		$images = $this->Image->find('all');
-		$this->set('images', $images);
-	}
-	
 	function gallery($id = null) {
 		if($id == null) {
 			$this->redirect('/');
